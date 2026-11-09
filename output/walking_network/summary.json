@@ -1,0 +1,30 @@
+{
+  "source": "\u00a9 OpenStreetMap contributors, https://www.openstreetmap.org/copyright",
+  "extracted_at_utc": "2026-11-09T04:57:15.308133+00:00",
+  "osmnx_version": "2.0.7",
+  "address": "Brooklyn, New York, USA",
+  "center_lat_lon": [
+    40.6526006,
+    -73.9497211
+  ],
+  "bbox_half_width_m": 500,
+  "network_type": "walk",
+  "component_node_counts": [
+    303,
+    2,
+    1,
+    1
+  ],
+  "nodes": 303,
+  "directed_edges": 918,
+  "excluded_nodes": 4,
+  "weakly_connected": true,
+  "strongly_connected": true,
+  "limitations": [
+    "Bounding box, not a 500 m walking-distance catchment or circular radius.",
+    "Largest component retained; disconnected mapped paths remain in the all-components file.",
+    "OSM walk filtering is not validation of sidewalk coverage, legal crossings, or accessibility.",
+    "Buildings and house entrances are not automatically attached to the walking graph.",
+    "Reciprocal directed edges can represent the same physical segment."
+  ]
+}

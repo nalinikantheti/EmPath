@@ -1,0 +1,34 @@
+[
+  {
+    "zcta": "75023",
+    "cached_query_area_pct": 9.08,
+    "cached_sidewalk_surfaces": 595,
+    "source_sidewalk_surfaces": 4077,
+    "cached_trails": 12,
+    "source_trails": 332
+  },
+  {
+    "zcta": "75024",
+    "cached_query_area_pct": 3.54,
+    "cached_sidewalk_surfaces": 356,
+    "source_sidewalk_surfaces": 4442,
+    "cached_trails": 0,
+    "source_trails": 392
+  },
+  {
+    "zcta": "75025",
+    "cached_query_area_pct": 100.0,
+    "cached_sidewalk_surfaces": 4266,
+    "source_sidewalk_surfaces": 4266,
+    "cached_trails": 388,
+    "source_trails": 388
+  },
+  {
+    "zcta": "75074",
+    "cached_query_area_pct": 0.71,
+    "cached_sidewalk_surfaces": 12,
+    "source_sidewalk_surfaces": 7242,
+    "cached_trails": 0,
+    "source_trails": 623
+  }
+]

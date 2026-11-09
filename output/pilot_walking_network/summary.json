@@ -1,0 +1,37 @@
+{
+  "source": "\u00a9 OpenStreetMap contributors, https://www.openstreetmap.org/copyright",
+  "extracted_at_utc": "2026-11-09T05:04:26.498412+00:00",
+  "osmnx_version": "2.0.7",
+  "address": "Plano, Texas, USA",
+  "center_lat_lon": [
+    33.0136764,
+    -96.6925096
+  ],
+  "bbox_half_width_m": 500.0,
+  "network_type": "walk",
+  "component_node_counts": [
+    314,
+    24,
+    11,
+    4,
+    3,
+    2,
+    2,
+    2,
+    2,
+    1,
+    1
+  ],
+  "nodes": 314,
+  "directed_edges": 862,
+  "excluded_nodes": 52,
+  "weakly_connected": true,
+  "strongly_connected": true,
+  "limitations": [
+    "Bounding box, not a 500 m walking-distance catchment or circular radius.",
+    "Largest component retained; disconnected mapped paths remain in the all-components file.",
+    "OSM walk filtering is not validation of sidewalk coverage, legal crossings, or accessibility.",
+    "Buildings and house entrances are not automatically attached to the walking graph.",
+    "Reciprocal directed edges can represent the same physical segment."
+  ]
+}

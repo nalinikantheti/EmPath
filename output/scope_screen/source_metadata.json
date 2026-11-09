@@ -1,0 +1,11 @@
+{
+  "retrieved_utc": "2026-11-07T23:48:32.206210+00:00",
+  "canopy_service": "https://tes-app-data-share.s3.amazonaws.com/tx/tx_geojson.zip",
+  "boundary_service": "https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/tigerWMS_ACS2024/MapServer/2",
+  "download_last_modified": "Tue, 27 Oct 2026 17:34:15 GMT",
+  "limitations": [
+    "Official download snapshot; underlying canopy acquisition year unverified.",
+    "Block-group canopy values assigned to overlapping ZCTA pieces, not measured within each piece.",
+    "Not sidewalk shade, current heat resilience, air temperature, or medical risk."
+  ]
+}

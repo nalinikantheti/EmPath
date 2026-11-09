@@ -1,0 +1,27 @@
+{
+  "date": "2026-11-08",
+  "endpoint": "https://overpass-api.de/api/interpreter",
+  "method": "Counts in exterior polygons simplified by 10 m; holes ignored. Highway ways include non-walkable roads and are not pedestrian graph edges. POI counts are tag-based candidates, not verified entities or entrances. Zero means no matching OSM tags, not no real facility.",
+  "results": [
+    {
+      "zcta": "75025",
+      "status": "unverified",
+      "error": "406 Client Error: Not Acceptable for url: https://overpass-api.de/api/interpreter"
+    },
+    {
+      "zcta": "75024",
+      "status": "unverified",
+      "error": "406 Client Error: Not Acceptable for url: https://overpass-api.de/api/interpreter"
+    },
+    {
+      "zcta": "75023",
+      "status": "unverified",
+      "error": "406 Client Error: Not Acceptable for url: https://overpass-api.de/api/interpreter"
+    },
+    {
+      "zcta": "75074",
+      "status": "unverified",
+      "error": "406 Client Error: Not Acceptable for url: https://overpass-api.de/api/interpreter"
+    }
+  ]
+}

@@ -1,0 +1,95 @@
+{
+  "checked_date": "2026-11-08",
+  "cached_coverage": [
+    {
+      "zcta": "75023",
+      "canopy_context_area_pct": 100.0,
+      "cached_sidewalk_surfaces": 595,
+      "cached_trails": 12,
+      "cached_parcels": 1328,
+      "cached_address_points": 1394
+    },
+    {
+      "zcta": "75024",
+      "canopy_context_area_pct": 100.0,
+      "cached_sidewalk_surfaces": 356,
+      "cached_trails": 0,
+      "cached_parcels": 861,
+      "cached_address_points": 801
+    },
+    {
+      "zcta": "75025",
+      "canopy_context_area_pct": 100.0,
+      "cached_sidewalk_surfaces": 4266,
+      "cached_trails": 388,
+      "cached_parcels": 15098,
+      "cached_address_points": 15349
+    },
+    {
+      "zcta": "75074",
+      "canopy_context_area_pct": 98.0,
+      "cached_sidewalk_surfaces": 12,
+      "cached_trails": 0,
+      "cached_parcels": 26,
+      "cached_address_points": 14
+    }
+  ],
+  "live_city_counts": [
+    {
+      "zcta": "75023",
+      "layer": "parcels",
+      "count": 14782,
+      "error": null,
+      "url": "https://maps.planogis.org/arcgiswad/rest/services/OpenData/Parcels/FeatureServer/1/query"
+    },
+    {
+      "zcta": "75023",
+      "layer": "address_points",
+      "count": 15735,
+      "error": null,
+      "url": "https://maps.planogis.org/arcgiswad/rest/services/OpenData/AddressPoints/FeatureServer/0/query"
+    },
+    {
+      "zcta": "75024",
+      "layer": "parcels",
+      "count": 10696,
+      "error": null,
+      "url": "https://maps.planogis.org/arcgiswad/rest/services/OpenData/Parcels/FeatureServer/1/query"
+    },
+    {
+      "zcta": "75024",
+      "layer": "address_points",
+      "count": 11373,
+      "error": null,
+      "url": "https://maps.planogis.org/arcgiswad/rest/services/OpenData/AddressPoints/FeatureServer/0/query"
+    },
+    {
+      "zcta": "75025",
+      "layer": "parcels",
+      "count": 15098,
+      "error": null,
+      "url": "https://maps.planogis.org/arcgiswad/rest/services/OpenData/Parcels/FeatureServer/1/query"
+    },
+    {
+      "zcta": "75025",
+      "layer": "address_points",
+      "count": 15349,
+      "error": null,
+      "url": "https://maps.planogis.org/arcgiswad/rest/services/OpenData/AddressPoints/FeatureServer/0/query"
+    },
+    {
+      "zcta": "75074",
+      "layer": "parcels",
+      "count": 14681,
+      "error": null,
+      "url": "https://maps.planogis.org/arcgiswad/rest/services/OpenData/Parcels/FeatureServer/1/query"
+    },
+    {
+      "zcta": "75074",
+      "layer": "address_points",
+      "count": 15699,
+      "error": null,
+      "url": "https://maps.planogis.org/arcgiswad/rest/services/OpenData/AddressPoints/FeatureServer/0/query"
+    }
+  ]
+}

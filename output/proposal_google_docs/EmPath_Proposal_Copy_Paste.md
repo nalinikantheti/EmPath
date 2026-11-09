@@ -1,0 +1,188 @@
+# PathéResistance & EmPath
+
+A GeoAI Approach to Learning Pedestrian Accessibility Friction in Car-Dependent Suburban Communities
+
+Initial Research Proposal and Development Plan — Revised GeoAI Specification
+
+Nalini Kantheti  
+Center for Urban Science and Progress  
+New York University  
+November 7, 2026
+
+## 1. Personal Motivation and Project Origins
+
+PathéResistance and EmPath originated in an interest in public-health access and equity among South Asian immigrant communities, informed by the researcher’s personal experiences with family members confronting health-related challenges. The immediate inspiration is the researcher’s mother, a South Asian immigrant living in Plano, Texas, whose psychiatric condition limits her ability to drive independently. She nevertheless travels considerable distances on foot to access ordinary destinations. On some journeys, she wears several layers of clothing in intense summer heat and has arrived at businesses visibly dehydrated, disoriented, and distressed. Concerned employees, police officers, and family members have at times helped her return home.
+
+These experiences are not offered as representative evidence about South Asian immigrants or psychiatric conditions. They illustrate a particular accessibility problem: the ability to leave home independently may be limited not only by a person’s circumstances but also by the design of the surrounding environment. Firsthand observations of northern Plano suggest substantial variation over short distances, from pleasant canopied walking or cycling paths to exposed arterial corridors, difficult intersections, and highway-adjacent routes.
+
+The resulting question is both personal and civic: How can suburban infrastructure be evaluated not only for connectivity or travel time, but also for the environmental and physical burden imposed on residents who cannot drive?
+
+## 2. Civic Problem Definition and Research Questions
+
+In automobile-dependent suburbs, reaching a pharmacy, grocery store, place of worship, or other essential destination can require long walks through environments designed primarily for vehicles. Exposure to sun and heat, sparse tree cover, limited pedestrian connections, and proximity to high-traffic roads may make nominally accessible destinations practically burdensome. These conditions are particularly consequential for people whose driving access is limited by age, disability, health conditions, or other circumstances. The Centers for Disease Control and Prevention (CDC, 2024) recognizes mental illness and some chronic conditions as factors in heat-related vulnerability.
+
+Conventional shortest-route tools optimize distance or travel time. They do not necessarily represent the experienced burden of a hot, unshaded, high-stress walk. Research on observed pedestrian choices suggests that people may trade additional walking distance for reduced sun exposure (Melnikov et al., 2022). However, how those tradeoffs apply in Plano—and for the intended users of this project—remains an empirical question.
+
+Primary research question: To what extent do automobile-oriented infrastructure, impervious surface coverage, and insufficient pedestrian shade contribute to spatial differences in modeled pedestrian accessibility friction within the Plano, Texas, pilot area?
+
+GeoAI research question: Can a model trained on relevant observations estimate pedestrian accessibility penalties from geospatial and environmental features more meaningfully than manually assigned weights or walking time alone?
+
+Applied research question: How can these learned costs support personalized residential-neighborhood comparisons for households with members who depend on walking to reach selected destinations?
+
+An exploratory, data-dependent question is whether higher-exposure areas overlap with aggregated heat-related emergency responses. Such a relationship would be investigated, not assumed.
+
+## 3. Scope of Work and Pilot Geography
+
+The proposed pilot covers a five-mile-radius area centered on a residential neighborhood in northern Plano. The study area reflects direct familiarity with nearby differences in walking conditions. The precise residential address and identifiable personal routes will not appear in public outputs.
+
+The analysis will represent residential neighborhoods as candidate origin nodes and destinations such as temples, pharmacies, grocery stores, and schools as points of interest. Two connected components define the proposed deliverables:
+
+PathéResistance — Geospatial Data, Learning, and Friction Mapping. This component will acquire, clean, harmonize, and map spatial datasets; construct and validate a pedestrian network; estimate segment-level accessibility weights using an evidence-based GeoAI model; and produce interpretable geographic friction scores and process maps.
+
+EmPath — Personalized Residential Locator. This dashboard will let users select destinations important to a non-driving household member, compare candidate neighborhoods by their minimum weighted pedestrian costs, and explore the geographic basis for each recommendation.
+
+The proposed outputs are preliminary research and decision-support tools, not medical risk predictors, formal safety certifications, property listings, or guaranteed safe-route instructions. Their functionality depends on the quality of available data and the feasibility of calibrating a weighting model.
+
+## 4. Stakeholders and Affected Populations
+
+EmPath’s initial intended users are households relocating to Plano, especially South Asian immigrant families with members who cannot independently drive. Potential beneficiaries also include older adults, people with disabilities, residents with psychiatric or cognitive vulnerabilities, and others who depend on walking. The project does not assume that any one demographic group shares the same mobility needs.
+
+Potential institutional stakeholders include municipal planning and transportation personnel, public-health and emergency-response agencies, neighborhood organizations, and organizations supporting immigrant communities. City planning functions would be relevant to infrastructural implications; prospective residents and their family members would assess whether EmPath provides useful decision support. The extent of stakeholder participation, ownership, and implementation authority has not yet been established.
+
+## 5. Proposed Civic Technology System and GeoAI Methodology
+
+The central technical contribution is the learned weighting function, not the shortest-path algorithm. PathéResistance will seek to replace arbitrary penalties—for example, a fixed number of points for a highway crossing or an unshaded segment—with a model whose parameters are estimated from appropriate evidence. Graph optimization then uses those modeled costs in a conventional, auditable way.
+
+### 5.1 Pedestrian Network and Geographic Representation
+
+The underlying graph, G = (V, E), will represent traversable pedestrian segments and intersections. Residential neighborhoods and destinations will be mapped onto this network as origin and destination nodes. Rather than assuming every pair has a physically direct edge, a derived origin-destination matrix may represent the minimum network cost between every relevant pair. Inaccessible or prohibited crossings must be excluded from routing rather than merely penalized.
+
+For an edge e, T (e) denotes baseline walking time and x_e denotes measurable segment characteristics such as canopy, impervious cover, intersection characteristics, and exposure to major roadways. h_t represents time-varying conditions, potentially including observed temperature or time-of-day effects where data permit.
+
+### 5.2 GeoAI-Learned Edge Weights: Central Research Contribution
+
+The initial conceptual formulation is:
+
+![Equation 1](/Users/nalinikantheti/Documents/ChatGPT/EmPath/output/proposal_google_docs/equations/equation_1.png)
+
+Here, f_θ is a learned, nonnegative environmental-friction multiplier. The parameters θ would be estimated from training data instead of selected solely by intuition. This structure ensures that traversable edges retain nonnegative weights suitable for Dijkstra’s algorithm. It is a proposed model specification, not yet a trained or validated equation. Its final structure may change after data exploration.
+
+The most important methodological decision is the learning target. Three possibilities are conceptually distinct: (a) observed or rated route preferences, reflecting perceived walking burden; (b) measured environmental exposure, reflecting physical heat burden; and (c) health or safety outcomes, which would require substantially more demanding and sensitive evidence. For the pilot, route comparisons are a candidate approach, subject to collecting or locating suitable observations. Prior research shows that route-choice experiments can reveal sun–distance tradeoffs (Melnikov et al., 2022), but that study’s fitted parameters should not simply be transplanted to Plano.
+
+If preference comparisons are used, a route’s generalized cost is the sum of its segment costs:
+
+![Equation 2](/Users/nalinikantheti/Documents/ChatGPT/EmPath/output/proposal_google_docs/equations/equation_2.png)
+
+Observed choices between candidate routes could inform the fitted parameters. The particular machine-learning architecture, training dataset, feature representations, and loss function remain open research decisions. If there are insufficient valid labels, the pilot must explicitly use an interpretable baseline and describe the learned model as unimplemented rather than claim an AI-trained result.
+
+### 5.3 PathéResistance: Accessibility Friction and Spatial Mapping
+
+Given the fitted or baseline edge costs, PathéResistance will calculate the minimum-cost pedestrian path d_wθ(r, d) from residential origin r to destination d. For a defined set of destinations D, the neighborhood-level friction measure is:
+
+![Equation 3](/Users/nalinikantheti/Documents/ChatGPT/EmPath/output/proposal_google_docs/equations/equation_3.png)
+
+Lower scores represent lower modeled combined friction to the destinations included. The score is sensitive to destination selection and should not be interpreted as an intrinsic property of a neighborhood. Mapped scores will be accompanied by data-coverage and modeling-uncertainty information where feasible.
+
+The route-finding layer can use Dijkstra’s algorithm on nonnegative weighted pedestrian edges. A destination-based shortest-path workflow can avoid recomputing all-pairs paths for every dashboard query. These established algorithms are not themselves the project’s AI component.
+
+### 5.4 EmPath: Personalized Residential Optimization
+
+EmPath will invite users to choose relevant destinations, such as a pharmacy, temple, and grocery store. It will then identify the residential neighborhood with the lowest total modeled path cost to those destinations:
+
+![Equation 4](/Users/nalinikantheti/Documents/ChatGPT/EmPath/output/proposal_google_docs/equations/equation_4.png)
+
+In this expression, R is the set of candidate neighborhoods and D_selected is the user’s chosen destination set. EmPath will present rankings and supporting route or friction information, while clearly distinguishing research estimates from validated pedestrian safety guidance.
+
+### 5.5 Model Evaluation and Interpretability
+
+The learned weighting function must be compared against at least a walking-time-only baseline and, if feasible, a transparent manually weighted baseline. Suitable evaluation would depend on the chosen target. For route-preference labels, a held-out comparison could assess whether the model predicts choices better than baseline travel time. Geographic separation of training and test areas can help identify overfitting to nearby streets; sensitivity tests can show how recommendations change when inputs or assumptions vary.
+
+These evaluations would not establish that a route is medically safe or that a neighborhood prevents emergency incidents. Physically inaccessible crossings remain network constraints, and emergency-call information should initially remain separate from model training if it will later be used as independent contextual or validation evidence.
+
+## 6. Policy and Institutional Context
+
+Plano’s Pedestrian Environment Policy supports an accessible, connected pedestrian network and calls attention to navigation of major thoroughfares, greenery, shade, crosswalks, and related streetscape conditions (City of Plano, n.d.). PathéResistance can frame modeled pedestrian-friction disparities in relation to these publicly stated planning priorities.
+
+Potential governance issues include public data licensing, transport-network maintenance, accessibility standards, geospatial uncertainty, responsibility for updating model weights, and the use of a privately developed recommendation system in civic decision-making. Neither PathéResistance nor EmPath is currently proposed as a city-owned or city-approved application. Institutional partnerships and approval pathways require investigation.
+
+## 7. Data Architecture, Availability, and Feasibility
+
+**Pedestrian streets, paths, and crossings.** Candidate source: OpenStreetMap/OSMnx; Plano GIS. Network topology; walking completeness and crossing validity must be checked.
+
+**Residential areas and destinations.** Candidate source: OpenStreetMap; municipal geographic layers. Origin/destination nodes; coverage, geocoding, and representative centroids need validation.
+
+**Pavement and impervious surfaces.** Candidate source: USGS Annual NLCD. Contextual land-cover indicators; raster resolution may not describe individual sidewalks.
+
+**Tree canopy and shade.** Candidate source: Municipal GIS, imagery, or remote sensing. Segment-level features; canopy is an imperfect proxy for time-dependent pedestrian shade.
+
+**Temperature and weather.** Candidate source: NOAA historical station data; potential spatial products. Temporal conditions; station observations alone do not resolve block-level heat.
+
+**Learning labels.** Candidate source: To be identified or collected. Essential for AI-fitted weights; valid route preferences or comparable target data are not yet secured.
+
+**EMS or police welfare response.** Candidate source: Potential municipal administrative records. Optional, aggregate contextual analysis; availability, privacy, and reporting bias unresolved.
+
+USGS provides annual land-cover and fractional impervious surface products (U.S. Geological Survey, 2024/2026). NOAA’s Climate Data Online supports historical temperature records (National Oceanic and Atmospheric Administration, n.d.). OSMnx can generate walking networks from OpenStreetMap, subject to local validation (Boeing, 2025).
+
+The PathéResistance pipeline will involve acquisition, spatial reference harmonization, cleaning, network construction, feature joining, model fitting (if supported by labels), routing, and geographic score generation. The principal feasibility risk is the combination of fine-grained pedestrian features and defensible training labels. Data availability, licensing, geographic precision, seasonal relevance, and missing observations must be documented before performance claims are made.
+
+## 8. Governance, Ethics, and Accountability
+
+The originating family case study will be anonymized in public presentation materials; the family’s exact home location, identifiable psychiatric information, and specific emergency encounters will not be mapped. The tool will model environmental conditions rather than attempt to identify residents with particular diagnoses or infer individual vulnerability.
+
+Crowdsourced training labels, if collected, would require consent and careful documentation of whose walking experiences are represented. A model trained on a small or homogeneous sample may systematically misrepresent the needs of older adults, disabled pedestrians, or residents with different levels of heat tolerance. Learned preferences must not be equated with medical safety. Reported police or emergency incidents can reflect bystander behavior, institutional practices, and incomplete access to services—not simply the distribution of underlying illness or danger.
+
+EmPath should disclose model assumptions, uncertainties, and limitations, and should not describe its top-ranked neighborhood as an objectively safe housing choice. Responsibility for independent validation, maintenance, and future public stewardship remains to be determined.
+
+## 9. Initial Theory of Change
+
+Problem: Car-dependent environments impose uneven heat and mobility burdens on people who cannot drive.
+
+Inputs: Pedestrian networks; pavement, canopy, and temperature data; destination locations; and, if available, ethically obtained model-training observations.
+
+Activities: PathéResistance cleans and integrates geographic datasets, learns or transparently specifies edge costs, computes minimum-friction pedestrian paths, and maps differences among candidate neighborhoods.
+
+Outputs: A documented GIS processing and modeling map, an accessibility-friction layer, interpretable route-cost estimates, and the EmPath destination-selection and residential-ranking dashboard.
+
+Short-term outcomes: More visible pedestrian accessibility disparities and more informed exploration of residential options for non-driving household members.
+
+Long-term impact: Stronger attention to non-driving residents in neighborhood planning, shade investment, and heat-resilience discussions, subject to future demonstration of practical effectiveness.
+
+## 10. Preliminary Success Metrics
+
+1. Geospatial completeness: Share of study-area pedestrian segments with valid network geometry and the features required for scoring.
+
+2. Routing validity: Proportion of audited suggested routes with genuinely traversable pedestrian connections and crossings.
+
+3. Learned-model performance: Held-out performance against a walking-time-only baseline on the chosen learning target, if a trainable dataset exists.
+
+4. Recommendation stability and transparency: Change in neighborhood rankings under plausible variations in input data, model parameters, and selected destinations.
+
+5. Decision relevance: Feedback from prospective users on whether the displayed comparisons reflect important non-driving mobility needs. These are prototype evaluation measures. Reductions in medical emergencies, heat illness, or pedestrian injury cannot be claimed from a hackathon demonstration.
+
+## 11. Preliminary Plan of Action and Future Development
+
+Phase 1 — Feasibility and data inventory. Confirm the geographic pilot boundary; inventory sources, formats, licensing, spatial resolution, and update frequency; inspect the walking network; and determine whether meaningful labels can be obtained for the proposed AI learning target.
+
+Phase 2 — PathéResistance baseline. Build and validate a limited pedestrian graph, compute walking-time paths, join available environmental features, and create a transparent baseline friction map.
+
+Phase 3 — GeoAI weighting experiment. Define the learning target, obtain or collect suitable observations, fit an appropriately scoped model, and compare its performance with the baseline. If adequate data are unavailable, retain the baseline and document the gap.
+
+Phase 4 — EmPath prototype. Implement the destination-selection workflow, calculate optimized neighborhood scores, and make the assumptions behind each ranking visible.
+
+Phase 5 — Evaluation and extensions. Audit routes, evaluate sensitivity and model generalization, seek stakeholder feedback, and investigate future opportunities for broader geographic coverage or aggregate emergency-response analysis.
+
+The proposed innovation is not simply a faster way to find a route. It is an effort to learn and communicate which environmental features make ordinary pedestrian travel more burdensome, then translate that evidence into residential accessibility decisions.
+
+## References
+
+Boeing, G. (2025). Modeling and analyzing urban networks and amenities with OSMnx. Geographical Analysis, 57(4), 567–577. https://doi.org/10.1111/gean.70009
+
+Centers for Disease Control and Prevention. (2024, June 25). Heat and chronic conditions. https://www.cdc.gov/heat-health/risk-factors/heat-and-chronic-conditions.html
+
+City of Plano. (n.d.). Pedestrian environment. Plano Comprehensive Plan. https://www.planocompplan.org/159/Pedestrian-Environment
+
+Melnikov, V. R., Christopoulos, G. I., Krzhizhanovskaya, V. V., Lees, M. H., & Sloot, P. M. A. (2022). Behavioural thermal regulation explains pedestrian path choices in hot urban environments. Scientific Reports, 12, Article 2441. https://doi.org/10.1038/s41598-022-06383-5
+
+National Oceanic and Atmospheric Administration. (n.d.). Climate Data Online. National Centers for Environmental Information. https://www.ncei.noaa.gov/cdo-web/
+
+U.S. Geological Survey. (2024, updated June 2026). Annual National Land Cover Database Collection 1 products (Version 1.2) [Data set]. https://doi.org/10.5066/P94UXNTS

@@ -1,0 +1,46 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "EmPath: extract walking graph",
+      "type": "process",
+      "command": "${workspaceFolder}/.venv/bin/python",
+      "args": ["scripts/extract_walking_graph.py", "--address", "${input:walkingAddress}", "--dist", "500", "--output", "output/pilot_walking_network"],
+      "options": {"cwd": "${workspaceFolder}"},
+      "problemMatcher": []
+    },
+    {
+      "label": "EmPath: clean pilot data",
+      "type": "process",
+      "command": "${workspaceFolder}/.venv/bin/python",
+      "args": ["scripts/clean_data.py"],
+      "options": {"cwd": "${workspaceFolder}"},
+      "problemMatcher": []
+    },
+    {
+      "label": "EmPath: build maps",
+      "type": "process",
+      "command": "${workspaceFolder}/.venv/bin/python",
+      "args": ["scripts/visualize.py"],
+      "options": {"cwd": "${workspaceFolder}"},
+      "group": {"kind": "build", "isDefault": true},
+      "problemMatcher": []
+    },
+    {
+      "label": "EmPath: serve interactive map",
+      "type": "process",
+      "command": "${workspaceFolder}/.venv/bin/python",
+      "args": ["-m", "http.server", "8765", "--bind", "127.0.0.1", "--directory", "output/scope_screen"],
+      "options": {"cwd": "${workspaceFolder}"},
+      "problemMatcher": []
+    }
+  ],
+  "inputs": [
+    {
+      "id": "walkingAddress",
+      "type": "promptString",
+      "description": "Walking graph center: enter a public landmark or address (500 m bounding-box half-width)",
+      "default": "Plano, Texas, USA"
+    }
+  ]
+}
