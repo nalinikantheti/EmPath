@@ -100,7 +100,9 @@ If this computer's Anaconda environment reports a PROJ database version mismatch
 
 Extract a connected OpenStreetMap walking network (default: a 1 km-wide box centered on the geocoded Brooklyn example):
 
-In VS Code, use **Terminal → Run Task → EmPath: extract walking graph**. Enter a public landmark or address for your pilot area (the prompt defaults to Plano). This task saves results under `output/pilot_walking_network/`. The **Run and Debug** entry **EmPath: extract walking graph (Brooklyn example)** runs the original example with the project interpreter.
+For the actual four-ZCTA project scope, open `notebooks/05_walking_graph_scope.ipynb` using **Python (EmPath)**, or use **Terminal → Run Task → EmPath: extract walking graph**. Both run `scripts/build_scope_walking_graph.py` for the full saved footprints of **75025, 75024, 75074 and comparison 75023**, including portions outside Collin County. Results go to `output/four_zip_walking_network/`. Open `walking_scope_map.html` for colored ZIP boundaries, larger teal nodes and named POI markers with category toggles. A PNG preview is also saved. All mapped network components are displayed to preserve area coverage; `walking_network_connected.graphml` contains the largest connected component separately. No artificial connections are added. `summary.json` records node counts per ZCTA and component sizes. POIs are selected OSM parks, schools, libraries, healthcare, groceries and transit features; their markers are representative feature locations, not validated entrances. Repeated runs reuse exported graph and POI files. `--refresh` rebuilds them using OSMnx's HTTP cache where available.
+
+The **Run and Debug** entry **EmPath: walking graph (all four ZIP areas)** runs this same scope. The separate **EmPath: extract walking graph (Brooklyn example)** entry still runs the original small example with the project interpreter.
 
 ```bash
 .venv/bin/python scripts/extract_walking_graph.py

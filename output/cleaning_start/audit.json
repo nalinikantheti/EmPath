@@ -1,0 +1,37 @@
+{
+  "graph_file": "output/four_zip_walking_network/walking_network_all_components.graphml",
+  "nodes": 31372,
+  "directed_edges": 93452,
+  "weak_components": 179,
+  "largest_component_nodes": 30765,
+  "crs": "epsg:4326",
+  "unique_node_ids": true,
+  "unique_u_v_key": true,
+  "edge_review_flag_counts": {
+    "missing_empty_geometry": 0,
+    "invalid_geometry": 0,
+    "bad_length": 0,
+    "self_loop_review": 286,
+    "long_edge_review": 26
+  },
+  "poi_count": 317,
+  "poi_categories": {
+    "playground": 93,
+    "park": 63,
+    "school": 44,
+    "convenience": 39,
+    "supermarket": 25,
+    "pharmacy": 21,
+    "clinic": 14,
+    "station": 5,
+    "library": 4,
+    "bus_station": 4,
+    "hospital": 2,
+    "community_centre": 2,
+    "college": 1
+  },
+  "processed_municipal_scopes": [
+    "75025_buffer250m"
+  ],
+  "note": "Automated structural checks only. No access, entrance, crossing or sidewalk validation performed. Directed reciprocal edges and valid parallel edges retained."
+}
