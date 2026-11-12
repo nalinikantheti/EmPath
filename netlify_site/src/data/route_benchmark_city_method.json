@@ -1,0 +1,9 @@
+{
+  "sample": "Six distinct housing-positive, <=100m-snap blocks: lowest/highest essential cost and north/south/east/west extremes; three essential categories each. Same destination for both route objectives.",
+  "pairs": 18,
+  "different_routes": 12,
+  "weighted_objective_checks_passed": true,
+  "mean_extra_actual_walk_minutes": 0.2544617076010343,
+  "pairs_with_less_busy_road_length": 2,
+  "interpretation": "Model optimization and exposure-proxy comparison, not a human preference accuracy test or a guarantee of access. The sample is small and not representative of all households."
+}

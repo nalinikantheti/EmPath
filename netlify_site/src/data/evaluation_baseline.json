@@ -1,0 +1,20 @@
+{
+  "all_categories": {
+    "matched_blocks": 4331,
+    "spearman_rank_correlation": 0.9949316169050834,
+    "top20_overlap": 20,
+    "median_time_only_minutes": 41.02944498989399,
+    "median_friction_equivalent_minutes": 69.83848211890044,
+    "same_graph_support": true
+  },
+  "essential": {
+    "matched_blocks": 4331,
+    "spearman_rank_correlation": 0.9942515749210371,
+    "top20_overlap": 20,
+    "median_time_only_minutes": 30.729679871988,
+    "median_friction_equivalent_minutes": 51.88027629691465,
+    "same_graph_support": true
+  },
+  "origin_snap_gaps_over_100m": 546,
+  "not_accuracy": "These measure implementation and ranking differences, not agreement with local human preferences. Baseline uses identical supported network but optimizes time and may choose a different destination."
+}

@@ -1,0 +1,11 @@
+{
+  "city_blocks": 4402,
+  "tree_prediction_blocks": 4402,
+  "temperature_observed_blocks": 4169,
+  "complete_accessibility_blocks": 4331,
+  "unreachable_references": 71,
+  "snap_gaps_over_100m": 546,
+  "housing_positive_unreachable": 40,
+  "raw_city_network_edges": 193128,
+  "manual_reviews_completed": 0
+}
