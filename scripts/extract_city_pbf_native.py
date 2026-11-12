@@ -1,8 +1,9 @@
 """Native PBF scan, retaining real OSM node identities and POI geometries."""
 from pathlib import Path
+from city_scope import config,buffer_m
 import sys,json,time,os
 import osmium
-ROOT=Path(__file__).resolve().parents[1];OUT=Path(os.environ.get('EMPATH_OSM_DIR',str(ROOT/'output/plano_city')));w,s,e,n=json.loads((OUT/'routing_bbox.json').read_text())
+ROOT=Path(__file__).resolve().parents[1];OUT=Path(os.environ.get('EMPATH_OSM_DIR',str(ROOT/config().get('expanded_data_root','output/plano_city'))));w,s,e,n=json.loads((OUT/'routing_bbox.json').read_text())
 POIS={'amenity':{'school','college','university','library','hospital','clinic','pharmacy','community_centre','bus_station','bank','place_of_worship'},'leisure':{'park','playground','fitness_centre','sports_centre'},'shop':{'supermarket','convenience','hairdresser_supply','cosmetics'},'railway':{'station','halt','tram_stop'}}
 def wanted(tags):return any(tags.get(k) in vals for k,vals in POIS.items())
 class Extract(osmium.SimpleHandler):

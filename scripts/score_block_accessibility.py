@@ -5,6 +5,7 @@ import numpy as np
 import pandas as pd
 import geopandas as gpd
 import networkx as nx
+from city_scope import buffer_m
 from scipy.spatial import cKDTree
 ROOT=Path(__file__).resolve().parents[1];CITY_MODE=os.environ.get('EMPATH_CITY_MODE')=='1'
 OUT=ROOT/('output/plano_city/accessibility' if CITY_MODE else 'output/block_accessibility')
@@ -109,7 +110,7 @@ def run():
  blocks.drop(columns='geometry').to_csv(OUT/'block_accessibility.csv',index=False)
  pois.to_file(OUT/'accessibility_pois.gpkg',driver='GPKG',index=False)
  pois.drop(columns='geometry').to_csv(OUT/'accessibility_pois.csv',index=False)
- method={'scope':'Official Plano municipal boundary' if CITY_MODE else 'Four-ZIP pilot','poi_buffer_m':1000 if CITY_MODE else 0,'citywide':CITY_MODE,'edge_formula':'w_e = length_m / 1.2 * [1 + (block canopy deficit + block traffic burden + block heat burden)/3]',
+ method={'scope':'Official Plano municipal boundary' if CITY_MODE else 'Four-ZIP pilot','poi_buffer_m':buffer_m() if CITY_MODE else 0,'citywide':CITY_MODE,'edge_formula':'w_e = length_m / 1.2 * [1 + (block canopy deficit + block traffic burden + block heat burden)/3]',
  'nearest_category':'C_k(b) = min over destinations d in category k of weighted shortest-path cost from snapped block reference node to snapped destination node',
  'aggregate':'A(b) = sum_k C_k(b) / number_of_categories; all selected categories must be reachable. Sum and worst trip are also exported. Equal category weights are assumptions.',
  'profiles':{'all_categories':categories,'essential':['hindu_temple','supermarket','pharmacy']},
@@ -118,7 +119,7 @@ def run():
  'weighted_edges':int(valid.sum()),'excluded_unknown_edges':int((~valid).sum()),'blocks':len(blocks),'pois':len(pois),'temple_candidates':len(additions),
  'missing':'Any unreachable selected category means unknown overall score; not zero and not average of only reachable services.',
  'snapping':'Block representative points and POI mapped positions snap to nearest original graph junction. Connector gaps are reported; >100 m flagged. Access/entrances not verified and gap travel/crossing waits omitted.',
- 'inventory':'Blocks are scored as geographic reference nodes, including nonresidential land. Address counts do not establish residential use. POI catalog is incomplete. City mode includes a 1000 m routing/destination buffer; boundary effects can still inflate costs.',
+ 'inventory':'Blocks are scored as geographic reference nodes, including nonresidential land. Address counts do not establish residential use. POI catalog is incomplete. City mode uses the buffer declared in poi_buffer_m; public short-walk coverage is checked separately.',
  'temples':'Five curated Hindu temple address candidates matched to Plano address points. Sources in config/accessibility_temples.json. Raghunath street address is directory-sourced and needs review; other addresses matched official websites. Parcel points are not entrances. Catalog is not all religions or all temples.',
  'graph':'Detailed graph has finite weights only. Activity graph contains one edge per block to the nearest reachable POI in each category; no block-block or POI-POI edges.',
  'validation':{'reverse_multi_source_matches_forward_dijkstra':all(validation),'spot_checks':len(validation),'no_same_role_activity_edges':all(activity.nodes[u]['role']=='origin' and activity.nodes[v]['role']=='destination' for u,v in activity.edges)}}

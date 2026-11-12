@@ -10,6 +10,11 @@ from scipy.spatial import cKDTree
 from poi_categories import classify
 ROOT=Path(__file__).resolve().parents[1];OUT=ROOT/'output/plano_city/accessibility';EXP=ROOT/'output/plano_boundary_3km';DEST=ROOT/'netlify_site/src/data'
 def run():
+ from city_scope import buffer_m
+ if buffer_m()>1000:
+  path=OUT/'boundary_buffer_method.json'
+  if not path.exists():raise RuntimeError('Historical 1 km baseline not present. Use certify_short_walk_coverage.py for the current expanded model.')
+  report=json.loads(path.read_text());print('Historical pre-correction diagnostic retained; current production uses certify_short_walk_coverage.py.',flush=True);return report
  graph=ox.load_graphml(EXP/'network/walking_graph.graphml');nodes=ox.graph_to_gdfs(graph,edges=False).to_crs(26914)
  for u,v,k,d in graph.edges(keys=True,data=True):d['walk_seconds']=float(d['length'])/1.2
  tree=cKDTree(np.c_[nodes.geometry.x,nodes.geometry.y]);ids=nodes.index.to_numpy();reverse=graph.reverse(copy=False)

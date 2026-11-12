@@ -1,3 +1,11 @@
+## Public EmPath tool
+
+[Open EmPath](https://empathmaps.netlify.app/) · [Explore everyday walks](https://empathmaps.netlify.app/app.html) · [Plain-language guide](https://empathmaps.netlify.app/guide.html)
+
+The homepage opens with an illustrative hot walk to a nearby temple: proximity only helps if the trip is reachable without a car. The public flow is places → effort budget → area/address → actual routes. Technical detail is separate at `/research.html`, `/method.html` and `/validation.html`.
+
+Production now includes fully weighted 3 km context beyond Plano. Public 10/20/30-minute effort budgets pass an origin-specific search-extent bound; unrestricted long trips remain qualified. See [PUBLIC_TOOL_AND_BOUNDARY.md](docs/PUBLIC_TOOL_AND_BOUNDARY.md) and Notebook 25. Rebuild the generated app through `EMPATH_CITY_MODE=1 .venv/bin/python scripts/build_accessibility_app.py`; it also builds the public version.
+
 ## Population, housing and boundary context
 
 Use [the comparison page](https://empathmaps.netlify.app/context.html) or Notebook 24. Population density, Census rent/home-value and demographic context stay separate from route weights. Worship categories now include churches, mosques/masjids, a synagogue and other mapped sites. Selected-category warnings identify sensitivity to a larger routing buffer. Reproduction and limitations: [docs/CONTEXT_AND_BOUNDARY.md](docs/CONTEXT_AND_BOUNDARY.md).

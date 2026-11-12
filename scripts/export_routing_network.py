@@ -3,6 +3,7 @@ from pathlib import Path
 import os,json,gzip,hashlib
 import pandas as pd,geopandas as gpd,numpy as np
 from shapely import union_all
+from city_scope import buffer_m
 ROOT=Path(__file__).resolve().parents[1];CITY=os.environ.get('EMPATH_CITY_MODE')=='1'
 OUT=ROOT/('output/plano_city/accessibility' if CITY else 'output/block_accessibility')
 
@@ -14,7 +15,9 @@ def run():
   edges=edges.merge(tags,on=['u','v','key'],validate='one_to_one')
  d=edges[['u','v','key','length','name','highway','geometry']].merge(costs[['u','v','key','block_proxy_cost_s','block_proxy_nearby_used']],on=['u','v','key'],validate='one_to_one')
  d=d[d.block_proxy_cost_s.notna()].reset_index(drop=True)
- roads=gpd.read_file(ROOT/'data/processed/plano_reference/traffic_roads.gpkg').to_crs(26914)
+ road_file=ROOT/'output/plano_city/traffic_roads.gpkg'
+ if not road_file.exists():road_file=ROOT/'data/processed/plano_reference/traffic_roads.gpkg'
+ roads=gpd.read_file(road_file).to_crs(26914)
  busy=roads[roads.aadt.ge(25000)]
  corridor=union_all(busy.geometry.buffer(30))
  idx=d.sindex.query(corridor,predicate='intersects');near=np.zeros(len(d))
@@ -28,7 +31,7 @@ def run():
   lines=[[[round(x,6),round(y,6)] for x,y in line] for line in lines]
   highway=str(r.highway);path_tag=any(tag in highway for tag in ['footway','path','cycleway','pedestrian','steps'])
   records.append([int(r.u),int(r.v),int(r.key),float(r.block_proxy_cost_s),float(r.length),highway,str(r.name) if not isinstance(r.name,list) and pd.notna(r.name) else str(r.name),bool(path_tag),float(r.busy_road_fraction_01),bool(r.block_proxy_nearby_used),lines])
- payload={'scope':'Plano city + 1000 m context' if CITY else 'Four-ZIP pilot','edge_columns':['u','v','key','cost_equivalent_seconds','length_m','highway_tag','name','path_tag','fraction_within_30m_of_AADT_ge25000','nearby_block_proxy','geometry_lines_lonlat'],
+ payload={'scope':f'Plano city + {buffer_m()} m context' if CITY else 'Four-ZIP pilot','edge_columns':['u','v','key','cost_equivalent_seconds','length_m','highway_tag','name','path_tag','fraction_within_30m_of_AADT_ge25000','nearby_block_proxy','geometry_lines_lonlat'],
  'nodes':[[int(r.osmid),float(r.x),float(r.y)] for r in nodes.itertuples()],'edges':records,
  'limits':'Paths are actual weighted network edges. Tags and traffic proximity do not prove sidewalk access or safety. Block-to-network snapping gaps are not legal walking connectors.'}
  encoded=json.dumps(payload,separators=(',',':'),allow_nan=False).encode();blob=gzip.compress(encoded,compresslevel=7)

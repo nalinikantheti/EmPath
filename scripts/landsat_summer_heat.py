@@ -40,6 +40,11 @@ def main():
  items=[f for f in search['features'] if f['properties']['platform'] in ['landsat-8','landsat-9'] and f['properties'].get('landsat:correction')=='L2SP' and f['properties'].get('landsat:collection_category')=='T1' and 'lwir11' in f['assets']]
  # One account/container SAS token, reused across assets; honor service throttling.
  token_path=OUT/'sas_cache.json'
+ if token_path.exists():
+  from urllib.parse import parse_qs
+  from datetime import timezone
+  query=json.loads(token_path.read_text())['query'];expiry=parse_qs(query).get('se',[''])[0]
+  if not expiry or datetime.fromisoformat(expiry.replace('Z','+00:00'))<=datetime.now(timezone.utc):token_path.unlink()
  if token_path.exists():token=json.loads(token_path.read_text())['query']
  else:
   href=items[0]['assets']['lwir11']['href'] if False else search['features'][0]['assets']['lwir11']['href']
@@ -102,11 +107,12 @@ def main():
  blocks.drop(columns='geometry').to_csv(OUT/'block_environment_with_heat.csv',index=False)
  joincols=['GEOID20']+[c for c in blocks if c.startswith('landsat_')]
  # Add explicitly named heat attributes to current block datasets; leave friction weights unchanged.
- for relative in ['output/clean_deliverables/block_environment.gpkg','output/geoai_full_scope/ai_block_environment.gpkg']:
-  path=ROOT/relative;existing=gpd.read_file(path);existing=existing.drop(columns=[c for c in existing if c.startswith('landsat_')]);existing=existing.merge(blocks[joincols],on='GEOID20',how='left',validate='one_to_one');existing.to_file(path,driver='GPKG',index=False)
-  existing.drop(columns='geometry').to_csv(path.with_suffix('.csv'),index=False)
- # Keep the existing GeoJSON counterpart synchronized.
- gpd.read_file(ROOT/'output/clean_deliverables/block_environment.gpkg').to_crs(4326).to_file(ROOT/'output/clean_deliverables/block_environment.geojson',driver='GeoJSON',index=False)
+ if 'EMPATH_HEAT_OUTPUT' not in os.environ:
+  for relative in ['output/clean_deliverables/block_environment.gpkg','output/geoai_full_scope/ai_block_environment.gpkg']:
+   path=ROOT/relative;existing=gpd.read_file(path);existing=existing.drop(columns=[c for c in existing if c.startswith('landsat_')]);existing=existing.merge(blocks[joincols],on='GEOID20',how='left',validate='one_to_one');existing.to_file(path,driver='GPKG',index=False)
+   existing.drop(columns='geometry').to_csv(path.with_suffix('.csv'),index=False)
+  # Keep the existing GeoJSON counterpart synchronized.
+  gpd.read_file(ROOT/'output/clean_deliverables/block_environment.gpkg').to_crs(4326).to_file(ROOT/'output/clean_deliverables/block_environment.geojson',driver='GeoJSON',index=False)
  infos=[i for a,i in results];pd.DataFrame(infos).to_csv(OUT/'scene_manifest.csv',index=False)
  report={'source':'USGS Landsat Collection 2 Level-2 Tier 1 Surface Temperature (Landsat 8/9), accessed via Microsoft Planetary Computer','period':'2025-06-01 through 2025-08-31','scenes':len(items),'unique_acquisition_dates':len(days),'local_acquisition_times':[i['acquired_local'] for i in infos],'scale_formula_celsius':'DN * 0.00341802 + 149 - 273.15','qa_policy':'Mask QA_PIXEL bits 0–5, medium/high cloud and cirrus confidence, ST_QA > 3 K, distance to cloud < 1 km; keep water unless separately masked by QA. Require >=3 valid acquisition dates per pixel.','native_thermal_resolution_m':100,'delivered_grid_m':30,'spatial_aggregation':'Block mean of pixelwise temporal medians, pixel-center inclusion; small blocks without centers remain missing. Not independent temperature sensors in every block.','scope_pixel_coverage_fraction':float(eligible.sum()/inside.sum()),'blocks':len(blocks),'blocks_with_temperature':int(blocks.landsat_summer_surface_temp_c.notna().sum()),'temperature_range_c':[float(np.nanmin(median)),float(np.nanmax(median))],'minimum_dates_per_composite_pixel':3,'existing_friction_score_changed':False,'limitations':['Clear-sky satellite surface temperature, not pedestrian air temperature, heat index, or daily maximum.','30 m pixels are resampled from 100 m thermal information.','Only actual overpass times are represented; this is not a June–August peak-hour average.','Uneven valid observations and small-block sampling must be reviewed.','Summer 2025 temperature differs in vintage from 2022 NAIP and 2021 published canopy.'],'references':['https://www.usgs.gov/landsat-missions/landsat-collection-2-surface-temperature','https://www.usgs.gov/landsat-missions/landsat-collection-2-quality-assessment-bands']}
  (OUT/'method_and_coverage.json').write_text(json.dumps(report,indent=2));print(json.dumps(report,indent=2),flush=True)

@@ -1,3 +1,5 @@
+**Current boundary correction:** the former 1 km diagnostic below is historical. Production now has weighted 3 km coverage and bounded public comparisons. See `PUBLIC_TOOL_AND_BOUNDARY.md`.
+
 # Population, housing, worship and boundary coverage
 
 ## What is implemented
@@ -23,10 +25,10 @@ Census API estimate requests required a key, so official freely downloadable tab
 ACS percentage margins of error use root-sum-of-squares for summed numerators, then the Census proportion approximation (addition fallback where subtraction gives a negative radicand). They are approximate because covariance is unavailable. The universe differs by table: occupied housing units for vehicle availability, poverty-determined population for poverty, and civilian noninstitutionalized population for disability. Selected race categories are not an exhaustive breakdown.
 
 ## Comparison method
-- Essential profile: Hindu temple candidate + grocery + pharmacy, unchanged from the earlier model.
+- Context reference profile: grocery + pharmacy + park. The research essential benchmark remains Hindu temple + grocery + pharmacy.
 - Block comparison: housing-positive, snap <=100 m, complete costs; exclude city-border fragments and missing/zero land area for density correlation.
 - ACS comparison: spatially assign each eligible block reference point to the matching 2024 block group (tract for disability); average block-origin costs, unweighted across origins. Require at least five eligible origins per Census area.
-- Density versus essential-cost Spearman correlation: approximately -0.068 across 2,301 matched blocks.
+- Density versus essential-cost Spearman correlation: approximately 0.039 across 2,301 matched blocks.
 - Rent and home-value correlations are descriptive ecological comparisons, not causal effects or local preference accuracy. Geography, mixed vintages and uncertainty affect interpretation.
 - Context data never enter environmental weights or resident-profile-based recommendations.
 

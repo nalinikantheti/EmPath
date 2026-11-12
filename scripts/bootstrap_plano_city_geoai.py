@@ -10,6 +10,10 @@ from shapely.geometry import mapping
 ROOT=Path(__file__).resolve().parents[1];OUT=ROOT/'output/plano_city'
 
 def run():
+ from city_scope import buffer_m
+ if buffer_m()==3000:
+  from bootstrap_expanded_geoai import run as expanded
+  return expanded()
  city=gpd.read_file(ROOT/'data/processed/plano_reference/plano_city_boundary.gpkg').to_crs(26914)
  context=gpd.GeoDataFrame({'scope':['Plano + 1000 m environmental/routing context']},geometry=[city.geometry.union_all().buffer(1000)],crs=26914)
  boundary=OUT/'environment_context.gpkg';context.to_file(boundary,driver='GPKG',index=False)

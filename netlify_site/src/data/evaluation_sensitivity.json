@@ -15,7 +15,7 @@
       "eligible_complete_blocks": 2346,
       "spearman_vs_equal": 0.9999999999999998,
       "top20_overlap_with_equal": 20,
-      "median_cost_equiv_min": 50.70645152036239
+      "median_cost_equiv_min": 50.27214129744498
     },
     "canopy_priority": {
       "factor_weights_canopy_traffic_heat": [
@@ -24,9 +24,9 @@
         0.2
       ],
       "eligible_complete_blocks": 2346,
-      "spearman_vs_equal": 0.9989545075915519,
+      "spearman_vs_equal": 0.998869884905796,
       "top20_overlap_with_equal": 20,
-      "median_cost_equiv_min": 53.06291603345562
+      "median_cost_equiv_min": 52.659443275072874
     },
     "traffic_priority": {
       "factor_weights_canopy_traffic_heat": [
@@ -35,9 +35,9 @@
         0.2
       ],
       "eligible_complete_blocks": 2346,
-      "spearman_vs_equal": 0.9965223479575152,
+      "spearman_vs_equal": 0.9962296193770349,
       "top20_overlap_with_equal": 20,
-      "median_cost_equiv_min": 48.80960895588611
+      "median_cost_equiv_min": 48.5147567542454
     },
     "heat_priority": {
       "factor_weights_canopy_traffic_heat": [
@@ -46,13 +46,13 @@
         0.6
       ],
       "eligible_complete_blocks": 2346,
-      "spearman_vs_equal": 0.9985997516196102,
+      "spearman_vs_equal": 0.9985451128670777,
       "top20_overlap_with_equal": 20,
-      "median_cost_equiv_min": 50.03150655634412
+      "median_cost_equiv_min": 49.71073456505957
     }
   },
   "time_only_vs_friction_residential": {
-    "spearman": 0.9942697461902804,
+    "spearman": 0.9942211902857718,
     "top20_overlap": 19,
     "matched_network": true
   },

@@ -1,13 +1,14 @@
 """Mosaic city tree predictions and aggregate to context blocks, preserving coverage."""
 from pathlib import Path
-import json
+from city_scope import config,buffer_m
+import json,os
 import imagery_geoai_demo  # Rasterio-compatible PROJ database.
 import geopandas as gpd,pandas as pd,numpy as np,rasterio
 from rasterio.windows import Window
 from rasterio.features import rasterize
 from rasterio.transform import Affine
 from shapely.geometry import box
-ROOT=Path(__file__).resolve().parents[1];OUT=ROOT/'output/plano_city';AI=OUT/'geoai'
+ROOT=Path(__file__).resolve().parents[1];OUT=Path(os.environ.get('EMPATH_CITY_DATA_ROOT',str(ROOT/config().get('expanded_data_root','output/plano_city'))));AI=OUT/'geoai'
 
 def run():
  cfg=json.load(open(AI/'tile_plan.json'));blocks=gpd.read_file(OUT/'block_context_base.gpkg').to_crs(26914).reset_index(drop=True)
@@ -43,7 +44,7 @@ def run():
  overlapping=[c for c in attributes if c!='GEOID20' and c in city]
  city=city.drop(columns=overlapping).merge(attributes,on='GEOID20',how='left',validate='one_to_one')
  city.to_file(OUT/'block_environment.gpkg',driver='GPKG',index=False)
- report={'scope':'Official Plano city, plus 1000 m environmental context','city_blocks':len(city),'context_blocks':len(blocks),'planned_and_summarized_tiles':len(cfg['tiles']),
+ report={'scope':'Official Plano city, plus '+os.environ.get('EMPATH_NETWORK_BUFFER_M',str(buffer_m()))+' m environmental context','city_blocks':len(city),'context_blocks':len(blocks),'planned_and_summarized_tiles':len(cfg['tiles']),
  'city_blocks_with_canopy':int(city.ai_canopy_cover_pct.notna().sum()),'city_blocks_with_temperature':int(city.landsat_summer_surface_temp_c.notna().sum()),
  'observed_class_pixels':int(valid_count.sum()),'expected_block_pixels':int(expected.sum()),'context_pixel_coverage_fraction':float(valid_count.sum()/expected.sum()),
  'heat_reference':'Min-max of valid block temperature summaries for city block IDs; outside context clipped to 0–1 using same city reference','temperature_min_c':float(lo),'temperature_max_c':float(hi),

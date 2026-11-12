@@ -1,16 +1,17 @@
 """Acquire buffered Plano walking graph and service candidates, separate from pilot."""
 from pathlib import Path
-import json
+import json,os
 import requests,geopandas as gpd,pandas as pd,osmnx as ox,networkx as nx
 from shapely.geometry import Point,Polygon
 from shapely import make_valid
 from poi_categories import classify
-ROOT=Path(__file__).resolve().parents[1];OUT=ROOT/'output/plano_city';N=OUT/'network'
+from city_scope import buffer_m
+ROOT=Path(__file__).resolve().parents[1];OUT=Path(os.environ.get('EMPATH_CITY_DATA_ROOT',str(ROOT/'output/plano_city')));N=OUT/'network'
 
 def run():
  N.mkdir(parents=True,exist_ok=True)
  city=gpd.read_file(ROOT/'data/processed/plano_reference/plano_city_boundary.gpkg').to_crs(26914)
- boundary=city.geometry.union_all();area=gpd.GeoSeries([boundary.buffer(1000)],crs=26914).to_crs(4326).iloc[0]
+ boundary=city.geometry.union_all();area=gpd.GeoSeries([boundary.buffer(float(os.environ.get('EMPATH_NETWORK_BUFFER_M',str(buffer_m()))))],crs=26914).to_crs(4326).iloc[0]
  city.to_file(OUT/'city_boundary.gpkg',driver='GPKG',index=False)
  ox.settings.use_cache=True;ox.settings.cache_folder=str(ROOT/'data/raw/osmnx_cache');ox.settings.log_console=True;ox.settings.requests_timeout=180
  ox.settings.max_query_area_size=50_000_000
@@ -80,6 +81,6 @@ def run():
    rows=[r for r in rows if not (chain in r['name'].lower().replace(' ','') and projected.distance(gpd.GeoSeries([r['geometry']],crs=4326).to_crs(26914).iloc[0])<150)]
    rows.append({**f['properties'],'geometry':point})
  pois=gpd.GeoDataFrame(rows,crs=4326);pois.to_file(OUT/'pois.gpkg',driver='GPKG',index=False)
- report={'scope':'Official Plano municipal boundary','city_area_km2':boundary.area/1e6,'routing_and_destination_buffer_m':1000,'nodes':len(graph),'directed_edges':graph.number_of_edges(),'weak_components':nx.number_weakly_connected_components(graph),'poi_candidates':len(pois),'category_counts':pois.category.value_counts().to_dict(),'limitations':'OSM walk mode is not a verified continuous sidewalk inventory; mapped POI centers are not entrances.'}
+ report={'scope':'Official Plano municipal boundary','city_area_km2':boundary.area/1e6,'routing_and_destination_buffer_m':float(os.environ.get('EMPATH_NETWORK_BUFFER_M',str(buffer_m()))),'nodes':len(graph),'directed_edges':graph.number_of_edges(),'weak_components':nx.number_weakly_connected_components(graph),'poi_candidates':len(pois),'category_counts':pois.category.value_counts().to_dict(),'limitations':'OSM walk mode is not a verified continuous sidewalk inventory; mapped POI centers are not entrances.'}
  (OUT/'network_inventory.json').write_text(json.dumps(report,indent=2));return report
 if __name__=='__main__':print(json.dumps(run(),indent=2))

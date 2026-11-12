@@ -1,3 +1,5 @@
+**Public-tool update:** the story-led explorer and bounded boundary correction are implemented; see `PUBLIC_TOOL_AND_BOUNDARY.md`.
+
 **Implemented update:** population/demographic/affordability context, expanded mapped worship categories, and the larger-buffer diagnostic are now available. See `CONTEXT_AND_BOUNDARY.md`. Remaining extensions below are future work.
 
 # Debanjan feedback: priorities for EmPath

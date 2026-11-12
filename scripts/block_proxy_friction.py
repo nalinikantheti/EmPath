@@ -64,8 +64,8 @@ def run():
  'edge_count':len(d),'weighted_edges':int(d.block_proxy_cost_s.notna().sum()),'unknown_edges':int(d.block_proxy_cost_s.isna().sum()),
  'nearby_block_used_edges':int(d.block_proxy_nearby_used.sum()),'partial_or_missing_overlap_edges':int(d.block_proxy_partial_overlap.sum()),
  'source_counts':{f:d[f+'_source'].value_counts().to_dict() for f in fields},
- 'reference':'Canopy uses existing AI block cover; traffic keeps Plano normalization; heat keeps four-ZIP normalization. No new reference distribution.',
- 'geometry_audit':'Current detailed network retains all 93,452 edge IDs from original cached OSM network. This method supplies weights, not new paths.',
+ 'reference':'Canopy uses AI block cover; traffic keeps declared Plano normalization; heat uses the reference stored in the input environment metadata.',
+ 'geometry_audit':'All input edge IDs are retained. This supplies weights, not new path geometry.',
  'limits':'No path geometry is fabricated. Any real missing OSM/municipal trail connection still needs separate verification and geometry integration.',
  'checks':{'original_edge_ids_preserved':True,'three_factors_required':True,'formula_verified':True}}
  (OUT/'block_proxy_method.json').write_text(json.dumps(report,indent=2));return report

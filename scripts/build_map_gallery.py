@@ -6,6 +6,7 @@ def main():
  figures=DEST/'figures';figures.mkdir(parents=True,exist_ok=True)
  groups=[('Plano city · current analysis',ROOT/'output/plano_city/accessibility' if (ROOT/'output/plano_city/accessibility/figure_captions.json').exists() else ROOT/'output/block_accessibility','figure_captions.json'),('Archived four-ZIP environmental proxies and Landsat heat',ROOT/'output/landsat_heat','figure_captions.json'),('Archived four-ZIP GeoAI maps',ROOT/'output/geoai_full_scope', 'figure_captions.json'),('Archived four-ZIP environment and network layers',ROOT/'output/document_layers','captions.json'),('GeoAI explained — one example per ZIP',ROOT/'output/vegetation_geoai','geoai_sequence_captions.json')]
  if (ROOT/'output/plano_city/social/figure_captions.json').exists():groups.insert(1,('Plano city · population, affordability and demographics',ROOT/'output/plano_city/social','figure_captions.json'))
+ if (ROOT/'output/plano_city/public/figure_captions.json').exists():groups.insert(0,('Public explorer · default everyday walks',ROOT/'output/plano_city/public','figure_captions.json'))
  sections=[];count=0
  for title,folder,manifest in groups:
   rows=json.loads((folder/manifest).read_text());cards=[]

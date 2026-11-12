@@ -1,18 +1,18 @@
 {
   "all_categories": {
     "matched_blocks": 4331,
-    "spearman_rank_correlation": 0.9948596802648838,
+    "spearman_rank_correlation": 0.993191286998836,
     "top20_overlap": 19,
-    "median_time_only_minutes": 47.11284392390518,
-    "median_friction_equivalent_minutes": 79.79121602305827,
+    "median_time_only_minutes": 44.99202858630611,
+    "median_friction_equivalent_minutes": 76.38172141078425,
     "same_graph_support": true
   },
   "essential": {
     "matched_blocks": 4331,
-    "spearman_rank_correlation": 0.9942515749210371,
+    "spearman_rank_correlation": 0.9943267018520038,
     "top20_overlap": 20,
-    "median_time_only_minutes": 30.729679871988,
-    "median_friction_equivalent_minutes": 51.88027629691465,
+    "median_time_only_minutes": 30.232920966752868,
+    "median_friction_equivalent_minutes": 51.205267548465876,
     "same_graph_support": true
   },
   "origin_snap_gaps_over_100m": 546,

@@ -25,7 +25,7 @@ const accessibilityLegend=L.control({position:'bottomright'});accessibilityLegen
 
 def run():
  b=gpd.read_file(OUT/'block_accessibility.gpkg');pois=gpd.read_file(OUT/'accessibility_pois.gpkg').to_crs(4326)
- fields=[c for c in ['HU100','POP100','city_area_fraction'] if c in b]+['GEOID20','representative_address','mapped_address_count','access_network_node','access_snap_gap_m','access_connection_needs_review']+[c for c in b if c.startswith('access_all_categories_') or c.startswith('access_essential_')]
+ fields=[c for c in ['HU100','POP100','city_area_fraction','boundary_exit_lower_bound_min','public_area_label'] if c in b]+['GEOID20','representative_address','mapped_address_count','access_network_node','access_snap_gap_m','access_connection_needs_review']+[c for c in b if c.startswith('access_all_categories_') or c.startswith('access_essential_')]
  slim=b[fields+['geometry']].to_crs(4326)
  # GeoPandas converts NaN to JSON null; reserialize strictly for the embedded viewer.
  blocks=json.loads(slim.to_json(drop_id=True))

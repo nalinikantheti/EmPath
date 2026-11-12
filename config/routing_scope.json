@@ -1,0 +1,11 @@
+{
+  "routing_buffer_m": 3000,
+  "public_max_effort_minutes": 30,
+  "expanded_data_root": "output/plano_boundary_3km",
+  "origin_scope": "Official Plano municipal boundary",
+  "public_budget_choices_minutes": [
+    10,
+    20,
+    30
+  ]
+}
