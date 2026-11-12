@@ -1,0 +1,11 @@
+{
+  "formula": "100 * (temperature_burden_01 + traffic_index_0_100/100 + 1 - ai_canopy_cover_pct/100) / 3",
+  "temperature_reference": "Min\u2013max across valid block surface-temperature summaries in the four-ZIP pilot",
+  "temperature_min_c": 36.48838806152344,
+  "temperature_max_c": 51.414039611816406,
+  "traffic_reference": "Existing City-of-Plano-referenced nearby traffic-volume index, not a pure distance-to-road measure",
+  "canopy": "AI-predicted cover / 100",
+  "weights": "Explicit equal weights; not learned from preferences",
+  "missing": "Any missing required factor gives unknown score",
+  "limits": "Surface temperature and canopy may be correlated. This is a scenario index, not validated comfort, air temperature or health risk."
+}
