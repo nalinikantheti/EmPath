@@ -9,7 +9,7 @@ The current scope is the official Plano municipal boundary, not ZIP codes or Col
 - Full buffered OSM network: 64,936 junctions and 193,128 directed edges; every edge has a three-factor block-context proxy cost.
 - City-context GeoAI: 973 tiles, 359 reused compatible classifications and 614 newly inferred. All city blocks have tree predictions; source-image coverage does not establish classification accuracy.
 - Summer 2025 Landsat block summaries: 4,169 city blocks with valid direct summaries. Missing heat and other required factors use the existing flagged, bounded block-proxy rules; raw missingness remains preserved.
-- 883 destination candidate records in 19 categories. Mapped/curated duplicate institutions may remain; the category cost selects only one lowest-cost candidate, not an average over all records.
+- 897 destination candidate records in 21 categories. Mapped/curated duplicate institutions may remain; the category cost selects only one lowest-cost candidate, not an average over all records.
 - Complete essential/all-category access for 4,331 references; 71 disconnected, including 40 housing-positive references. These are model connection failures, not proof of real-world inaccessibility.
 - Public 2020 HU100 counts refreshed for all city blocks: 2,852 housing-positive. Default ranked-list filters also require a <=100 m snap gap and complete selected-category access. Essential-profile eligible candidates: 2,346.
 
@@ -41,3 +41,6 @@ Inspect representative entrances, barriers, crossings and destination eligibilit
 
 ## Local entry point
 Use Notebook 23 for current city outputs. Notebook 21 is the earlier four-ZIP stage. County material remains an unscored future-expansion preview.
+
+## Beauty retail update
+Six beauty/hair supply candidates and eight cosmetics-only candidates are separate selectable categories. Gold7 and three Sally Beauty addresses were checked against official store sites and approximately located with the Census geocoder; storefront entrances remain unverified. The catalog is incomplete and retail/professional eligibility can vary.

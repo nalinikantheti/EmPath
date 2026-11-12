@@ -29,7 +29,7 @@ def run():
  edge_table.to_file(N/'edges.gpkg',driver='GPKG',index=False)
  # Include nearby destinations outside the municipal line, within the declared buffer.
  w,s,e,n=area.bounds
- query=f'''[out:json][timeout:180];(nwr["amenity"~"^(school|college|university|library|hospital|clinic|pharmacy|community_centre|bus_station|bank)$"]({s},{w},{n},{e});nwr["leisure"~"^(park|playground|fitness_centre|sports_centre)$"]({s},{w},{n},{e});nwr["shop"~"^(supermarket|convenience)$"]({s},{w},{n},{e});nwr["railway"~"^(station|halt|tram_stop)$"]({s},{w},{n},{e});nwr["amenity"="place_of_worship"]["religion"="hindu"]({s},{w},{n},{e}););out center tags;'''
+ query=f'''[out:json][timeout:180];(nwr["amenity"~"^(school|college|university|library|hospital|clinic|pharmacy|community_centre|bus_station|bank)$"]({s},{w},{n},{e});nwr["leisure"~"^(park|playground|fitness_centre|sports_centre)$"]({s},{w},{n},{e});nwr["shop"~"^(supermarket|convenience|hairdresser_supply|cosmetics)$"]({s},{w},{n},{e});nwr["railway"~"^(station|halt|tram_stop)$"]({s},{w},{n},{e});nwr["amenity"="place_of_worship"]["religion"="hindu"]({s},{w},{n},{e}););out center tags;'''
  raw=OUT/'city_pois_raw.json'
  local=OUT/'city_osm_extract.json'
  if local.exists():
@@ -40,15 +40,21 @@ def run():
    if data.get('remark'):raise RuntimeError('OSM response indicates incomplete query')
    raw.write_text(json.dumps(data))
   source_elements=json.loads(raw.read_text())['elements']
+ supplement=OUT/'beauty_pois_raw.json'
+ if supplement.exists():
+  combined={(r['type'],r['id']):r for r in source_elements}
+  combined.update({(r['type'],r['id']):r for r in json.loads(supplement.read_text())['elements']})
+  source_elements=list(combined.values())
  rows=[]
  for r in source_elements:
   t=r.get('tags',{})
   if t.get('access') in ['private','no']:continue
   if t.get('amenity')=='place_of_worship' and t.get('religion')!='hindu':continue
-  accepted={'amenity':{'school','college','university','library','hospital','clinic','pharmacy','community_centre','bus_station','bank','place_of_worship'},'leisure':{'park','playground','fitness_centre','sports_centre'},'shop':{'supermarket','convenience'},'railway':{'station','halt','tram_stop'}}
+  accepted={'amenity':{'school','college','university','library','hospital','clinic','pharmacy','community_centre','bus_station','bank','place_of_worship'},'leisure':{'park','playground','fitness_centre','sports_centre'},'shop':{'supermarket','convenience','hairdresser_supply','cosmetics'},'railway':{'station','halt','tram_stop'}}
   category=next((t[k] for k,values in accepted.items() if t.get(k) in values),None)
   if category is None:continue
-  category={'fitness_centre':'gym','place_of_worship':'hindu_temple','university':'college','halt':'station','tram_stop':'station'}.get(category,category)
+  category={'hairdresser_supply':'beauty_supply','fitness_centre':'gym','place_of_worship':'hindu_temple','university':'college','halt':'station','tram_stop':'station'}.get(category,category)
+  if t.get('name','').lower() in {'sally beauty','sally beauty supply','saloncentric'}:category='beauty_supply'
   if 'coordinates' in r:
    coordinates=r['coordinates']
    if r['type']=='node':point=Point(coordinates)
@@ -67,6 +73,16 @@ def run():
   point=Point(f['geometry']['coordinates'])
   if point.is_empty or not area.covers(point):continue
   for category in categories:rows.append({'poi_id':f'plano_{p["OBJECTID"]}_{category}','name':name+(' Pool' if category=='swimming_pool' and 'recreation' in low else ''),'category':category,'source_url':p.get('URL') or 'https://www.plano.gov/recreation-centers-pools','address_status':'Municipal facility candidate; eligibility, fees and entrance unverified','geometry':point})
+ curated=ROOT/'config/beauty_supply_pois.geojson'
+ if curated.exists():
+  for f in json.loads(curated.read_text())['features']:
+   point=Point(f['geometry']['coordinates'])
+   if not area.covers(point):continue
+   # Prefer official-address record to an OSM duplicate of the same chain nearby.
+   name=f['properties']['name'].lower();chain='sally' if 'sally' in name else 'gold7'
+   projected=gpd.GeoSeries([point],crs=4326).to_crs(26914).iloc[0]
+   rows=[r for r in rows if not (chain in r['name'].lower().replace(' ','') and projected.distance(gpd.GeoSeries([r['geometry']],crs=4326).to_crs(26914).iloc[0])<150)]
+   rows.append({**f['properties'],'geometry':point})
  pois=gpd.GeoDataFrame(rows,crs=4326);pois.to_file(OUT/'pois.gpkg',driver='GPKG',index=False)
  report={'scope':'Official Plano municipal boundary','city_area_km2':boundary.area/1e6,'routing_and_destination_buffer_m':1000,'nodes':len(graph),'directed_edges':graph.number_of_edges(),'weak_components':nx.number_weakly_connected_components(graph),'poi_candidates':len(pois),'category_counts':pois.category.value_counts().to_dict(),'limitations':'OSM walk mode is not a verified continuous sidewalk inventory; mapped POI centers are not entrances.'}
  (OUT/'network_inventory.json').write_text(json.dumps(report,indent=2));return report

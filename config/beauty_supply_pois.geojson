@@ -1,0 +1,85 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -96.707739576356,
+          33.039471027927
+        ]
+      },
+      "properties": {
+        "poi_id": "curated_beauty_0",
+        "name": "Gold7 Beauty Supply",
+        "category": "beauty_supply",
+        "source_url": "https://www.gold7beautysupply.com/",
+        "address": "202 W Parker Rd, Plano, TX 75075",
+        "geocode_source": "US Census Public_AR_Current address interpolation",
+        "verified_date": "2026-11-12",
+        "address_status": "Official store address; Census geocoded approximate location, not a verified storefront entrance. Suite and connector unverified."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -96.733583402417,
+          33.039395057146
+        ]
+      },
+      "properties": {
+        "poi_id": "curated_beauty_1",
+        "name": "Sally Beauty \u2014 Custer Road",
+        "category": "beauty_supply",
+        "source_url": "https://stores.sallybeauty.com/tx/plano/beauty-supply-plano-tx-3185.html",
+        "address": "2929 Custer Rd, Plano, TX 75075",
+        "geocode_source": "US Census Public_AR_Current address interpolation",
+        "verified_date": "2026-11-12",
+        "address_status": "Official store address; Census geocoded approximate location, not a verified storefront entrance. Suite and connector unverified."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -96.840953171125,
+          33.027263982833
+        ]
+      },
+      "properties": {
+        "poi_id": "curated_beauty_2",
+        "name": "Sally Beauty \u2014 West Park Boulevard",
+        "category": "beauty_supply",
+        "source_url": "https://stores.sallybeauty.com/tx/plano/beauty-supply-plano-tx-2518.html",
+        "address": "6505 W Park Blvd, Plano, TX 75093",
+        "geocode_source": "US Census Public_AR_Current address interpolation",
+        "verified_date": "2026-11-12",
+        "address_status": "Official store address; Census geocoded approximate location, not a verified storefront entrance. Suite and connector unverified."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -96.794881835127,
+          33.024843742231
+        ]
+      },
+      "properties": {
+        "poi_id": "curated_beauty_3",
+        "name": "Sally Beauty \u2014 Preston Road",
+        "category": "beauty_supply",
+        "source_url": "https://stores.sallybeauty.com/tx/plano/",
+        "address": "1900 Preston Rd, Plano, TX 75093",
+        "geocode_source": "US Census Public_AR_Current address interpolation",
+        "verified_date": "2026-11-12",
+        "address_status": "Official store address; Census geocoded approximate location, not a verified storefront entrance. Suite and connector unverified."
+      }
+    }
+  ]
+}

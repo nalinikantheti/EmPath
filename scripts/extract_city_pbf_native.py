@@ -3,7 +3,7 @@ from pathlib import Path
 import sys,json,time
 import osmium
 ROOT=Path(__file__).resolve().parents[1];OUT=ROOT/'output/plano_city';w,s,e,n=json.loads((OUT/'routing_bbox.json').read_text())
-POIS={'amenity':{'school','college','university','library','hospital','clinic','pharmacy','community_centre','bus_station','bank','place_of_worship'},'leisure':{'park','playground','fitness_centre','sports_centre'},'shop':{'supermarket','convenience'},'railway':{'station','halt','tram_stop'}}
+POIS={'amenity':{'school','college','university','library','hospital','clinic','pharmacy','community_centre','bus_station','bank','place_of_worship'},'leisure':{'park','playground','fitness_centre','sports_centre'},'shop':{'supermarket','convenience','hairdresser_supply','cosmetics'},'railway':{'station','halt','tram_stop'}}
 def wanted(tags):return any(tags.get(k) in vals for k,vals in POIS.items())
 class Extract(osmium.SimpleHandler):
  def __init__(self):super().__init__();self.nodes={};self.ways=[];self.pois=[];self.seen=0
