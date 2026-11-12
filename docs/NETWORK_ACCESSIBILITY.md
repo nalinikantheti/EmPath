@@ -16,8 +16,8 @@
 ## Results and graphs
 - 93,450 finite weighted directed walking edges; two unsupported edges excluded rather than accidentally receiving NetworkX's default weight.
 - 2,862 block reference nodes, including nonresidential land.
-- 322 POI candidates: original 317 plus five curated Hindu-temple address candidates.
-- 14 categories; all-category and temple/supermarket/pharmacy profiles.
+- 390 POI candidates: original 317, five curated Hindu-temple address candidates, and 68 added bank/fitness/recreation/pool/sports candidates.
+- 19 categories; all-category and temple/supermarket/pharmacy profiles.
 - 2,804 blocks have complete reachability; 58 remain unknown on the choropleth.
 - `weighted_walking_graph.graphml.gz`: full weighted routing network.
 - `block_nearest_category_activity_graph.graphml`: block origins to nearest POI per category only. Block nodes carry average combined cost and relative score; edges carry category trip costs. No block–block or POI–POI edges.
