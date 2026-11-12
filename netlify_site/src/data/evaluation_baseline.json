@@ -1,10 +1,10 @@
 {
   "all_categories": {
     "matched_blocks": 4331,
-    "spearman_rank_correlation": 0.9949316169050834,
+    "spearman_rank_correlation": 0.9956503320434448,
     "top20_overlap": 20,
-    "median_time_only_minutes": 41.02944498989399,
-    "median_friction_equivalent_minutes": 69.83848211890044,
+    "median_time_only_minutes": 42.67000389554677,
+    "median_friction_equivalent_minutes": 72.9167080511086,
     "same_graph_support": true
   },
   "essential": {
