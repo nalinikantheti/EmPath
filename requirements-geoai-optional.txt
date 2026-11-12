@@ -1,0 +1,3 @@
+# Optional pretrained image segmentation. Prefer a separate GPU/Colab environment.
+# API reference: https://samgeo.gishub.org/text_sam/
+segment-geospatial[text]

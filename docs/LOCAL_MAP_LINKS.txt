@@ -1,0 +1,33 @@
+# EmPath map links
+
+These are LOCAL file URLs, not public links for teammates. For shared Google Docs use the Drive link to the ZIP, or hosted HTTPS map URLs. No hosting is configured.
+
+## Full four-ZIP GeoAI tree analysis
+
+file:///Users/nalinikantheti/Documents/ChatGPT/EmPath/output/geoai_full_scope/full_scope_geoai_map.html
+
+## Block environment and combined index
+
+file:///Users/nalinikantheti/Documents/ChatGPT/EmPath/output/clean_deliverables/combined_environment_map.html
+
+## Walking graph and places of interest
+
+file:///Users/nalinikantheti/Documents/ChatGPT/EmPath/output/four_zip_walking_network/walking_scope_map_carto.html
+
+## Shaded trail candidates
+
+file:///Users/nalinikantheti/Documents/ChatGPT/EmPath/output/trail_finder/shaded_trail_candidates.html
+
+## GeoAI tree predictions and illustrative routes
+
+file:///Users/nalinikantheti/Documents/ChatGPT/EmPath/output/vegetation_geoai/geoai_canopy_routes.html
+
+## Individual map-layer figures
+
+file:///Users/nalinikantheti/Documents/ChatGPT/EmPath/output/document_layers/index.html
+
+## Sharing folder
+
+file:///Users/nalinikantheti/Documents/ChatGPT/EmPath/output/team_share
+
+See docs/SHARE_EMPATH_MAPS.md for Google Sites embed instructions.

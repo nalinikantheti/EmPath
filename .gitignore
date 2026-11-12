@@ -8,3 +8,37 @@ __pycache__/
 *.log
 data/raw/
 data/processed/
+
+# Generated authenticated basemap HTML contains a browser-visible CARTO key.
+output/clean_deliverables/combined_environment_map.html
+
+# Generated authenticated basemap HTML contains a browser-visible CARTO key.
+output/four_zip_walking_network/walking_scope_map.html
+
+output/four_zip_walking_network/walking_scope_map_carto.html
+
+output/trail_finder/shaded_trail_candidates.html
+
+# Imagery/model caches and derived inference tiles
+data/imagery/
+output/vegetation_geoai/
+
+data/models/
+
+# Authenticated generated team sharing bundle
+output/team_share/
+
+# Generated embed text contains browser-visible basemap key
+output/google_sites_embed/
+.venv-geoai-arm/
+output/geoai_full_scope/
+
+# Netlify build output includes browser-visible basemap key
+netlify_site/dist/
+
+# Cached Landsat imagery and temperature products
+output/landsat_heat/
+
+# Keep generated analysis products and scratch files local.
+/output/
+/tmp/

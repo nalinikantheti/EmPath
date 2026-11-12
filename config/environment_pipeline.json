@@ -1,0 +1,38 @@
+{
+  "scope": "output/four_zip_walking_network/zip_boundaries.geojson",
+  "blocks": "data/processed/census_blocks_2020/blocks.gpkg",
+  "block_id": "GEOID20",
+  "edges": "output/four_zip_walking_network/walking_network.gpkg",
+  "edge_layer": "edges",
+  "edge_sample_limit": 1000000,
+  "edge_buffer_m": 10,
+  "output": "output/environment_features",
+  "rasters": [
+    {
+      "name": "canopy",
+      "path": "output/canopy_2021/canopy_scope_2021.tif",
+      "band": 1,
+      "units": "estimated percent canopy from verified class midpoints",
+      "valid_min": 0,
+      "valid_max": 100,
+      "bins": [
+        20,
+        40,
+        60,
+        80
+      ],
+      "source": "https://zenodo.org/records/8200761",
+      "vintage": "2021",
+      "polygonize": false
+    },
+    {
+      "name": "temperature",
+      "path": null,
+      "band": 1,
+      "units": null,
+      "source": null,
+      "vintage": null,
+      "polygonize": false
+    }
+  ]
+}

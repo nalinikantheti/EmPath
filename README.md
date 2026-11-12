@@ -112,3 +112,20 @@ The **Run and Debug** entry **EmPath: walking graph (all four ZIP areas)** runs 
 Use a specific public landmark/address to control the center; a city name uses the geocoder's representative point. Outputs include GraphML, a GeoPackage, node/edge CSVs, a PNG and a connectivity/provenance summary. The largest weakly connected component is used; all mapped components are also saved for audit. Load the graph with `ox.io.load_graphml("output/walking_network/walking_network.graphml")`. Nodes are simplified junctions/dead ends and edges are walkable mapped segments with lengths in meters. Reciprocal directed edges are not separate physical paths. Buildings require separate extraction and validated entrance connections. This is a baseline OSM network, not a validated sidewalk/crossing network; compare it with the Plano GIS layers before routing.
 
 Build and audit the pedestrian graph, join edge-level environmental features, define the training target, and calibrate nonnegative edge costs against appropriate observations. Keep training, routing, and the map interface separate so their assumptions remain inspectable.
+
+
+## Environmental cleaning and GeoAI notebooks
+
+- `notebooks/06_environment_rasters_and_overlays.ipynb`: raster validation/clipping, optional classified polygons, census-block and sample edge summaries, and inspection maps.
+- `notebooks/07_geoai_tree_extraction.ipynb`: optional pretrained SamGeo tree extraction on a small RGB aerial tile; inference is disabled until explicitly enabled with real imagery.
+- `config/environment_pipeline.json`: set input paths, units, dates, scale/offset if required and output limits.
+- `docs/ENVIRONMENT_OUTPUTS.md`: deliverables, required maps, relevant libraries, missing inputs and local PROJ workaround.
+
+Open the notebooks with **Python (EmPath)**. Base GIS processing uses existing dependencies. Optional ML dependencies are separate in `requirements-geoai-optional.txt`; no model weights or heavy libraries are installed automatically. Real raster/block inputs are currently unconfigured; successful missing-input checks do not mean environmental data or GeoAI inference have been completed.
+
+
+## Current cleaned deliverables
+
+Start with **`notebooks/08_clean_deliverables.ipynb`** for the actual saved outputs, maps and quality checks. The two main datasets are `output/clean_deliverables/block_environment.gpkg` and `output/clean_deliverables/walking_graph.graphml`; the GeoJSON/CSV/edge layers are convenience views, not separate analytical products. Open `output/clean_deliverables/combined_environment_map.html` for the merged inspection map.
+
+Real 2021 canopy, 2025 regional summer-afternoon NOAA weather, and public TxDOT traffic-road context are joined. See `output/clean_deliverables/README.md` for coverage, source status, the pending full canopy-archive checksum and reproducible commands. New imagery-model inference and learned friction costs have not run; access/crossing validation remains necessary.

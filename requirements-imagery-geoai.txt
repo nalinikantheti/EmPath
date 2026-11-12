@@ -1,0 +1,6 @@
+# Compatible with the project's current x86_64 Python 3.12 environment on macOS.
+# Use the existing EmPath .venv; base GIS dependencies are already installed.
+torch==2.2.2
+torchvision==0.17.2
+transformers==4.44.2
+safetensors

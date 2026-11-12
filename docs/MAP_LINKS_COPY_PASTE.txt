@@ -1,0 +1,27 @@
+EmPath — shareable web links
+
+All maps embedded on one homepage:
+https://empathmaps.netlify.app/
+
+Quick GeoAI previews:
+https://empathmaps.netlify.app/#quick-look
+
+Full four-ZIP GeoAI map:
+https://empathmaps.netlify.app/maps/geoai_full_scope.html
+
+Original block layers and provisional walking friction:
+https://empathmaps.netlify.app/maps/environment.html
+
+Walking network and places of interest:
+https://empathmaps.netlify.app/maps/walking_network.html
+
+Close-up GeoAI imagery demonstration:
+https://empathmaps.netlify.app/maps/geoai_routes.html
+
+Trail candidates:
+https://empathmaps.netlify.app/maps/shaded_trails.html
+
+Document figures:
+https://empathmaps.netlify.app/figures/index.html
+
+The full-area GeoAI map has predictions for all four scoped ZIP areas. The close-up imagery map illustrates four example tiles. Imagery coverage is not a measure of prediction accuracy. Routes and shade proxies remain unvalidated locally.

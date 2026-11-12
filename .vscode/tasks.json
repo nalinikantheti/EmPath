@@ -58,6 +58,40 @@
         "cwd": "${workspaceFolder}"
       },
       "problemMatcher": []
+    },
+    {
+      "label": "EmPath: environmental raster pipeline",
+      "type": "process",
+      "command": "/usr/bin/env",
+      "args": [
+        "-u",
+        "PROJ_DATA",
+        "-u",
+        "GDAL_DATA",
+        "${workspaceFolder}/.venv/bin/python",
+        "scripts/environment_pipeline.py"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "EmPath: package cleaned block and graph datasets",
+      "type": "process",
+      "command": "/usr/bin/env",
+      "args": [
+        "-u",
+        "PROJ_DATA",
+        "-u",
+        "GDAL_DATA",
+        "${workspaceFolder}/.venv/bin/python",
+        "scripts/package_clean_deliverables.py"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": []
     }
   ]
 }

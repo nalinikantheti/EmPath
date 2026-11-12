@@ -1,0 +1,46 @@
+{
+  "source": "USGS Landsat Collection 2 Level-2 Tier 1 Surface Temperature (Landsat 8/9), accessed via Microsoft Planetary Computer",
+  "period": "2025-06-01 through 2025-08-31",
+  "scenes": 11,
+  "unique_acquisition_dates": 11,
+  "local_acquisition_times": [
+    "2025-08-24T12:02:19.679585-05:00",
+    "2025-08-16T12:02:15.308672-05:00",
+    "2025-08-08T12:02:12.939181-05:00",
+    "2025-07-31T12:02:06.329213-05:00",
+    "2025-07-23T12:02:04.026441-05:00",
+    "2025-07-15T12:02:02.021674-05:00",
+    "2025-07-07T12:01:55.829720-05:00",
+    "2025-06-29T12:01:57.661356-05:00",
+    "2025-06-21T12:01:51.475500-05:00",
+    "2025-06-13T12:01:49.310527-05:00",
+    "2025-06-05T12:01:36.768716-05:00"
+  ],
+  "scale_formula_celsius": "DN * 0.00341802 + 149 - 273.15",
+  "qa_policy": "Mask QA_PIXEL bits 0\u20135, medium/high cloud and cirrus confidence, ST_QA > 3 K, distance to cloud < 1 km; keep water unless separately masked by QA. Require >=3 valid acquisition dates per pixel.",
+  "native_thermal_resolution_m": 100,
+  "delivered_grid_m": 30,
+  "spatial_aggregation": "Block mean of pixelwise temporal medians, pixel-center inclusion; small blocks without centers remain missing. Not independent temperature sensors in every block.",
+  "scope_pixel_coverage_fraction": 0.9905361403406989,
+  "blocks": 2862,
+  "blocks_with_temperature": 2718,
+  "temperature_range_c": [
+    34.675140380859375,
+    56.218902587890625
+  ],
+  "minimum_dates_per_composite_pixel": 3,
+  "existing_friction_score_changed": false,
+  "limitations": [
+    "Clear-sky satellite surface temperature, not pedestrian air temperature, heat index, or daily maximum.",
+    "30 m pixels are resampled from 100 m thermal information.",
+    "Only actual overpass times are represented; this is not a June\u2013August peak-hour average.",
+    "Uneven valid observations and small-block sampling must be reviewed.",
+    "Summer 2025 temperature differs in vintage from 2022 NAIP and 2021 published canopy."
+  ],
+  "references": [
+    "https://www.usgs.gov/landsat-missions/landsat-collection-2-surface-temperature",
+    "https://www.usgs.gov/landsat-missions/landsat-collection-2-quality-assessment-bands"
+  ],
+  "new_three_factor_index_created": true,
+  "friction_note": "Earlier two-factor scores retained; the current map uses the separate provisional_walking_friction_heat_0_100 field."
+}

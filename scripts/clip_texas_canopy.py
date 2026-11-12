@@ -27,14 +27,24 @@ def download_source(folder):
     archive = folder / 'TX_10m_canopy_cover_2021.zip'
     if not archive.exists():
         partial = archive.with_suffix('.zip.part')
-        with requests.get(URL, stream=True, timeout=(30, 180)) as response:
+        # Resume an interrupted download only when the server confirms the exact range.
+        resume = partial.stat().st_size if partial.exists() else 0
+        headers = {'Range': f'bytes={resume}-'} if resume else {}
+        with requests.get(URL, headers=headers, stream=True, timeout=(30, 180)) as response:
             response.raise_for_status()
-            with partial.open('wb') as stream:
-                total = 0
+            if resume and response.status_code != 206:
+                raise RuntimeError('Server did not confirm resume; retain partial file and retry with a new cache directory.')
+            if resume and not response.headers.get('Content-Range', '').startswith(f'bytes {resume}-'):
+                raise RuntimeError('Resume range mismatch; existing partial file was not modified.')
+            with partial.open('ab' if resume else 'wb') as stream:
+                total = resume
+                last = resume
                 for chunk in response.iter_content(8 * 1024 * 1024):
                     stream.write(chunk)
                     total += len(chunk)
-                    print(f'Downloaded {total / 1e6:.0f} MB', flush=True)
+                    if total - last >= 128 * 1024 * 1024:
+                        print(f'Downloaded {total / 1e6:.0f} MB', flush=True)
+                        last = total
         partial.replace(archive)
     digest = hashlib.md5()
     with archive.open('rb') as stream:
@@ -75,7 +85,7 @@ def prepare_scope(boundaries, zipcodes, full_zctas, output):
     return scope
 
 
-def clip_one(src, geometries, target):
+def clip_one(src, geometries, target, class_coded=False):
     # crop=True reads only the bounding window, not the statewide pixel array.
     data, transform = mask(src, geometries, crop=True, filled=False, indexes=1)
     scaled = data.astype('float32') * src.scales[0] + src.offsets[0]
@@ -84,12 +94,15 @@ def clip_one(src, geometries, target):
         raise ValueError('No valid canopy pixels intersect this scope')
     if valid.min() < 0 or valid.max() > 100:
         raise ValueError('Values are outside 0–100: inspect source class key/NoData before mapping')
+    if class_coded:
+        from decode_canopy_classes import decode_classes
+        scaled = decode_classes(scaled)
     profile = dict(driver='GTiff', height=data.shape[0], width=data.shape[1], count=1,
                    dtype='float32', crs=src.crs, transform=transform, nodata=-9999,
                    compress='deflate', tiled=True)
     with rasterio.open(target, 'w', **profile) as dst:
         dst.write(scaled.filled(-9999), 1)
-        dst.update_tags(source=URL, vintage='2021', units='percent canopy cover',
+        dst.update_tags(source=URL, vintage='2021', units='estimated percent from verified class midpoints' if class_coded else 'percent canopy cover',
                         boundary_rule='pixel center inside polygon; outside and source NoData masked')
     return scaled, transform
 
@@ -113,9 +126,9 @@ def main():
         if src.crs is None or src.count != 1:
             raise ValueError('Expected a georeferenced, single-band canopy raster')
         projected = scope.to_crs(src.crs)
-        image, transform = clip_one(src, projected.geometry.tolist(), args.output / 'canopy_scope_2021.tif')
+        image, transform = clip_one(src, projected.geometry.tolist(), args.output / 'canopy_scope_2021.tif', class_coded=True)
         for _, row in projected.iterrows():
-            clip_one(src, [row.geometry], args.output / f'canopy_{row.ZCTA5}_2021.tif')
+            clip_one(src, [row.geometry], args.output / f'canopy_{row.ZCTA5}_2021.tif', class_coded=True)
         fig, ax = plt.subplots(figsize=(10, 9))
         plot = ax.imshow(image, extent=plotting_extent(image, transform), cmap='YlGn', vmin=0, vmax=100)
         projected.boundary.plot(ax=ax, color='#333333', linewidth=.8)

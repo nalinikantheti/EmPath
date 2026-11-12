@@ -77,7 +77,7 @@ def create_maps(graph, scope, pois, output, node_radius):
         points = points.to_crs(4326)
     bounds = scope.total_bounds
     m = folium.Map(location=[(bounds[1] + bounds[3]) / 2, (bounds[0] + bounds[2]) / 2],
-                   tiles='CartoDB positron', prefer_canvas=True, control_scale=True)
+                   tiles='OpenStreetMap', prefer_canvas=True, control_scale=True)
     network_layer = folium.FeatureGroup(name='Walking segments', show=True)
     folium.GeoJson(json.loads(physical_edges[['geometry']].to_json()),
                    style_function=lambda _: {'color': '#334155', 'weight': 1.5, 'opacity': .8}).add_to(network_layer)
