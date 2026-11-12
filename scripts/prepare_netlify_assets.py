@@ -6,7 +6,7 @@ from carto_basemap import load_key
 ROOT=Path(__file__).resolve().parents[1];DEST=ROOT/'netlify_site/src'
 def main():
  key=load_key();encoded=quote(key,safe='')
- sources={'geoai_full_scope.html':'output/geoai_full_scope/full_scope_geoai_map.html','environment.html':'output/clean_deliverables/all_layers_map.html','walking_network.html':'output/four_zip_walking_network/walking_scope_map_carto.html','geoai_routes.html':'output/vegetation_geoai/geoai_canopy_routes.html','shaded_trails.html':'output/trail_finder/shaded_trail_candidates.html'}
+ sources={'block_accessibility.html':'output/block_accessibility/block_accessibility_map.html','weighted_walking_network.html':'output/weighted_walking_network/block_proxy_weighted_network.html','geoai_full_scope.html':'output/geoai_full_scope/full_scope_geoai_map.html','environment.html':'output/clean_deliverables/all_layers_map.html','walking_network.html':'output/four_zip_walking_network/walking_scope_map_carto.html','geoai_routes.html':'output/vegetation_geoai/geoai_canopy_routes.html','shaded_trails.html':'output/trail_finder/shaded_trail_candidates.html'}
  for name,source in sources.items():
   text=(ROOT/source).read_text();text=text.replace(encoded,'__EMPATH_CARTO_PUBLIC_KEY__').replace(key,'__EMPATH_CARTO_PUBLIC_KEY__')
   if key in text or encoded in text:raise RuntimeError('Credential stripping failed')

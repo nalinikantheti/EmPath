@@ -11,7 +11,8 @@ from rasterio.vrt import WarpedVRT
 from rasterio.enums import Resampling
 from rasterio.features import geometry_mask,rasterize,shapes
 from shapely.geometry import box,shape,mapping
-ROOT=Path(__file__).resolve().parents[1];OUT=ROOT/'output/geoai_full_scope';CRS=26914
+ROOT=Path(__file__).resolve().parents[1];OUT=Path(os.environ.get('EMPATH_GEOAI_OUTPUT',str(ROOT/'output/geoai_full_scope')));CRS=26914
+SCOPE_FILE=Path(os.environ.get('EMPATH_SCOPE_FILE',str(ROOT/'output/four_zip_walking_network/zip_boundaries.geojson')))
 RES=.6;CORE=896;HALO=64
 
 def status(**kwargs):
@@ -21,7 +22,7 @@ def status(**kwargs):
  temp=p.with_suffix('.tmp');temp.write_text(json.dumps(current,indent=2));temp.replace(p)
  print(json.dumps(kwargs),flush=True)
 
-def scope():return gpd.read_file(ROOT/'output/four_zip_walking_network/zip_boundaries.geojson').to_crs(CRS)
+def scope():return gpd.read_file(SCOPE_FILE).to_crs(CRS)
 
 def acquire_sources():
  OUT.mkdir(exist_ok=True,parents=True);folder=OUT/'imagery';folder.mkdir(exist_ok=True)
@@ -75,7 +76,7 @@ def plan():
   for col in range(0,width,CORE):
    w=min(CORE,width-col);h=min(CORE,height-row);bounds=rasterio.windows.bounds(Window(col,row,w,h),transform)
    if region.intersection(box(*bounds)).area>0:tiles.append({'id':f'r{row:05d}_c{col:05d}','row':row,'col':col,'width':w,'height':h})
- cfg={'resolution_m':RES,'core_pixels':CORE,'halo_pixels':HALO,'width':width,'height':height,'transform':list(transform)[:6],'tiles':tiles,'model':'restor/tcd-segformer-mit-b0','year':2022,'scope_zips':['75023','75024','75025','75074']}
+ cfg={'resolution_m':RES,'core_pixels':CORE,'halo_pixels':HALO,'width':width,'height':height,'transform':list(transform)[:6],'tiles':tiles,'model':'restor/tcd-segformer-mit-b0','year':2022,'scope_zips':s.ZCTA5.astype(str).tolist() if 'ZCTA5' in s else [],'scope_file':str(SCOPE_FILE)}
  OUT.mkdir(parents=True,exist_ok=True);(OUT/'tile_plan.json').write_text(json.dumps(cfg,indent=2));return cfg
 
 def infer():

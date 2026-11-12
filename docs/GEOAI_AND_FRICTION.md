@@ -1,5 +1,7 @@
 # GeoAI and the walking-friction model
 
+**Historical stage notes below:** imagery inference and routing were subsequently implemented. For the current status, including full-area pretrained tree segmentation, Landsat inputs and tested edge costs, use `docs/STEP3_FRICTION_HANDOFF.md` and Notebook 17. Statements below about inference not yet running describe the earlier stage.
+
 ## What has actually run
 
 - Environmental cleaning, overlays, canopy-class decoding and traffic normalization: GIS/statistical processing, not a newly fitted AI model.

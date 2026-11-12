@@ -19,3 +19,7 @@ Keep all feasible pedestrian alternatives in the underlying graph. Calculate dis
 4. Compare baseline routes with documented, nonnegative friction costs. GeoAI-derived preference estimates remain separate from the structural network checks.
 
 Notebook 11 performs nearest-node screening. It never certifies access, adds unverified straight connectors, or automatically repairs barriers. Network travel times assume 1.2 m/s and omit connector travel and crossing waits.
+
+## Step 3 handoff update
+
+Full-area GeoAI and Landsat inputs now exist. See `docs/STEP3_FRICTION_HANDOFF.md` and Notebook 17 for current feature coverage, missing inputs and tested cost scenarios. Core preparation is sufficient to begin prototype modeling; this does not close the entrance, crossing and connectivity validation gaps above.

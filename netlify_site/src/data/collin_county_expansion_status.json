@@ -1,0 +1,43 @@
+{
+  "scope": "Collin County, Texas",
+  "fips": "48085",
+  "source": "https://tigerweb.geo.census.gov/arcgis/rest/services/Census2020/tigerWMS_Census2020/MapServer",
+  "retrieved_utc": "2026-11-12T16:22:43.124628+00:00",
+  "census_blocks": 16324,
+  "county_area_km2": 2295.4624724809355,
+  "pilot_area_km2": 124.11950447893062,
+  "county_area_covered_by_pilot_km2": 119.88288879860782,
+  "status": "County geography acquired; full county weighted network, environmental feature coverage and destination inventory NOT yet acquired or scored.",
+  "block_scores": "Current four-ZIP scores remain pilot-only. County extension must rerun routes across a connected county network and include a boundary buffer, not extrapolate pilot scores.",
+  "repaired_block_ids": [
+    "480850311021012",
+    "480850302023019",
+    "480850313361049",
+    "480850313243003",
+    "480850314181024",
+    "480850304071007",
+    "480850314151011",
+    "480850305171000",
+    "480850313141016",
+    "480850315101015",
+    "480850305111018",
+    "480850305182050",
+    "480850314232004",
+    "480850313262007",
+    "480850302072032",
+    "480850320183009",
+    "480850304031007"
+  ],
+  "block_geometry_valid": true,
+  "unique_ids": true,
+  "next_steps": [
+    "Acquire county walking network plus a routing buffer; audit OSM access and connectivity.",
+    "Acquire county POIs including verified temples and entrances.",
+    "Extend NAIP GeoAI/heat/traffic coverage and choose consistent normalization references.",
+    "Join features and benchmark weights, then rerun nearest-category accessibility for county blocks."
+  ],
+  "network_acquisition_note": "Standard POST Overpass queries now work; GET requests were rejected. County network not yet acquired.",
+  "planned_geoai_tiles": 8085,
+  "geoai_status": "Resumable county tile plan created; inference NOT run.",
+  "county_to_pilot_area_ratio": 18.49397064641514
+}
