@@ -39,4 +39,4 @@ P2 and P98 are the 2nd and 98th percentiles of valid raw burdens in the displaye
 
 ## Scope and status
 
-The four-ZIP prototype completes the computational sequence from environmental proxies through weighted routing to block accessibility. This is an operational proof of concept, not a validated production navigation or housing-recommendation system. Collin County geography has been acquired; countywide network/environmental inputs and scores remain unfinished. Five Hindu-temple address candidates are included; the catalog is not exhaustive, and one directory-sourced address is flagged for review.
+The Plano city prototype completes the computational sequence from environmental proxies through weighted routing to block accessibility. This is an operational proof of concept, not a validated production navigation or housing-recommendation system. Collin County geography has been acquired; countywide network/environmental inputs and scores remain unfinished. Five Hindu-temple address candidates are included; the catalog is not exhaustive, and one directory-sourced address is flagged for review.

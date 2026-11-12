@@ -1,17 +1,18 @@
 """Explicit block-overlay proxy weights; never creates pedestrian geometry."""
 from pathlib import Path
-import json
+import os,json
 import numpy as np
 import pandas as pd
 import geopandas as gpd
 ROOT=Path(__file__).resolve().parents[1]
-OUT=ROOT/'output/step3_friction'
+OUT=Path(os.environ.get('EMPATH_FRICTION_OUTPUT',str(ROOT/'output/step3_friction')))
 MAX_NEARBY_BLOCK_M=250
 
 
 def run():
- edges=gpd.read_file(ROOT/'output/geoai_full_scope/ai_walking_edges.gpkg')[['u','v','key','length','geometry']].to_crs(26914).reset_index(drop=True)
- blocks=gpd.read_file(ROOT/'output/geoai_full_scope/ai_block_environment.gpkg').to_crs(26914).reset_index(drop=True)
+ OUT.mkdir(parents=True,exist_ok=True)
+ edges=gpd.read_file(Path(os.environ.get('EMPATH_EDGE_INPUT',str(ROOT/'output/geoai_full_scope/ai_walking_edges.gpkg'))))[['u','v','key','length','geometry']].to_crs(26914).reset_index(drop=True)
+ blocks=gpd.read_file(Path(os.environ.get('EMPATH_BLOCK_INPUT',str(ROOT/'output/geoai_full_scope/ai_block_environment.gpkg')))).to_crs(26914).reset_index(drop=True)
  blocks['block_canopy_deficit_01']=1-blocks.ai_canopy_cover_pct/100
  blocks['block_traffic_burden_01']=blocks.traffic_index_0_100/100
  blocks['block_heat_burden_01']=blocks.temperature_burden_01

@@ -1,4 +1,7 @@
 {
+  "scope": "Official Plano municipal boundary",
+  "poi_buffer_m": 1000,
+  "citywide": true,
   "edge_formula": "w_e = length_m / 1.2 * [1 + (block canopy deficit + block traffic burden + block heat burden)/3]",
   "nearest_category": "C_k(b) = min over destinations d in category k of weighted shortest-path cost from snapped block reference node to snapped destination node",
   "aggregate": "A(b) = sum_k C_k(b) / number_of_categories; all selected categories must be reachable. Sum and worst trip are also exported. Equal category weights are assumptions.",
@@ -30,25 +33,25 @@
       "pharmacy"
     ]
   },
-  "color_only": "0\u2013100 display uses 2nd\u201398th percentile stretch of complete-block mean costs within the four-ZIP pilot, clipped at extremes. Blue=lower burden; red=higher. Raw costs remain equivalent minutes.",
+  "color_only": "0\u2013100 display uses 2nd\u201398th percentile stretch of complete-block mean costs within the study scope, clipped at extremes. Blue=lower burden; red=higher. Raw costs remain equivalent minutes.",
   "color_scale_parameters": {
     "all_categories": {
-      "mean_cost_equiv_min_at_2nd_percentile": 56.201465034386004,
-      "mean_cost_equiv_min_at_98th_percentile": 171.00018930027923
+      "mean_cost_equiv_min_at_2nd_percentile": 38.39797091013075,
+      "mean_cost_equiv_min_at_98th_percentile": 112.44962832691728
     },
     "essential": {
-      "mean_cost_equiv_min_at_2nd_percentile": 22.189639631413122,
-      "mean_cost_equiv_min_at_98th_percentile": 166.58857639151935
+      "mean_cost_equiv_min_at_2nd_percentile": 24.052444738540604,
+      "mean_cost_equiv_min_at_98th_percentile": 112.60158503207462
     }
   },
-  "weighted_edges": 93450,
-  "excluded_unknown_edges": 2,
-  "blocks": 2862,
-  "pois": 390,
+  "weighted_edges": 193128,
+  "excluded_unknown_edges": 0,
+  "blocks": 4402,
+  "pois": 883,
   "temple_candidates": 5,
   "missing": "Any unreachable selected category means unknown overall score; not zero and not average of only reachable services.",
   "snapping": "Block representative points and POI mapped positions snap to nearest original graph junction. Connector gaps are reported; >100 m flagged. Access/entrances not verified and gap travel/crossing waits omitted.",
-  "inventory": "All 2,862 blocks scored as geographic reference nodes, including nonresidential land. Address counts do not establish residential use. POI catalog is incomplete and confined to pilot; boundary effects can inflate costs.",
+  "inventory": "Blocks are scored as geographic reference nodes, including nonresidential land. Address counts do not establish residential use. POI catalog is incomplete. City mode includes a 1000 m routing/destination buffer; boundary effects can still inflate costs.",
   "temples": "Five curated Hindu temple address candidates matched to Plano address points. Sources in config/accessibility_temples.json. Raghunath street address is directory-sourced and needs review; other addresses matched official websites. Parcel points are not entrances. Catalog is not all religions or all temples.",
   "graph": "Detailed graph has finite weights only. Activity graph contains one edge per block to the nearest reachable POI in each category; no block-block or POI-POI edges.",
   "validation": {

@@ -1,3 +1,14 @@
+## Current scope: whole City of Plano
+
+The live prototype uses Plano’s official municipal limits, 4,402 city block references, and a 1 km routing/destination buffer. Select service categories, choose a ranked housing-positive block, and inspect its actual lowest-friction walking routes.
+
+- App: https://empathmaps.netlify.app/app.html
+- Evaluation: https://empathmaps.netlify.app/validation.html
+- Current notebook: `notebooks/23_plano_city_and_route_evaluation.ipynb`
+- Scope, data vintages and limits: `docs/PLANO_CITY_STATUS.md`
+
+Use `EMPATH_CITY_MODE=1` with city-aware scoring, map and frontend generators. Earlier notebooks and ZIP maps remain historical pilot stages. Large caches, generated graph files and authenticated local HTML stay out of Git. The deployed site uses a server-side basemap proxy.
+
 # EmPath
 
 A Python-only research project exploring pedestrian heat-protective infrastructure in Plano, Texas.

@@ -1,0 +1,2 @@
+# Optional native Python dependency for verified Geofabrik PBF extraction.
+osmium>=4,<5

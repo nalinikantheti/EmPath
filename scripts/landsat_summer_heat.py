@@ -2,7 +2,7 @@
 A temporal median of clear observations, not air temperature or daily maximum heat.
 """
 from pathlib import Path
-import json,math,concurrent.futures,warnings,time
+import os,json,math,concurrent.futures,warnings,time
 from urllib.parse import urlsplit
 from datetime import datetime
 from zoneinfo import ZoneInfo
@@ -14,7 +14,9 @@ from rasterio.transform import from_origin
 from rasterio.features import geometry_mask
 from rasterio.windows import from_bounds,Window
 from shapely.geometry import mapping
-ROOT=Path(__file__).resolve().parents[1];OUT=ROOT/'output/landsat_heat';NODATA=-9999.
+ROOT=Path(__file__).resolve().parents[1];OUT=Path(os.environ.get('EMPATH_HEAT_OUTPUT',str(ROOT/'output/landsat_heat')));NODATA=-9999.
+SCOPE_FILE=Path(os.environ.get('EMPATH_HEAT_SCOPE',str(ROOT/'output/four_zip_walking_network/zip_boundaries.geojson')))
+BLOCK_FILE=Path(os.environ.get('EMPATH_HEAT_BLOCKS',str(ROOT/'output/clean_deliverables/block_environment.gpkg')))
 
 def quality_mask(dn,qa,uncertainty,cloud_distance):
     # USGS QA_PIXEL bits 0–5: fill, dilated cloud, cirrus, cloud, shadow, snow.
@@ -25,7 +27,7 @@ def quality_mask(dn,qa,uncertainty,cloud_distance):
 
 def main():
  OUT.mkdir(exist_ok=True,parents=True);cache=OUT/'scenes';cache.mkdir(exist_ok=True)
- scope=gpd.read_file(ROOT/'output/four_zip_walking_network/zip_boundaries.geojson').to_crs(26914)
+ scope=gpd.read_file(SCOPE_FILE).to_crs(26914)
  bounds=scope.total_bounds;left=math.floor(bounds[0]/30)*30;top=math.ceil(bounds[3]/30)*30
  width=math.ceil((bounds[2]-left)/30);height=math.ceil((top-bounds[1])/30);tf=from_origin(left,top,30,30)
  inside=geometry_mask([mapping(scope.geometry.union_all())],out_shape=(height,width),transform=tf,invert=True)
@@ -83,7 +85,7 @@ def main():
  with rasterio.open(OUT/'summer_2025_surface_temperature_c.tif','w',dtype='float32',nodata=NODATA,**profile) as dst:
   dst.write(np.where(np.isfinite(median),median,NODATA).astype('float32'),1);dst.update_tags(units='degree Celsius',statistic='median of quality-screened acquisition-day observations, June–August 2025',note='surface temperature, not air temperature or daily maximum; 100 m native thermal resolution resampled to 30 m; minimum 3 valid dates')
  with rasterio.open(OUT/'summer_2025_valid_observation_dates.tif','w',dtype='uint16',nodata=65535,**profile) as dst:dst.write(np.where(inside,count,65535).astype('uint16'),1)
- blocks=gpd.read_file(ROOT/'output/clean_deliverables/block_environment.gpkg').to_crs(26914)
+ blocks=gpd.read_file(BLOCK_FILE).to_crs(26914)
  stats=[]
  for geom in blocks.geometry:
   w=from_bounds(*geom.bounds,transform=tf);col=max(0,math.floor(w.col_off));row=max(0,math.floor(w.row_off));endcol=min(width,math.ceil(w.col_off+w.width));endrow=min(height,math.ceil(w.row_off+w.height))

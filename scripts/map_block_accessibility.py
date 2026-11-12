@@ -1,6 +1,6 @@
 """Network-derived block accessibility choropleth, replacing environmental proxy default."""
 from pathlib import Path
-import json,gzip,base64,re,shutil
+import os,json,gzip,base64,re,shutil
 import geopandas as gpd
 import pandas as pd
 import numpy as np
@@ -8,7 +8,8 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from carto_basemap import tiles_url,ATTR,load_key
-ROOT=Path(__file__).resolve().parents[1];OUT=ROOT/'output/block_accessibility'
+ROOT=Path(__file__).resolve().parents[1];CITY_MODE=os.environ.get('EMPATH_CITY_MODE')=='1';OUT=ROOT/('output/plano_city/accessibility' if CITY_MODE else 'output/block_accessibility')
+SCOPE_FILE=ROOT/('data/processed/plano_reference/plano_city_boundary.gpkg' if CITY_MODE else 'output/four_zip_walking_network/zip_boundaries.geojson')
 
 def packed(data):return base64.b64encode(gzip.compress(json.dumps(data,separators=(',',':'),allow_nan=False).encode(),compresslevel=7)).decode()
 
@@ -24,19 +25,20 @@ const accessibilityLegend=L.control({position:'bottomright'});accessibilityLegen
 
 def run():
  b=gpd.read_file(OUT/'block_accessibility.gpkg');pois=gpd.read_file(OUT/'accessibility_pois.gpkg').to_crs(4326)
- fields=['GEOID20','representative_address','mapped_address_count','access_network_node','access_snap_gap_m','access_connection_needs_review']+[c for c in b if c.startswith('access_all_categories_') or c.startswith('access_essential_')]
+ fields=[c for c in ['HU100','POP100','city_area_fraction'] if c in b]+['GEOID20','representative_address','mapped_address_count','access_network_node','access_snap_gap_m','access_connection_needs_review']+[c for c in b if c.startswith('access_all_categories_') or c.startswith('access_essential_')]
  slim=b[fields+['geometry']].to_crs(4326)
  # GeoPandas converts NaN to JSON null; reserialize strictly for the embedded viewer.
  blocks=json.loads(slim.to_json(drop_id=True))
  table=pd.read_csv(OUT/'nearest_category_costs.csv',dtype={'GEOID20':str}).replace({np.nan:None})
  details={}
  for r in table.to_dict('records'):details.setdefault(r['GEOID20'],[]).append(r)
- zones=json.loads(gpd.read_file(ROOT/'output/four_zip_walking_network/zip_boundaries.geojson').to_crs(4326).to_json(drop_id=True))
- cols=['poi_id','name','category','snap_gap_m','source_url','address_status','geometry']
+ zones=json.loads(gpd.read_file(SCOPE_FILE).to_crs(4326).to_json(drop_id=True))
+ cols=['network_node','poi_id','name','category','snap_gap_m','source_url','address_status','geometry']
  poidata=json.loads(pois[cols].to_json(drop_id=True))
  for profile in ['all_categories','essential']:
   f,ax=plt.subplots(figsize=(12,8));b.plot(ax=ax,column=f'access_{profile}_burden_0_100',cmap='RdYlBu_r',vmin=0,vmax=100,linewidth=0,legend=True,legend_kwds={'label':'Relative accessibility burden · lower = blue, higher = red','shrink':.7},missing_kwds={'color':'#adb5bd'})
-  scope=gpd.read_file(ROOT/'output/four_zip_walking_network/zip_boundaries.geojson').to_crs(b.crs);scope.boundary.plot(ax=ax,color='#333',linewidth=.8)
+  scope=gpd.read_file(SCOPE_FILE).to_crs(b.crs);scope['ZCTA5']='Plano' if CITY_MODE else scope.ZCTA5
+  scope.boundary.plot(ax=ax,color='#333',linewidth=.8)
   for r in scope.itertuples():
    pt=r.geometry.representative_point();ax.text(pt.x,pt.y,str(r.ZCTA5),ha='center',weight='bold',bbox={'facecolor':'white','alpha':.8,'edgecolor':'none'})
   ax.set_axis_off();ax.set_title('Network-derived block walking accessibility · '+('all POI categories' if profile=='all_categories' else 'temple, grocery and pharmacy'))
@@ -57,7 +59,7 @@ const control=L.control({position:'topleft'});control.onAdd=()=>{const d=L.DomUt
  (OUT/'block_accessibility_map.html').write_text(html)
  # Preserve original nine-layer viewer; replace its old provisional default with network-derived layer.
  original=ROOT/'output/clean_deliverables/all_layers_map.html'
- if original.exists():
+ if original.exists() and not CITY_MODE:
   s=original.read_text();backup=original.with_name('all_layers_before_network_accessibility.html')
   if not backup.exists():shutil.copy2(original,backup)
   if 'const accBlocks=' not in s:
@@ -75,7 +77,7 @@ const control=L.control({position:'topleft'});control.onAdd=()=>{const d=L.DomUt
  # Safe website snapshots, without publishing or exposing the local key.
  key=load_key();from urllib.parse import quote
  dest=ROOT/'netlify_site/src';(dest/'maps').mkdir(exist_ok=True)
- for name,path in [('block_accessibility.html',OUT/'block_accessibility_map.html'),('environment.html',original),('weighted_walking_network.html',ROOT/'output/weighted_walking_network/block_proxy_weighted_network.html')]:
+ for name,path in ([('block_accessibility.html',OUT/'block_accessibility_map.html')] if CITY_MODE else [('block_accessibility.html',OUT/'block_accessibility_map.html'),('environment.html',original),('weighted_walking_network.html',ROOT/'output/weighted_walking_network/block_proxy_weighted_network.html')]):
   text=path.read_text().replace(quote(key,safe=''),'__EMPATH_CARTO_PUBLIC_KEY__').replace(key,'__EMPATH_CARTO_PUBLIC_KEY__')
   assert key not in text
   (dest/'maps'/name).write_text(text)

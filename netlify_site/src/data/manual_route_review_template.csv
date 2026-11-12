@@ -1,0 +1,9 @@
+GEOID20,sample_reason,snap_gap_m,review_status,entrance_and_connector_check,crossings_and_barriers_check,public_access_and_destination_check,trail_vs_road_observation,notes,app_url
+480850316822002,low_cost,74.80861816476434,NOT REVIEWED,,,,,,"https://empathmaps.netlify.app/app.html?categories=hindu_temple,supermarket,pharmacy&block=480850316822002"
+481210216261019,high_cost,58.214492362711965,NOT REVIEWED,,,,,,"https://empathmaps.netlify.app/app.html?categories=hindu_temple,supermarket,pharmacy&block=481210216261019"
+480850316662007,large_snap_gap,323.5247813603914,NOT REVIEWED,,,,,,"https://empathmaps.netlify.app/app.html?categories=hindu_temple,supermarket,pharmacy&block=480850316662007"
+480850316652024,unreachable_reference,11.345924033766906,NOT REVIEWED,,,,,,"https://empathmaps.netlify.app/app.html?categories=hindu_temple,supermarket,pharmacy&block=480850316652024"
+480850316652009,north,10.05578456307414,NOT REVIEWED,,,,,,"https://empathmaps.netlify.app/app.html?categories=hindu_temple,supermarket,pharmacy&block=480850316652009"
+480850320161015,south,4.697284158762626,NOT REVIEWED,,,,,,"https://empathmaps.netlify.app/app.html?categories=hindu_temple,supermarket,pharmacy&block=480850320161015"
+480850313331029,east,102.61613905250572,NOT REVIEWED,,,,,,"https://empathmaps.netlify.app/app.html?categories=hindu_temple,supermarket,pharmacy&block=480850313331029"
+481210216512029,west,25.60452828398932,NOT REVIEWED,,,,,,"https://empathmaps.netlify.app/app.html?categories=hindu_temple,supermarket,pharmacy&block=481210216512029"

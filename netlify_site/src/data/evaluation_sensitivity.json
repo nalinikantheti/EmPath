@@ -1,0 +1,60 @@
+{
+  "profile": [
+    "hindu_temple",
+    "supermarket",
+    "pharmacy"
+  ],
+  "eligible_housing_blocks": 2346,
+  "scenarios": {
+    "equal": {
+      "factor_weights_canopy_traffic_heat": [
+        0.3333333333333333,
+        0.3333333333333333,
+        0.3333333333333333
+      ],
+      "eligible_complete_blocks": 2346,
+      "spearman_vs_equal": 0.9999999999999998,
+      "top20_overlap_with_equal": 20,
+      "median_cost_equiv_min": 50.70645152036239
+    },
+    "canopy_priority": {
+      "factor_weights_canopy_traffic_heat": [
+        0.6,
+        0.2,
+        0.2
+      ],
+      "eligible_complete_blocks": 2346,
+      "spearman_vs_equal": 0.9989545075915519,
+      "top20_overlap_with_equal": 20,
+      "median_cost_equiv_min": 53.06291603345562
+    },
+    "traffic_priority": {
+      "factor_weights_canopy_traffic_heat": [
+        0.2,
+        0.6,
+        0.2
+      ],
+      "eligible_complete_blocks": 2346,
+      "spearman_vs_equal": 0.9965223479575152,
+      "top20_overlap_with_equal": 20,
+      "median_cost_equiv_min": 48.80960895588611
+    },
+    "heat_priority": {
+      "factor_weights_canopy_traffic_heat": [
+        0.2,
+        0.2,
+        0.6
+      ],
+      "eligible_complete_blocks": 2346,
+      "spearman_vs_equal": 0.9985997516196102,
+      "top20_overlap_with_equal": 20,
+      "median_cost_equiv_min": 50.03150655634412
+    }
+  },
+  "time_only_vs_friction_residential": {
+    "spearman": 0.9942697461902804,
+    "top20_overlap": 19,
+    "matched_network": true
+  },
+  "interpretation": "Stability is not local preference accuracy. Strong time/friction correlation indicates distance is a major driver under the bounded 1\u20132\u00d7 cost multiplier. Manual entrance, crossing and route-condition review remains necessary."
+}
