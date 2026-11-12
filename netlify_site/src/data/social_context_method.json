@@ -6,7 +6,12 @@
   "density": "Full 2020 block population divided by full Census AREALAND. City-clipped border polygons flagged; population is not allocated to city fragments. Zero land area is unknown.",
   "context": "ACS estimates and 90% margins of error belong to whole 2024 block groups (disability: Census tracts), including portions outside city; displayed geometry clipped for scope only. No block-level demographic/price inference.",
   "affordability": "Median gross rent and owner-reported median home value, not current listings, transactions, appraisals or individual prices.",
-  "comparison": "Essential-access score averaged over housing-positive blocks with snap<=100m; comparisons require >=5 such blocks per 2024 block group. Descriptive, ecological, unweighted across block origins, not causal or individual inference.",
+  "reference_profile": [
+    "supermarket",
+    "pharmacy",
+    "park"
+  ],
+  "comparison": "Daily-place access score averaged over housing-positive blocks with snap<=100m; comparisons require >=5 such blocks per 2024 block group. Descriptive, ecological, unweighted across block origins, not causal or individual inference.",
   "fields": {
     "median_gross_rent": {
       "label": "Median Gross Rent ($)",
@@ -85,7 +90,7 @@
     }
   },
   "statistics": {
-    "block_density_access_spearman": -0.06810617320885343,
+    "block_density_access_spearman": 0.038520241498879795,
     "density_matched_blocks": 2301,
     "block_groups": 233,
     "block_count": 4402,
@@ -93,31 +98,31 @@
     "acs_missing_block_groups": 69,
     "bg_context_correlations": {
       "median_gross_rent": {
-        "spearman": -0.01886965004440959,
+        "spearman": -0.009727810972454558,
         "matched_block_groups": 121
       },
       "median_home_value": {
-        "spearman": 0.1775579524139583,
+        "spearman": 0.22133258244491852,
         "matched_block_groups": 164
       },
       "median_household_income": {
-        "spearman": -0.004197382627726475,
+        "spearman": 0.09555809216197918,
         "matched_block_groups": 167
       },
       "no_vehicle_pct": {
-        "spearman": 0.025333772623955923,
+        "spearman": 0.003177054717122997,
         "matched_block_groups": 174
       },
       "poverty_pct": {
-        "spearman": -0.04788463034567718,
+        "spearman": -0.02130805000702595,
         "matched_block_groups": 174
       },
       "age65_pct": {
-        "spearman": -0.01970226773156316,
+        "spearman": -0.11271227946467957,
         "matched_block_groups": 174
       },
       "disability_pct": {
-        "spearman": -0.09201036653091446,
+        "spearman": -0.13735653461680858,
         "matched_tracts": 74,
         "geography": "tract"
       }

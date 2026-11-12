@@ -1,0 +1,31 @@
+{
+  "production_buffer_m": 3000,
+  "fully_weighted_edges": 290552,
+  "unknown_weight_edges": 0,
+  "city_blocks": 4402,
+  "eligible_housing_and_connection_blocks": 2376,
+  "public_budget_choices_minutes": [
+    10,
+    20,
+    30
+  ],
+  "public_max_effort_minutes": 30,
+  "all_eligible_origins_extent_sufficient_for_30min": true,
+  "minimum_eligible_exit_lower_bound_minutes": 40.6160311379581,
+  "minimum_source_length_to_projected_geometry_length_ratio": 0.9976608247788962,
+  "conservative_projection_factor": 0.99,
+  "proof": "Every edge cost is at least length / 1.2 m/s. Any route to a candidate outside the expanded geometry must first reach its boundary. A conservative lower bound is 0.99 * projected distance from the actual snapped origin to that boundary / 1.2 / 60. If the per-destination effort budget is below this bound, no outside candidate or outside detour can improve a qualifying result, and none can be reached within that budget under this fixed model.",
+  "what_was_corrected": "Network, destination catalog, GeoAI canopy predictions, traffic context, Landsat summaries and edge weights were extended together to 3 km. All city category costs and routes were recomputed. The public tool uses bounded walks with an origin-specific extent check; it does not merely renormalize outer blocks.",
+  "qualifications": [
+    "Sufficiency is for the search extent under the current graph/catalog and proxy cost model, not proof that all real-world POIs, entrances or paths are mapped.",
+    "Block and entrance snap connectors/crossing waits remain excluded. Model predictions and block proxies remain uncertain.",
+    "Trips exceeding the origin-specific exit lower bound are not certified; unrestricted advanced-map comparisons may retain extent effects.",
+    "Before/after changes include re-extraction/aggregation of expanded environmental context as well as routing/destination expansion; they are not a controlled estimate of the boundary effect alone."
+  ],
+  "weighted_before_after": {
+    "matched_pairs": 110050,
+    "pairs_lower_by_more_than_one_equiv_min": 6523,
+    "pairs_higher_by_more_than_one_equiv_min": 38,
+    "largest_reduction_equiv_min": 300.0510201107958
+  }
+}
