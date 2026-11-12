@@ -1,3 +1,7 @@
+## Population, housing and boundary context
+
+Use [the comparison page](https://empathmaps.netlify.app/context.html) or Notebook 24. Population density, Census rent/home-value and demographic context stay separate from route weights. Worship categories now include churches, mosques/masjids, a synagogue and other mapped sites. Selected-category warnings identify sensitivity to a larger routing buffer. Reproduction and limitations: [docs/CONTEXT_AND_BOUNDARY.md](docs/CONTEXT_AND_BOUNDARY.md).
+
 ## Current scope: whole City of Plano
 
 The live prototype uses Plano’s official municipal limits, 4,402 city block references, and a 1 km routing/destination buffer. Select service categories, choose a ranked housing-positive block, and inspect its actual lowest-friction walking routes.

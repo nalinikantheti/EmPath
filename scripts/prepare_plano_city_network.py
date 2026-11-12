@@ -4,6 +4,7 @@ import json
 import requests,geopandas as gpd,pandas as pd,osmnx as ox,networkx as nx
 from shapely.geometry import Point,Polygon
 from shapely import make_valid
+from poi_categories import classify
 ROOT=Path(__file__).resolve().parents[1];OUT=ROOT/'output/plano_city';N=OUT/'network'
 
 def run():
@@ -29,7 +30,7 @@ def run():
  edge_table.to_file(N/'edges.gpkg',driver='GPKG',index=False)
  # Include nearby destinations outside the municipal line, within the declared buffer.
  w,s,e,n=area.bounds
- query=f'''[out:json][timeout:180];(nwr["amenity"~"^(school|college|university|library|hospital|clinic|pharmacy|community_centre|bus_station|bank)$"]({s},{w},{n},{e});nwr["leisure"~"^(park|playground|fitness_centre|sports_centre)$"]({s},{w},{n},{e});nwr["shop"~"^(supermarket|convenience|hairdresser_supply|cosmetics)$"]({s},{w},{n},{e});nwr["railway"~"^(station|halt|tram_stop)$"]({s},{w},{n},{e});nwr["amenity"="place_of_worship"]["religion"="hindu"]({s},{w},{n},{e}););out center tags;'''
+ query=f'''[out:json][timeout:180];(nwr["amenity"~"^(school|college|university|library|hospital|clinic|pharmacy|community_centre|bus_station|bank)$"]({s},{w},{n},{e});nwr["leisure"~"^(park|playground|fitness_centre|sports_centre)$"]({s},{w},{n},{e});nwr["shop"~"^(supermarket|convenience|hairdresser_supply|cosmetics)$"]({s},{w},{n},{e});nwr["railway"~"^(station|halt|tram_stop)$"]({s},{w},{n},{e});nwr["amenity"="place_of_worship"]({s},{w},{n},{e}););out center tags;'''
  raw=OUT/'city_pois_raw.json'
  local=OUT/'city_osm_extract.json'
  if local.exists():
@@ -48,13 +49,8 @@ def run():
  rows=[]
  for r in source_elements:
   t=r.get('tags',{})
-  if t.get('access') in ['private','no']:continue
-  if t.get('amenity')=='place_of_worship' and t.get('religion')!='hindu':continue
-  accepted={'amenity':{'school','college','university','library','hospital','clinic','pharmacy','community_centre','bus_station','bank','place_of_worship'},'leisure':{'park','playground','fitness_centre','sports_centre'},'shop':{'supermarket','convenience','hairdresser_supply','cosmetics'},'railway':{'station','halt','tram_stop'}}
-  category=next((t[k] for k,values in accepted.items() if t.get(k) in values),None)
+  category=classify(t)
   if category is None:continue
-  category={'hairdresser_supply':'beauty_supply','fitness_centre':'gym','place_of_worship':'hindu_temple','university':'college','halt':'station','tram_stop':'station'}.get(category,category)
-  if t.get('name','').lower() in {'sally beauty','sally beauty supply','saloncentric'}:category='beauty_supply'
   if 'coordinates' in r:
    coordinates=r['coordinates']
    if r['type']=='node':point=Point(coordinates)
@@ -64,7 +60,7 @@ def run():
   else:
    center=r.get('center',r);point=Point(center['lon'],center['lat'])
   if point.is_empty or not area.covers(point):continue
-  rows.append({'poi_id':f'osm_{r["type"]}_{r["id"]}','name':t.get('name','Unnamed mapped '+str(category)),'category':category,'osm_element':r['type'],'osm_id':str(r['id']),'source_url':f'https://www.openstreetmap.org/{r["type"]}/{r["id"]}','address_status':'OSM mapped candidate; entrances, fees and suitability unverified','geometry':point})
+  rows.append({'poi_id':f'osm_{r["type"]}_{r["id"]}','name':t.get('name','Unnamed mapped '+str(category)),'category':category,'religion':t.get('religion','unspecified'),'osm_element':r['type'],'osm_id':str(r['id']),'source_url':f'https://www.openstreetmap.org/{r["type"]}/{r["id"]}','address_status':'OSM mapped candidate; entrances, fees and suitability unverified','geometry':point})
  facilities=json.load(open(ROOT/'output/block_accessibility/city_facilities_raw.geojson'))
  for f in facilities['features']:
   p=f['properties'];name=p['Name'];low=name.lower();categories=[]

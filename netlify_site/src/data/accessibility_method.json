@@ -10,6 +10,7 @@
       "bank",
       "beauty_supply",
       "bus_station",
+      "church",
       "clinic",
       "college",
       "community_centre",
@@ -19,6 +20,8 @@
       "hindu_temple",
       "hospital",
       "library",
+      "mosque",
+      "other_worship",
       "park",
       "pharmacy",
       "playground",
@@ -27,7 +30,8 @@
       "sports_centre",
       "station",
       "supermarket",
-      "swimming_pool"
+      "swimming_pool",
+      "synagogue"
     ],
     "essential": [
       "hindu_temple",
@@ -38,8 +42,8 @@
   "color_only": "0\u2013100 display uses 2nd\u201398th percentile stretch of complete-block mean costs within the study scope, clipped at extremes. Blue=lower burden; red=higher. Raw costs remain equivalent minutes.",
   "color_scale_parameters": {
     "all_categories": {
-      "mean_cost_equiv_min_at_2nd_percentile": 41.7886116029258,
-      "mean_cost_equiv_min_at_98th_percentile": 116.56354749838522
+      "mean_cost_equiv_min_at_2nd_percentile": 51.56468387800426,
+      "mean_cost_equiv_min_at_98th_percentile": 123.6663298088608
     },
     "essential": {
       "mean_cost_equiv_min_at_2nd_percentile": 24.052444738540604,
@@ -49,7 +53,7 @@
   "weighted_edges": 193128,
   "excluded_unknown_edges": 0,
   "blocks": 4402,
-  "pois": 897,
+  "pois": 984,
   "temple_candidates": 5,
   "missing": "Any unreachable selected category means unknown overall score; not zero and not average of only reachable services.",
   "snapping": "Block representative points and POI mapped positions snap to nearest original graph junction. Connector gaps are reported; >100 m flagged. Access/entrances not verified and gap travel/crossing waits omitted.",

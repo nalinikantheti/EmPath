@@ -1,3 +1,5 @@
+**Implemented update:** population/demographic/affordability context, expanded mapped worship categories, and the larger-buffer diagnostic are now available. See `CONTEXT_AND_BOUNDARY.md`. Remaining extensions below are future work.
+
 # Debanjan feedback: priorities for EmPath
 
 ## Core purpose
