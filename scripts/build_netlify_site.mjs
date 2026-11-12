@@ -3,11 +3,9 @@ import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const src=path.join(root,'netlify_site/src'),dest=path.join(root,'netlify_site/dist');
-let key=process.env.CARTO_BASEMAP_API_KEY?.trim();
-// Local preview convenience only. Netlify obtains the key from its environment UI.
-if(!key){try{const env=await readFile(path.join(root,'.env'),'utf8');const match=env.match(/^\s*(?:export\s+)?CARTO_BASEMAP_API_KEY\s*=\s*(.+)\s*$/m);key=match?.[1]?.trim().replace(/^["']|["']$/g,'');}catch{}}
-if(!key)throw new Error('Set CARTO_BASEMAP_API_KEY in Netlify environment variables, then redeploy.');
 await rm(dest,{recursive:true,force:true});await mkdir(dest,{recursive:true});
+const tileURL='/.netlify/functions/basemap?z={z}&x={x}&y={y}';
+const placeholder=/https:\/\/basemaps\.cartocdn\.com\/rastertiles\/light_all\/\{z\}\/\{x\}\/\{y\}\.png\?key=__EMPATH_CARTO_PUBLIC_KEY__/g;
 let count=0;
 async function copy(folder,target){
  await mkdir(target,{recursive:true});
@@ -16,10 +14,14 @@ async function copy(folder,target){
   if(entry.isDirectory())await copy(input,output);
   else{
    let data=await readFile(input);
-   if(entry.name.endsWith('.html'))data=Buffer.from(data.toString('utf8').replaceAll('__EMPATH_CARTO_PUBLIC_KEY__',encodeURIComponent(key)));
+   if(entry.name.endsWith('.html')){
+    const text=data.toString('utf8').replace(placeholder,tileURL);
+    if(text.includes('__EMPATH_CARTO_PUBLIC_KEY__'))throw new Error('Unresolved basemap placeholder in '+entry.name);
+    data=Buffer.from(text);
+   }
    await writeFile(output,data);count++;
   }
  }
 }
 await copy(src,dest);
-console.log(`Built ${count} static files in netlify_site/dist. Key value not logged.`);
+console.log(`Built ${count} files. Basemap requests use a server function; no key is embedded in HTML.`);

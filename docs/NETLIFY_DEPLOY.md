@@ -9,10 +9,10 @@ The repository is prepared for Netlify Git integration. This is separate from Ne
    - Base directory: `netlify_site`
    - Build command: `node ../scripts/build_netlify_site.mjs`
    - Publish directory: `netlify_site/dist` relative to the repository root (`dist` relative to the base).
-4. Add environment variable **CARTO_BASEMAP_API_KEY**, using your existing basemap key. Do not paste the key into source code. It is a browser-visible basemap key in the deployed maps; configure its intended public-domain/provider permissions.
+4. Add environment variable **CARTO_BASEMAP_API_KEY**, using your existing basemap key. Do not paste the key into source code. Its scope must include **Functions**. The key stays in the server function environment and is not written into published HTML. Keep Netlify secret scanning enabled.
 5. Deploy. Share the actual HTTPS URL Netlify gives you; no public URL exists yet.
 
-The homepage lives in `netlify_site/src/index.html`. Plain HTML is sufficient. No JSX, Python/GIS installation, model inference or Node dependencies are needed for the website build. Only the prepared static map snapshots and figures are published.
+The homepage lives in `netlify_site/src/index.html`. Plain HTML is sufficient. No JSX, Python/GIS installation, model inference or Node dependencies are needed for the website build. The maps use a small Netlify function to fetch CARTO tiles without exposing the key.
 
 ## Update maps
 Run the relevant Python notebook first, then:
@@ -22,7 +22,7 @@ Run the relevant Python notebook first, then:
 node scripts/build_netlify_site.mjs
 ```
 
-Commit/push the refreshed `netlify_site/src/` files. Netlify rebuilds after a push. Do not commit `.env` or `netlify_site/dist/`. Source map snapshots contain a placeholder instead of the key.
+Commit/push the refreshed `netlify_site/src/` files. Netlify rebuilds after a push. Do not commit `.env` or `netlify_site/dist/`. Source snapshots contain a placeholder; the build replaces the tile URL with the same-origin basemap function URL. It never substitutes a key into HTML.
 
 The GeoAI source snapshot currently reflects the four demonstration tiles. Replace it with a clearly labeled full-area product only after full-area processing and coverage checks complete.
 
