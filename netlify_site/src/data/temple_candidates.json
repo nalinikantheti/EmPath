@@ -1,0 +1,38 @@
+[
+  {
+    "name": "Sri Ganesha Temple",
+    "address": "6508 K AVE",
+    "source_url": "https://sriganeshatempleplano.org/contact-us",
+    "religion": "hindu",
+    "address_status": "Official website address matched to municipal parcel-address point; entrance unverified"
+  },
+  {
+    "name": "Shri Krishna Vrundavana Dallas",
+    "address": "4345 WASKOM DR",
+    "source_url": "https://www.skvdallas.org/",
+    "religion": "hindu",
+    "address_status": "Official website address matched to municipal parcel-address point; entrance unverified"
+  },
+  {
+    "name": "Shri Ram Mandir",
+    "address": "6521 CHASE OAKS BLVD",
+    "source_url": "https://srmplano.org/",
+    "religion": "hindu",
+    "address_status": "Official website address matched to municipal parcel-address point; entrance unverified"
+  },
+  {
+    "name": "Shree Raghunath Temple",
+    "address": "8901 INDEPENDENCE PKWY",
+    "source_url": "https://raghunathtemple.org/contact.html",
+    "religion": "hindu",
+    "address_status": "Candidate directory address matched to municipal address point; official site does not publish full address; review needed",
+    "address_source_url": "https://www.mandirmaps.com/us/texas/plano/"
+  },
+  {
+    "name": "Sri Lakshmi Ganapathi Temple",
+    "address": "3829 W SPRING CREEK PKWY",
+    "source_url": "https://hindutempleofplano.org/contact-us/",
+    "religion": "hindu",
+    "address_status": "Official website address matched to municipal parcel-address point; entrance unverified"
+  }
+]

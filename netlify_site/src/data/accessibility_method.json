@@ -1,0 +1,59 @@
+{
+  "edge_formula": "w_e = length_m / 1.2 * [1 + (block canopy deficit + block traffic burden + block heat burden)/3]",
+  "nearest_category": "C_k(b) = min over destinations d in category k of weighted shortest-path cost from snapped block reference node to snapped destination node",
+  "aggregate": "A(b) = sum_k C_k(b) / number_of_categories; all selected categories must be reachable. Sum and worst trip are also exported. Equal category weights are assumptions.",
+  "profiles": {
+    "all_categories": [
+      "bank",
+      "bus_station",
+      "clinic",
+      "college",
+      "community_centre",
+      "convenience",
+      "gym",
+      "hindu_temple",
+      "hospital",
+      "library",
+      "park",
+      "pharmacy",
+      "playground",
+      "recreation_centre",
+      "school",
+      "sports_centre",
+      "station",
+      "supermarket",
+      "swimming_pool"
+    ],
+    "essential": [
+      "hindu_temple",
+      "supermarket",
+      "pharmacy"
+    ]
+  },
+  "color_only": "0\u2013100 display uses 2nd\u201398th percentile stretch of complete-block mean costs within the four-ZIP pilot, clipped at extremes. Blue=lower burden; red=higher. Raw costs remain equivalent minutes.",
+  "color_scale_parameters": {
+    "all_categories": {
+      "mean_cost_equiv_min_at_2nd_percentile": 56.201465034386004,
+      "mean_cost_equiv_min_at_98th_percentile": 171.00018930027923
+    },
+    "essential": {
+      "mean_cost_equiv_min_at_2nd_percentile": 22.189639631413122,
+      "mean_cost_equiv_min_at_98th_percentile": 166.58857639151935
+    }
+  },
+  "weighted_edges": 93450,
+  "excluded_unknown_edges": 2,
+  "blocks": 2862,
+  "pois": 390,
+  "temple_candidates": 5,
+  "missing": "Any unreachable selected category means unknown overall score; not zero and not average of only reachable services.",
+  "snapping": "Block representative points and POI mapped positions snap to nearest original graph junction. Connector gaps are reported; >100 m flagged. Access/entrances not verified and gap travel/crossing waits omitted.",
+  "inventory": "All 2,862 blocks scored as geographic reference nodes, including nonresidential land. Address counts do not establish residential use. POI catalog is incomplete and confined to pilot; boundary effects can inflate costs.",
+  "temples": "Five curated Hindu temple address candidates matched to Plano address points. Sources in config/accessibility_temples.json. Raghunath street address is directory-sourced and needs review; other addresses matched official websites. Parcel points are not entrances. Catalog is not all religions or all temples.",
+  "graph": "Detailed graph has finite weights only. Activity graph contains one edge per block to the nearest reachable POI in each category; no block-block or POI-POI edges.",
+  "validation": {
+    "reverse_multi_source_matches_forward_dijkstra": true,
+    "spot_checks": 6,
+    "no_same_role_activity_edges": true
+  }
+}
