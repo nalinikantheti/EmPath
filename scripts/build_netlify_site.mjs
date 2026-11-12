@@ -15,7 +15,7 @@ async function copy(folder,target){
   else{
    let data=await readFile(input);
    if(entry.name.endsWith('.html')){
-    const text=data.toString('utf8').replace(placeholder,tileURL);
+    const text=data.toString('utf8').replace(placeholder,tileURL).replace(/L\.map\(([^,]+),\s*\{/g,'L.map($1,{scrollWheelZoom:false,').replace("L.map('map')","L.map('map',{scrollWheelZoom:false})").replace(/"scrollWheelZoom"\s*:\s*true/g,'"scrollWheelZoom":false');
     if(text.includes('__EMPATH_CARTO_PUBLIC_KEY__'))throw new Error('Unresolved basemap placeholder in '+entry.name);
     data=Buffer.from(text);
    }
