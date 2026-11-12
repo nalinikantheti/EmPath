@@ -8,3 +8,5 @@ __pycache__/
 *.log
 data/raw/
 data/processed/
+
+netlify_site/dist/

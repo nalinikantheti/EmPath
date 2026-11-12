@@ -1,0 +1,1 @@
+{"name":"empath-maps","private":true,"scripts":{"build":"node ../scripts/build_netlify_site.mjs"},"engines":{"node":">=20"}}

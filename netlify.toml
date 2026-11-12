@@ -1,0 +1,12 @@
+[build]
+  base = "netlify_site"
+  command = "node ../scripts/build_netlify_site.mjs"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+[[headers]]
+  for = "/maps/*"
+  [headers.values]
+    Cache-Control = "public, max-age=300"
