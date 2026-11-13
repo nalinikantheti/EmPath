@@ -14,7 +14,7 @@ def publish(raw):
  marker='<div id="categories" class="categories"></div>'
  html=html.replace(marker,marker+'''<form id="address-form"><label for="address-input">Have an address in mind?</label><div class="address-row"><input id="address-input" type="search" autocomplete="street-address" placeholder="Street address in Plano" maxlength="200"><button type="submit">Find</button></div></form><p id="address-status" class="subtle" aria-live="polite"></p>''')
  html=html.replace("let selected=['hindu_temple','supermarket','pharmacy']","let selected=['bank','supermarket','pharmacy']").replace("preset(['hindu_temple','supermarket','pharmacy'])","preset(['bank','supermarket','pharmacy'])")
- html=html.replace("let selected=['bank','supermarket','pharmacy']","let selected=[...categories]")
+ html=html.replace("let selected=['bank','supermarket','pharmacy']","let selected=[]")
  html=html.replace("el('essential').onclick=()=>preset(['bank','supermarket','pharmacy']);","")
  html=html.replace("hindu_temple:'Hindu temples (candidate catalog)'","hindu_temple:'Hindu temples'").replace("supermarket:'Grocery stores / supermarkets'","supermarket:'Grocery stores'")
  start=html.index('function computeScores(');end=html.index('\n(async()=>',start)
@@ -25,7 +25,7 @@ def publish(raw):
  html=html[:a]+'''el('summary').textContent=selected.length?`${scores.complete.toLocaleString()} residential areas compared for ${selected.length} types of places${window.empathBudget==null?'':` · ${window.empathBudget}-minute effort limit`}.`:'Choose the types of places that matter to your family.';el('legend').innerHTML='<b>Walking friction</b><div class="ramp"></div>Blue: lower → red: higher<br><small>Continuous colors compare this selection. Gray: non-residential. Amber: residential data unavailable.</small>' '''+html[z:]
  html=html.replace(';const params=new URLSearchParams()',';if(window.empathScoreMode===\'time\')el(\'legend\').innerHTML=\'<b>Walking time only</b><div class="ramp"></div>Blue: shorter → red: longer<br><small>Same graph and places; no environmental penalties.</small>\';if(window.empathScoreMode===\'difference\')el(\'legend\').innerHTML=\'<b>Ranking change</b><div class="ramp" style="background:linear-gradient(90deg,#2166ac,#f7f7f7,#b2182b)"></div>Blue: improves with friction<br>Red: worsens<br><small>Change in cost percentile.</small>\';const params=new URLSearchParams()')
  html=html.replace("if(query.get('scope')==='county')el('scope').value='county';",'')
- html=html.replace("fillColor:color(scores.rows[f.properties.GEOID20].score)","fillColor:Number(f.properties.HU100)>0?(scores.rows[f.properties.GEOID20].score==null?'#fff0cb':color(scores.rows[f.properties.GEOID20].score)):'#d8dcda'")
+ html=html.replace("fillColor:color(scores.rows[f.properties.GEOID20].score)","fillColor:Number(f.properties.HU100)>0?(scores.rows[f.properties.GEOID20].score==null?(selected.length?'#fff0cb':'#edf1eb'):color(scores.rows[f.properties.GEOID20].score)):'#d8dcda'")
  html=html.replace("function preset(cats)","window.empathRefresh=update;\nfunction preset(cats)")
  html=html.replace("params.set('categories',selected.join(','));","params.set('categories',selected.join(','));params.set('view',window.empathScoreMode);if(window.empathMode==='route'||window.empathRequestedMode==='route')params.set('mode','route');")
  html=html.replace("if(!selected.includes(p.category))continue;","if(window.empathPublic||!selected.includes(p.category))continue;")
