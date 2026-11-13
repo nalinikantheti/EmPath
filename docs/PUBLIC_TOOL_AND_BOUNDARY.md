@@ -3,6 +3,8 @@
 ## Public experience
 - Home: `https://empathmaps.netlify.app/` — the illustrative temple-walk story, why everyday access matters, then one clear invitation to explore.
 - Explorer: `/app.html` — choose places, compare walking effort across Plano, inspect an area or look up an address, then view actual routes. There is no walking-budget cutoff.
+- First-visit map onboarding offers a six-step tutorial, a screen reader walkthrough, or a skip option. The Tutorial button reopens it; `/app.html?tutorial=1` opens the welcome choices directly. Dismissal is remembered locally when browser storage is available.
+- Methodology opens as an optional map dialog and loads its technical content only when requested. It documents source geometry, pretrained canopy segmentation, heat/traffic normalization, edge costs, Dijkstra routing, area aggregation, coverage bounds, context data and validation. The homepage and guide keep their explanations practical.
 - Guide: `/guide.html` — household/homebuyer, city-planner and housing-organization workflows; plain-language effort explanation.
 - Optional context: `/context.html`; optional technical interface: `/research.html`.
 - Methods, checks, static gallery and the earlier research archive remain available through “Behind the map.”

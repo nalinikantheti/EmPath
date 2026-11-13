@@ -3,12 +3,14 @@ from pathlib import Path
 import re,json
 ROOT=Path(__file__).resolve().parents[1];DEST=ROOT/'netlify_site/src'
 def publish(raw):
+ if 'href="map-help.css"' not in raw:raw=raw.replace('</head>','<link rel="stylesheet" href="map-help.css"></head>')
+ if 'src="map-help.js"' not in raw:raw=raw.replace('</body>','<script src="map-help.js"></script></body>')
  (DEST/'research.html').write_text(raw,encoding='utf-8')
  match=re.search(r'const DATA=(.*?);const map=',raw,re.S)
  payload=json.loads(match.group(1));payload['county']=None;payload['county_blocks']=''
  raw_public=raw[:match.start(1)]+json.dumps(payload)+raw[match.end(1):]
  html=raw_public.replace('<body>','<body data-public="true">').replace('<title>EmPath · Choose your walking needs</title>','<title>EmPath · Find your everyday walks</title>')
- html=html.replace('</head>', '<link rel="stylesheet" href="public.css"><script>window.empathPublic=true;</script></head>')
+ html=html.replace('</head>', '<link rel="stylesheet" href="public.css"><script>window.empathPublic=true;window.empathTutorialRequested=new URLSearchParams(location.search).has("tutorial");</script></head>')
  a=html.index('<aside>');z=html.index('<div id="categories"',a)
  header='''<aside><nav class="app-nav"><a class="brand" href="index.html">EmPath<span>Plano</span></a><a href="guide.html">How to use</a></nav><h1>Find your everyday walks.</h1><p>A place can be nearby and still be hard to reach without a car. Choose what matters, then see the walk.</p><h2>1. What do you want nearby?</h2><div class="buttons"><button id="essential" class="primary">Groceries, pharmacy & park</button><button id="clear">Clear</button><button id="all" hidden>All</button></div><label for="scope" hidden>Study area</label><select id="scope" hidden><option value="pilot">City of Plano</option><option value="county">County preview</option></select><div id="county-notice" hidden></div>'''
  html=html[:a]+header+html[z:]
@@ -26,7 +28,7 @@ def publish(raw):
  html=html.replace('Copy this selection’s link','Share this view').replace('Download block scores','Download area scores')
  html=html.replace('<button id="download">','<button id="download" hidden>')
  a=html.index('<p><a href="index.html">All project maps</a>');z=html.index('</aside>',a)
- html=html[:a]+'''<footer class="app-footer"><a href="context.html">Compare population & housing</a> · <a href="guide.html">Help</a><details><summary>Behind the map</summary><p><a href="research.html">Advanced map</a> · <a href="method.html">How scores work</a> · <a href="validation.html">Coverage & checks</a> · <a href="gallery.html">Map gallery</a></p></details><p class="subtle">Neighborhood estimates, not available listings or turn-by-turn navigation. Check entrances, crossings and access before walking.</p></footer>'''+html[z:]
+ html=html[:a]+'''<footer class="app-footer"><a href="context.html">Compare population & housing</a> · <a href="guide.html">How to use</a><div class="app-help-actions"><button id="replay-tutorial" type="button" disabled>Tutorial</button><button id="open-methodology" type="button" disabled>Methodology</button></div><p class="subtle">Neighborhood estimates, not available listings or turn-by-turn navigation. Check entrances, crossings and access before walking.</p></footer>'''+html[z:]
  html=html.replace('<script src="routes.js">','<script src="public.js"></script><script src="routes.js">')
  (DEST/'app.html').write_text(html,encoding='utf-8')
  return DEST/'app.html'
