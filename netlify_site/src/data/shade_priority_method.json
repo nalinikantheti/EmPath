@@ -1,0 +1,27 @@
+{
+  "model": "Shade-priority stated-preference scenario",
+  "formula": "w_e = (L_e / 1.2) * [1 + 6 * (1 - C_e)^2 * (1 + H_e) + Q_e]",
+  "canopy": "C_e: sampled predicted-tree fraction in a 20 m-wide corridor, along-path sample interval <=8 m, seven cross-section offsets. Raster is actual 2022 NAIP Restor TCD class output. Tree adjacency is not measured time-specific shade.",
+  "heat": "H_e: existing 0\u20131 block surface-heat context, attenuated by nearby canopy deficit; not air temperature or a calibrated thermal model.",
+  "traffic": "Q_e: existing 0\u20131 nearby mapped traffic burden.",
+  "preference": "Coefficient 6 and square exponent intentionally prioritize tree-adjacent walks, requested by the project owner. Not learned or validated human preference/medical risk. Travel time remains additive and all weights are nonnegative.",
+  "fallback_edges": 42,
+  "partial_corridor_coverage_edges": 2270,
+  "weighted_edges": 290552,
+  "unknown_edges": 0,
+  "illustrative_50_vs_20_test": {
+    "hot_walk_minutes": 20,
+    "hot_tree_fraction": 0.05,
+    "hot_heat": 0.9,
+    "hot_traffic": 0.5,
+    "hot_model_equivalent_minutes": 235.76999999999998,
+    "tree_adjacent_walk_minutes": 50,
+    "tree_adjacent_tree_fraction": 0.8,
+    "tree_adjacent_heat": 0.8,
+    "tree_adjacent_traffic": 0.1,
+    "tree_adjacent_model_equivalent_minutes": 76.6,
+    "longer_tree_adjacent_route_preferred": true,
+    "status": "Synthetic preference test; not a measured Plano pair."
+  },
+  "limits": "A stronger preference does not guarantee a route is shaded or safe. Road-centerline geometry, model transfer, entrances and crossings need validation. Unrestricted long trips can remain extent-sensitive."
+}

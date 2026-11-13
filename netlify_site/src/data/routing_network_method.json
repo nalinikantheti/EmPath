@@ -2,8 +2,8 @@
   "scope": "Plano city + 3000 m context",
   "nodes": 98193,
   "edges": 290552,
-  "gzip_bytes": 13896005,
-  "sha256": "10ea4ad663ee3aad8fabfcb402c165b675cea12c034583962fd1de63d21b98e8",
+  "gzip_bytes": 16636765,
+  "sha256": "548fd30c275fecadbb7d3169948dff3512caf21d1dc4b0ceff195cae66f3a378",
   "traffic_proximity": "Length fraction within 30 m of mapped TxDOT AADT >=25,000; exposure context, not collision risk.",
   "source_geometry": "Actual OSM graph edge geometry, rounded only for display; routing costs retain full precision."
 }

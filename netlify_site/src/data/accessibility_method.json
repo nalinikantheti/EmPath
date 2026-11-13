@@ -2,7 +2,7 @@
   "scope": "Official Plano municipal boundary",
   "poi_buffer_m": 3000,
   "citywide": true,
-  "edge_formula": "w_e = length_m / 1.2 * [1 + (block canopy deficit + block traffic burden + block heat burden)/3]",
+  "edge_formula": "w_e = (L_e / 1.2) * [1 + 6 * (1 - C_e)^2 * (1 + H_e) + Q_e]",
   "nearest_category": "C_k(b) = min over destinations d in category k of weighted shortest-path cost from snapped block reference node to snapped destination node",
   "aggregate": "A(b) = sum_k C_k(b) / number_of_categories; all selected categories must be reachable. Sum and worst trip are also exported. Equal category weights are assumptions.",
   "profiles": {
@@ -42,12 +42,12 @@
   "color_only": "0\u2013100 display uses 2nd\u201398th percentile stretch of complete-block mean costs within the study scope, clipped at extremes. Blue=lower burden; red=higher. Raw costs remain equivalent minutes.",
   "color_scale_parameters": {
     "all_categories": {
-      "mean_cost_equiv_min_at_2nd_percentile": 49.61758172114341,
-      "mean_cost_equiv_min_at_98th_percentile": 110.17075633123002
+      "mean_cost_equiv_min_at_2nd_percentile": 259.31670264698874,
+      "mean_cost_equiv_min_at_98th_percentile": 601.445880534742
     },
     "essential": {
-      "mean_cost_equiv_min_at_2nd_percentile": 24.05202756209597,
-      "mean_cost_equiv_min_at_98th_percentile": 111.27188559388881
+      "mean_cost_equiv_min_at_2nd_percentile": 138.13666896717186,
+      "mean_cost_equiv_min_at_98th_percentile": 629.9344005424958
     }
   },
   "weighted_edges": 290552,
