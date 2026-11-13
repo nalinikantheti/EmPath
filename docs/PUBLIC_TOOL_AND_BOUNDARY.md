@@ -2,7 +2,7 @@
 
 ## Public experience
 - Home: `https://empathmaps.netlify.app/` — the illustrative temple-walk story, why everyday access matters, then one clear invitation to explore.
-- Explorer: `/app.html` — choose places, set a 10/20/30 effort-minute budget, inspect residential areas or look up an address, then view actual routes.
+- Explorer: `/app.html` — choose places, compare walking effort across Plano, inspect an area or look up an address, then view actual routes. There is no walking-budget cutoff.
 - Guide: `/guide.html` — household/homebuyer, city-planner and housing-organization workflows; plain-language effort explanation.
 - Optional context: `/context.html`; optional technical interface: `/research.html`.
 - Methods, checks, static gallery and the earlier research archive remain available through “Behind the map.”
@@ -12,19 +12,19 @@ Production acquisition now extends three kilometers beyond the official Plano bo
 
 Current support: 98,193 nodes; 290,552 directed weighted edges; zero unknown weights. Tree inference covers 1,524 tiles (823 compatible cached class tiles and 701 new predictions). The expanded catalog contains 1,648 candidate records across 25 categories. Access/entrances and catalog completeness remain unverified.
 
-## Why the bounded public comparison avoids truncation
+## How route-specific coverage checks work
 1. Every edge cost is at least `length_m / 1.2` seconds, because the environmental multiplier is >=1.
 2. Reaching any candidate or detour outside the analysis geometry requires first reaching its boundary.
 3. For the actual snapped origin, compute `exit_lower_bound_minutes = 0.99 × projected distance to outer boundary / 1.2 / 60`. The factor 0.99 is conservative relative to every source edge's length-to-projected-geometry ratio (minimum observed approximately 0.99766).
 4. The minimum exit bound across housing-positive origins passing the <=100 m connection-distance filter is approximately 40.6 minutes.
-5. Public recommendations require every selected category's known minimum cost <= the chosen 10/20/30 budget and that budget < the origin's exit bound. An outside destination or outside detour therefore cannot improve a qualifying comparison or become reachable within that budget under this model.
+5. A known route cost below its origin's exit bound cannot be improved by an outside destination or outside detour under this model. The public map displays longer routes as well, with a coverage note when a selected trip reaches or exceeds that bound.
 
-This certifies the sufficiency of the search extent for the bounded calculation. It does not prove real-world path/POI completeness, entrance legality, continuous sidewalks, personal comfort or safety. Longer unrestricted comparisons in the advanced map remain qualified individually.
+This certifies the sufficiency of the search extent for individual routes below their origin's bound. It does not prove real-world path/POI completeness, entrance legality, continuous sidewalks, personal comfort or safety. Longer comparisons in both public and advanced maps remain qualified individually.
 
 ## Public interpretation
 - Effort minutes combine modeled walking time and an assumed environmental allowance; they are not actual elapsed time or predicted fatigue. Ordinary walking minutes are shown separately.
 - Heat context is a summer 2025 surface-temperature composite, not current weather or pedestrian air temperature.
-- Blue/red compares effort among matching areas, not safety. Gray can mean outside budget, no 2020 housing record or a connection requiring review.
+- Blue/red compares average effort across all areas with complete route data for the selected categories, not safety. Gray indicates incomplete selected-category route data. Housing and connection-distance filters apply to suggested residential areas, not the color scale.
 - Routes start at an area reference point, not the searched home's entrance. Address lookup uses approximate Census geocoding and is not saved by the application.
 - Near-street/trail area labels come from the nearest named walking edge within 500 m; they are location cues, not verified addresses or neighborhood boundaries.
 - Demographic and housing-price context does not enter route weights. Census rent and home-value medians are not listings, transactions or individual appraisals.
@@ -33,9 +33,9 @@ This certifies the sufficiency of the search extent for the bounded calculation.
 - All source costs finite and >= ordinary walking-time cost.
 - Projection allowance checked against all source edge geometries.
 - All eligible housing/connection origins pass the 30-minute extent bound.
-- Public default independent snapshot and frontend agree: 79 areas for grocery + pharmacy + park, 20 effort minutes each. A 30-minute budget yields 535 areas under the same profile.
+- The current public default colors 4,331 of 4,402 areas for grocery + pharmacy + park. The remaining 71 lack complete selected-category route data. The former budget-filtered view colored 79 areas at 20 minutes or 535 at 30 minutes; those cutoffs are no longer applied.
 - Actual displayed routes match cached scores; no straight-line connectors are invented.
-- Budget changes, category selection, address-to-area lookup, share/reload, advanced mode, context comparisons and mobile layout checked in Chrome.
+- Category selection, full-map coverage, longer routes and their coverage notes, address-to-area lookup, deselection, share/reload, advanced mode and mobile layout checked in Chrome. Legacy budget URL parameters are removed on load.
 
 ## Reproduction order
 The 3 km extract and original source caches are retained under `output/plano_boundary_3km` and `data/raw`. They are intentionally not uploaded to GitHub.

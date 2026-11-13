@@ -2,9 +2,9 @@
 
 [Open EmPath](https://empathmaps.netlify.app/) · [Explore everyday walks](https://empathmaps.netlify.app/app.html) · [Plain-language guide](https://empathmaps.netlify.app/guide.html)
 
-The homepage opens with an illustrative hot walk to a nearby temple: proximity only helps if the trip is reachable without a car. The public flow is places → effort budget → area/address → actual routes. Technical detail is separate at `/research.html`, `/method.html` and `/validation.html`.
+The homepage opens with an illustrative hot walk to a nearby temple: proximity only helps if the trip is reachable without a car. The public flow is places → compare areas/address → actual routes. Technical detail is separate at `/research.html`, `/method.html` and `/validation.html`.
 
-Production now includes fully weighted 3 km context beyond Plano. Public 10/20/30-minute effort budgets pass an origin-specific search-extent bound; unrestricted long trips remain qualified. See [PUBLIC_TOOL_AND_BOUNDARY.md](docs/PUBLIC_TOOL_AND_BOUNDARY.md) and Notebook 25. Rebuild the generated app through `EMPATH_CITY_MODE=1 .venv/bin/python scripts/build_accessibility_app.py`; it also builds the public version.
+Production now includes fully weighted 3 km context beyond Plano. The public map colors all areas with complete selected-category routes. Longer trips are flagged when they exceed the origin-specific search-extent bound. See [PUBLIC_TOOL_AND_BOUNDARY.md](docs/PUBLIC_TOOL_AND_BOUNDARY.md) and Notebook 25. Rebuild the generated app through `EMPATH_CITY_MODE=1 .venv/bin/python scripts/build_accessibility_app.py`; it also builds the public version.
 
 ## Population, housing and boundary context
 

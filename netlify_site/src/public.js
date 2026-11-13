@@ -1,5 +1,62 @@
 /* Small usability layer; the underlying model and actual route geometry are shared. */
-(async()=>{for(let i=0;i<300&&(!window.empathContext||!window.empathSelection);i++)await new Promise(r=>setTimeout(r,100));const c=window.empathContext;if(!c)return;const E=v=>String(v??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));const choices=document.getElementById('categories');[...choices.children].sort((a,b)=>Number(b.querySelector('input').checked)-Number(a.querySelector('input').checked)||a.textContent.localeCompare(b.textContent)).forEach(label=>choices.appendChild(label));const budget=document.getElementById('walk-budget');budget.value=String(window.empathBudget);budget.onchange=()=>{window.empathBudget=Number(budget.value);window.empathRefresh()};c.layer.eachLayer(l=>{const p=l.feature.properties;l.bindTooltip(()=>{const r=window.empathSelection.scores.rows[p.GEOID20];return r?.withinBudget?'<b>Matches your selection</b><br>'+r.mean.toFixed(1)+' average effort minutes':'Outside this selection · click to inspect'});l.bindPopup(()=>{const r=window.empathSelection.scores.rows[p.GEOID20];return '<b>Area '+E(p.GEOID20.slice(-6))+'</b><br>'+(r?.withinBudget?'Matches all selected places within your budget.':'Does not match every selected place within this budget, or needs connection/housing review.')+'<br><small>Routes begin at an area reference point, not a verified home entrance. See the route cards for actual walking time.</small>'})});
+(async()=>{
+for(let i=0;i<300&&(!window.empathContext||!window.empathSelection);i++)await new Promise(r=>setTimeout(r,100));
+const c=window.empathContext;
+if(!c)return;
+const E=v=>String(v??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+const choices=document.getElementById('categories');
+[...choices.children].sort((a,b)=>Number(b.querySelector('input').checked)-Number(a.querySelector('input').checked)||a.textContent.localeCompare(b.textContent)).forEach(label=>choices.appendChild(label));
+c.map.options.zoomSnap=.25;
+requestAnimationFrame(()=>{
+  c.map.invalidateSize();
+  if(!new URLSearchParams(location.search).has('block'))c.map.fitBounds(c.layer.getBounds(),{padding:[24,24]});
+});
+c.layer.eachLayer(l=>{
+  const p=l.feature.properties;
+  l.bindTooltip(()=>{
+    const r=window.empathSelection.scores.rows[p.GEOID20];
+    return Number.isFinite(r?.mean)?'<b>'+E(p.public_area_label||'Area '+p.GEOID20.slice(-6))+'</b><br>'+r.mean.toFixed(1)+' average effort minutes':'Incomplete route data · click to inspect';
+  });
+  l.bindPopup(()=>{
+    const r=window.empathSelection.scores.rows[p.GEOID20];
+    return '<b>Area '+E(p.GEOID20.slice(-6))+'</b><br>'+(Number.isFinite(r?.mean)?r.mean.toFixed(1)+' average effort minutes to your selected places.':'Route data is incomplete for one or more selected places.')+'<br><small>Routes begin at an area reference point, not a verified home entrance. See the route cards for actual walking time.</small>';
+  });
+});
 function inRing(pt,ring){let inside=false;for(let i=0,j=ring.length-1;i<ring.length;j=i++){const [x,y]=ring[i],[a,b]=ring[j];if((y>pt[1])!==(b>pt[1])&&pt[0]<(a-x)*(pt[1]-y)/(b-y)+x)inside=!inside}return inside}function contains(f,pt){const polys=f.geometry.type==='Polygon'?[f.geometry.coordinates]:f.geometry.coordinates;return polys.some(rings=>inRing(pt,rings[0])&&!rings.slice(1).some(r=>inRing(pt,r)))}
-let marker=null;const form=document.getElementById('address-form'),status=document.getElementById('address-status');form.onsubmit=async e=>{e.preventDefault();const address=document.getElementById('address-input').value.trim();if(!address)return;const button=form.querySelector('button');button.disabled=true;status.textContent='Looking up the address…';try{const response=await fetch('/.netlify/functions/address',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({address})});const data=await response.json();if(!response.ok)throw Error(data.error||'Lookup unavailable');const matches=(data.matches||[]).map(m=>({...m,block:c.blocks.features.find(f=>contains(f,[m.lon,m.lat]))})).filter(m=>m.block);if(!matches.length)throw Error('No matching address inside our Plano study area. Try a full street address, or select the map.');if(matches.length>1)throw Error('More than one matching address. Please include the street number and ZIP code.');const m=matches[0];status.textContent=m.address+' · Approximate Census lookup. Routes represent its Census area, not this exact entrance.';if(marker)c.map.removeLayer(marker);marker=L.marker([m.lat,m.lon]).bindPopup('Searched address (approximate). Walking routes use an area reference point.').addTo(c.map);window.empathAddressState={blockId:m.block.properties.GEOID20,source:data.source};await window.empathSelectBlock(m.block.properties.GEOID20);c.map.panTo([m.lat,m.lon]);}catch(err){status.textContent=err.message}finally{button.disabled=false}};
+let marker=null,addressToken=0;
+const form=document.getElementById('address-form'),status=document.getElementById('address-status'),button=form.querySelector('button');
+const initialStatus=status.textContent;
+window.addEventListener('empath-route-cleared',()=>{
+  ++addressToken;
+  if(marker){c.map.removeLayer(marker);marker=null;}
+  window.empathAddressState=null;
+  form.reset();
+  status.textContent=initialStatus;
+  button.disabled=false;
+});
+form.onsubmit=async e=>{
+  e.preventDefault();
+  const address=document.getElementById('address-input').value.trim();
+  if(!address)return;
+  const requestToken=++addressToken;
+  button.disabled=true;
+  status.textContent='Looking up the address…';
+  try{
+    const response=await fetch('/.netlify/functions/address',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({address})});
+    const data=await response.json();
+    if(requestToken!==addressToken)return;
+    if(!response.ok)throw Error(data.error||'Lookup unavailable');
+    const matches=(data.matches||[]).map(m=>({...m,block:c.blocks.features.find(f=>contains(f,[m.lon,m.lat]))})).filter(m=>m.block);
+    if(!matches.length)throw Error('No matching address inside our Plano study area. Try a full street address, or select the map.');
+    if(matches.length>1)throw Error('More than one matching address. Please include the street number and ZIP code.');
+    const m=matches[0];
+    status.textContent=m.address+' · Approximate Census lookup. Routes represent its Census area, not this exact entrance.';
+    if(marker)c.map.removeLayer(marker);
+    marker=L.marker([m.lat,m.lon]).bindPopup('Searched address (approximate). Walking routes use an area reference point.').addTo(c.map);
+    window.empathAddressState={blockId:m.block.properties.GEOID20,source:data.source};
+    await window.empathSelectBlock(m.block.properties.GEOID20);
+    if(requestToken===addressToken)c.map.panTo([m.lat,m.lon]);
+  }catch(err){if(requestToken===addressToken)status.textContent=err.message}
+  finally{if(requestToken===addressToken)button.disabled=false}
+};
 })();
