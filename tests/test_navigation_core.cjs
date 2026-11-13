@@ -1,0 +1,21 @@
+/* Navigation invariants: geometry direction, cue meaning, GPS quality and progress continuity. */
+const assert=require('node:assert/strict');
+const Core=require('../netlify_site/src/navigation-core.js');
+const ll=(lat,lon)=>[lat,lon],A=ll(33,-96),B=ll(33.001,-96),C=ll(33.001,-95.999),D=ll(33,-95.999);
+const line=(a,b)=>[[a[1],a[0]],[b[1],b[0]]];
+const edge=(u,v,name,geometry)=>[u,v,0,300,100,'footway',name,true,0,false,[geometry],.6,.5,.4,1];
+const graph={nodes:new Map([[1,A],[2,B],[3,C],[4,D]]),edges:[edge(1,2,'North Path',line(A,B)),edge(2,3,'East Path',line(C,B)),edge(3,4,'South Path',line(C,D))]};
+const route=Core.build(graph,{indices:[0,1,2]});
+assert.deepEqual(route.start,A);assert.deepEqual(route.end,D);assert.equal(route.gaps.length,0);assert.equal(route.cues.filter(c=>c.direction==='right').length,2);assert.match(route.cues[0].text,/East Path/);assert.ok(Math.abs(route.total-315)<3);assert.deepEqual(route.pointAt(route.total),D);
+const now=Date.now(),fix=(point,t=0,accuracy=5)=>({lat:point[0],lon:point[1],accuracy,timestamp:now+t});
+const t=new Core.Tracker(route);let r=t.update(fix(route.pointAt(20)),now);assert.equal(r.status,'on_route');assert.ok(Math.abs(r.progress-20)<1);const old=t.progress;
+assert.equal(t.update(fix(route.pointAt(80),1000,100),now+1000).status,'weak');assert.equal(t.progress,old);
+assert.equal(t.update(fix(route.pointAt(80),-30000),now+2000).status,'stale');assert.equal(t.progress,old);
+r=t.update(fix([33.0002,-96.003],3000),now+3000);assert.equal(r.status,'checking');r=t.update(fix([33.0002,-96.003],4000),now+4000);assert.equal(r.status,'off_route');assert.equal(t.progress,old);
+assert.notEqual(new Core.Tracker(route).update(fix(A),now).status,'arrived');
+const atEnd=new Core.Tracker(route);assert.notEqual(atEnd.update(fix(D),now).status,'arrived');assert.equal(atEnd.update(fix(D,1000),now+1000).status,'arrived');
+const closeD=[33,-95.9999],closeC=[33.001,-95.9999],loop=Core.build({nodes:new Map([[1,A],[2,B],[3,closeC],[4,closeD]]),edges:[edge(1,2,'A',line(A,B)),edge(2,3,'B',line(B,closeC)),edge(3,4,'C',line(closeC,closeD))]},{indices:[0,1,2]});
+const continuity=new Core.Tracker(loop);continuity.update(fix(loop.pointAt(20)),now);r=continuity.update(fix([33.0002,-95.9999],1000),now+1000);assert.ok(r.progress<60,'Must not jump to a nearby later leg');assert.notEqual(r.status,'arrived');
+const separated={nodes:new Map([[1,A],[2,B],[3,C]]),edges:[edge(1,2,'A',line(A,B)),edge(2,3,'B',line([33.001,-95.9996],C))]};const gap=Core.build(separated,{indices:[0,1]});assert.equal(gap.gaps.length,1);assert.ok(gap.gaps[0].distance>30);assert.equal(new Core.Tracker(gap).update(fix(gap.pointAt(100)),now).status,'gap');
+assert.throws(()=>Core.build(graph,{indices:[]}),/no mapped walking segments/);
+console.log('PASS: oriented path geometry, turn direction, no invented connectors, GPS quality, off-route detection, two-fix arrival and parallel-path continuity.');
