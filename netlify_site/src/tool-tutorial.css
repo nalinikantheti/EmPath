@@ -1,0 +1,41 @@
+.tool-tutorial-welcome{width:min(620px,calc(100vw - 28px));max-height:calc(100dvh - 32px);padding:0;border:1px solid #cbd8c3;border-radius:15px;background:#faf8f2;color:#24483b;box-shadow:0 18px 80px #152c3250;font:15px/1.6 system-ui;overflow:auto}
+.tool-tutorial-welcome::backdrop{background:#17382d85}
+.tool-tutorial-welcome-header{position:relative;background:#275e48;color:white;padding:23px 30px 25px}
+body.guided-view .tool-tutorial-welcome-header>p{margin:0 45px 8px 0;font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:#d7e6cd}
+body.guided-view .tool-tutorial-welcome-header h2{font:32px/1.15 Georgia,serif;margin:0 35px 0 0;letter-spacing:-.02em}
+.tool-tutorial-welcome-header h2:focus,.tool-tutorial-coach h2:focus{outline:none}
+.tool-tutorial-close{position:absolute;top:15px;right:16px;display:flex;align-items:center;justify-content:center;width:34px;height:34px;padding:0;border:1px solid #ffffff55;border-radius:8px;background:transparent;color:inherit;font:25px/1 system-ui;cursor:pointer}
+.tool-tutorial-welcome-body{padding:22px 30px 26px}
+.tool-tutorial-welcome-body>p{margin:0 0 15px}
+.tool-tutorial-welcome-body .tool-tutorial-intro{font-size:17px;font-weight:650;margin-bottom:7px}
+.tool-tutorial-address-pair{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0 22px}
+.tool-tutorial-address{padding:11px 12px;border:1px solid #d8e2cf;background:#eef3e8;border-radius:8px}
+.tool-tutorial-address strong,.tool-tutorial-address span{display:block}
+.tool-tutorial-address strong{font:600 12px/1.4 system-ui;color:#315641}
+.tool-tutorial-address span{font:11px/1.55 system-ui;color:#65765e;margin-top:4px;overflow-wrap:anywhere}
+.tool-tutorial-welcome-actions{display:flex;flex-direction:column;gap:9px;margin-top:17px}
+.tool-tutorial-welcome-actions button{display:block;width:100%;min-height:47px;padding:12px 16px;border:1px solid #c6d5bb;border-radius:9px;background:#eff4e9;color:#315d43;font:600 14px/1.45 system-ui;cursor:pointer}
+.tool-tutorial-welcome-actions button:last-child{background:transparent;font-weight:500}
+button.tool-tutorial-primary{background:#275e48!important;border-color:#275e48!important;color:#fff!important}
+.tool-tutorial-welcome-body .tool-tutorial-small{font-size:11px;line-height:1.6;color:#71806a;margin:17px 0 0}
+.tool-tutorial-welcome button:focus-visible,.tool-tutorial-coach button:focus-visible{outline:3px solid #d28443;outline-offset:3px}
+.tool-tutorial-reader{font-size:14px;line-height:1.65;padding-left:21px}
+.tool-tutorial-reader li{padding:6px 0}
+.tool-tutorial-coach{position:fixed;inset:auto 22px 22px auto;margin:0;width:min(382px,calc(100vw - 44px));max-height:calc(100dvh - 140px);overflow:auto;padding:20px 22px;border:1px solid #b9cdb0;border-radius:14px;background:#fffdf8;color:#24483b;box-shadow:0 5px 35px #1c3d2b35;font:13px/1.6 system-ui;z-index:1100}
+.tool-tutorial-coach>header{padding:0;margin:0}
+body.guided-view .tool-tutorial-coach>header>p{margin:0 35px 8px 0;font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:#71816b}
+.tool-tutorial-coach .tool-tutorial-close{top:12px;right:12px;width:28px;height:28px;font-size:21px;border-color:#dae3d2;color:#607557}
+body.guided-view .tool-tutorial-coach h2{font:25px/1.16 Georgia,serif;letter-spacing:-.025em;margin:0 24px 13px 0}
+#tool-tutorial-step-copy>p{margin:10px 0}
+.tool-tutorial-coach .tool-tutorial-address-pair{grid-template-columns:1fr;gap:7px;margin:12px 0}
+.tool-tutorial-controls{display:flex;align-items:center;justify-content:space-between;gap:9px;border-top:1px solid #dfe7d7;padding-top:15px;margin-top:15px}
+.tool-tutorial-controls button{font:600 12px/1.45 system-ui;min-height:43px;border:1px solid #cbd9c1;border-radius:8px;background:transparent;color:#46673d;padding:10px 12px;cursor:pointer}
+.tool-tutorial-controls .tool-tutorial-primary{margin-left:auto;max-width:260px}
+.tool-tutorial-coach button:disabled{opacity:.6;cursor:wait}
+.tool-tutorial-text{font:12px/1.5 system-ui;color:#527249;text-decoration:underline;text-underline-offset:3px;border:0;background:none;padding:9px 0 0;cursor:pointer}
+.tool-tutorial-status{font-size:11px;line-height:1.5;color:#806443;margin:9px 0 0}
+.tool-tutorial-status:empty{display:none}
+.tool-tutorial-highlight{outline:3px solid #648f4e!important;outline-offset:4px;border-radius:8px;box-shadow:0 0 0 7px #e2eccd70}
+body.tool-tutorial-active .map-route-benefit{visibility:hidden}
+.tool-tutorial-toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:1200;max-width:min(600px,calc(100vw - 32px));margin:0;padding:11px 17px;border:1px solid #d0dec5;border-radius:10px;background:#fffdf8;color:#3e6142;box-shadow:0 3px 20px #29452b20;font:12px/1.5 system-ui}
+@media(max-width:860px){.tool-tutorial-welcome{max-height:calc(100dvh - 24px)}.tool-tutorial-welcome-header{padding:21px}body.guided-view .tool-tutorial-welcome-header h2{font-size:29px}.tool-tutorial-welcome-body{padding:20px}.tool-tutorial-address-pair{grid-template-columns:1fr;gap:7px;margin:12px 0 17px}.tool-tutorial-welcome-body>p{font-size:14px}.tool-tutorial-welcome-body .tool-tutorial-small{font-size:11px}.tool-tutorial-welcome-actions button{font-size:13px;min-height:45px}.tool-tutorial-coach{inset:auto 12px 12px 12px;width:auto;max-height:55dvh;padding:16px 18px}body.guided-view .tool-tutorial-coach h2{font-size:22px;margin-bottom:3px}.tool-tutorial-coach>header>p{margin-bottom:7px}.tool-tutorial-controls{padding-top:10px;margin-top:10px}.tool-tutorial-controls button{min-height:40px;font-size:11px}.tool-tutorial-toast{bottom:10px;width:calc(100vw - 30px);max-width:none}.tool-tutorial-coach .tool-tutorial-address{padding:9px 10px}}

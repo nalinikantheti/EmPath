@@ -1,0 +1,19 @@
+{
+  "source": "City of Plano municipal address points; matched to the existing EmPath walking network",
+  "locations": [
+    {
+      "name": "Harrington Library",
+      "address": "1501 18TH ST, Plano, TX 75074",
+      "lon": -96.6926679,
+      "lat": 33.0244813,
+      "blockId": "480850320032010"
+    },
+    {
+      "name": "Haggard Park",
+      "address": "901 E 15TH ST, Plano, TX 75074",
+      "lon": -96.70176,
+      "lat": 33.0199007,
+      "blockId": "480850319021033"
+    }
+  ]
+}

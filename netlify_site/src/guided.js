@@ -6,7 +6,6 @@
   const $=id=>document.getElementById(id),entry=window.empathGuidedEntry||{},aside=document.querySelector('aside');
   const names={supermarket:'Groceries',pharmacy:'Pharmacies',park:'Parks',bank:'Banks',hospital:'Hospitals',library:'Libraries'};
   const common=['supermarket','pharmacy','park','bank','hospital','library'];
-  const icons={supermarket:'<path d="M3 4h2l2 11h10l3-8H6"/><circle cx="9" cy="19" r="1"/><circle cx="17" cy="19" r="1"/>',pharmacy:'<path d="m8 16 8-8M7 17a4 4 0 0 1-1-6l5-5a4 4 0 1 1 6 6l-5 5a4 4 0 0 1-5 0Z"/>',park:'<path d="M12 3 6 11h3l-4 6h14l-4-6h3L12 3ZM12 17v4"/>',bank:'<path d="m3 8 9-5 9 5H3ZM5 10v8m5-8v8m4-8v8m5-8v8M3 21h18"/>',hospital:'<path d="M5 21V5h14v16M3 21h18M10 8h4m-2-2v4M9 21v-6h6v6"/>',library:'<path d="M3 5c4-1 7 0 9 2 2-2 5-3 9-2v14c-4-1-7 0-9 2-2-2-5-3-9-2V5Zm9 2v14"/>'};
   let step=entry.block?3:1,selectedArea=null,overlayLegend='',restoreSelection=Boolean(entry.block);
   const root=$('area-controls'),categories=$('categories'),form=$('address-form'),addressStatus=$('address-status'),summary=$('summary'),recommendations=$('recommendations'),share=$('share'),gray=$('gray-explanation');
   const all=$('all'),clear=$('clear'),scope=$('scope'),county=$('county-notice'),shareMessage=$('share-message');
@@ -15,7 +14,12 @@
   const palette=['#235d4b','#78a387','#e0e6bf','#d3af80','#b16d4d'];
   window.EmPathColors.access=value=>value==null?originalAccess(value):window.EmPathColors.blend(palette,value/100);
   document.body.classList.add('guided-view');
-  document.querySelector('.app-nav').innerHTML='<a class="brand" href="index.html">EmPath</a><span class="guided-scope">Plano, Texas</span><button class="guided-help-button" type="button" id="guided-help">How it works</button>';
+  const appNav=document.querySelector('.app-nav'),siteHeader=document.createElement('header');
+  siteHeader.className='guided-site-header';
+  siteHeader.append(appNav.querySelector('.brand'),appNav.querySelector('.journey-steps'));
+  document.body.prepend(siteHeader);
+  const methodLink=siteHeader.querySelector('a[href="behind.html"]');methodLink.id='guided-methodology-link';methodLink.setAttribute('aria-label','Methodology');
+  appNav.innerHTML='<span class="guided-scope">Plano, Texas</span><button class="guided-help-button" type="button" id="guided-help" aria-label="How to Use" aria-haspopup="dialog">How to Use</button>';
   const heading=document.querySelector('aside>h1');heading.className='guided-heading';
   const description=document.createElement('p');description.className='guided-description';heading.after(description);
   document.querySelector('.model-tag')?.remove();
@@ -42,7 +46,7 @@
   for(const label of placeLabels){
     const input=label.querySelector('input'),key=input.value;
     if(common.includes(key)){
-      const icon=document.createElement('span');icon.className='guided-place-icon';icon.setAttribute('aria-hidden','true');icon.innerHTML='<svg viewBox="0 0 24 24">'+icons[key]+'</svg>';
+      const icon=document.createElement('span');icon.className='guided-place-icon';icon.setAttribute('aria-hidden','true');icon.innerHTML=EmPathDestinations.symbol(key);
       const title=document.createElement('span');title.className='guided-place-title';title.textContent=names[key];label.replaceChildren(icon,title,input);popular.append(label);
     }else{
       const groupName=groupFor(key);
@@ -77,21 +81,17 @@
   for(const option of model.options)option.textContent=option.value==='shade'?'Prefer more tree cover':option.value==='time'?'Shortest walking time':'How priorities change the ranking';
   const contextSelect=contextPanel.querySelector('#context-layer');contextSelect.setAttribute('aria-label','What to show on the map');if(contextSelect.options[0])contextSelect.options[0].textContent='Walking effort';
   const optionHeadings=contextPanel.querySelectorAll('h2');optionHeadings[0].textContent='Walking comparison';optionHeadings[1].textContent='Show on the map';
-  const footer=document.querySelector('.app-footer');footer.innerHTML='<button type="button" id="guided-methodology">Methodology</button><a href="master-map.html" target="_blank" rel="noopener">All maps ↗</a><a href="feedback.html">Share feedback</a>';
+  const footer=document.querySelector('.app-footer');footer.innerHTML='<button type="button" id="guided-methodology">Methodology overview</button><a href="master-map.html" target="_blank" rel="noopener">All maps ↗</a><a href="feedback.html">Share feedback</a>';
   if(demo){demo.className='text-button';demo.textContent='Try an example walk';options.append(demo);}
   const wayfinder=$('wayfinder');
   scroll.append(root,wayfinder,options,footer);aside.append(scroll);
-  const actions=document.createElement('div');actions.className='guided-actions';actions.innerHTML='<button type="button" id="guided-back">Back</button><button type="button" class="guided-next" id="guided-next">Next: choose an area →</button>';aside.append(actions);
+  const actions=document.createElement('div');actions.className='guided-actions';actions.innerHTML='<button type="button" id="guided-back">Back</button><button type="button" class="guided-next" id="guided-next">Next: choose an area →</button>';aside.append(actions,$('site-copyright'));
   $('guided-back').onclick=()=>setStep(step-1);
   $('guided-next').onclick=()=>setStep(step===1?2:3);
   const hint=document.createElement('section');hint.className='guided-map-hint';hint.id='guided-map-hint';c.map.getContainer().append(hint);
   const legend=$('legend');document.querySelector('#map .leaflet-bottom.leaflet-left')?.append(legend);
   const dialog=document.createElement('dialog');dialog.id='guided-dialog';dialog.className='guided-dialog';dialog.setAttribute('aria-labelledby','guided-dialog-title');dialog.innerHTML='<header class="guided-dialog-header"><h2 id="guided-dialog-title"></h2><button type="button" aria-label="Close help">×</button></header><div class="guided-dialog-body"></div>';document.body.append(dialog);dialog.querySelector('button').onclick=()=>dialog.close();
-  function help(){
-    $('guided-dialog-title').textContent='Three steps to explore';
-    dialog.querySelector('.guided-dialog-body').innerHTML='<ol><li><strong>Choose places.</strong> Start with everyday essentials or select your own destination types.</li><li><strong>Choose a location.</strong> Find a Plano address, choose a colored area, or compare areas across the city.</li><li><strong>Explore results.</strong> Select a suggested area. Check a destination to show its walking route, or expand its card to compare routes.</li></ol><p>Walking effort combines distance with estimates of nearby trees, traffic and surface heat. Actual walking time is shown with each route.</p><p>You can change your choices at any time using the step buttons. Advanced comparisons and environmental layers are under Map options.</p>';
-    dialog.showModal();
-  }
+  function help(){window.empathTutorial?.open();}
   $('guided-help').onclick=help;
   $('guided-methodology').onclick=async()=>{
     $('guided-dialog-title').textContent='Methodology';dialog.querySelector('.guided-dialog-body').textContent='Loading methodology…';dialog.showModal();
@@ -99,6 +99,49 @@
     catch{dialog.querySelector('.guided-dialog-body').innerHTML='<p>Methodology could not load. <a href="behind.html">Read the methodology page</a>.</p>';}
   };
   function preset(keys){for(const input of categories.querySelectorAll('input[type=checkbox]'))input.checked=keys.includes(input.value);window.empathRefresh();}
+  function mountPanelResize(){
+    const layout=aside.parentElement,mapElement=c.map.getContainer(),desktop=matchMedia('(min-width:861px)'),storageKey='empath.sidebarWidth';
+    const divider=document.createElement('div');divider.id='guided-panel-resizer';divider.className='guided-panel-resizer';divider.tabIndex=0;
+    aside.id='guided-controls-panel';
+    divider.setAttribute('role','separator');divider.setAttribute('aria-orientation','vertical');divider.setAttribute('aria-controls',aside.id);divider.setAttribute('aria-label','Resize the controls panel');
+    divider.title='Drag to resize. Use left and right arrow keys, or double-click to reset.';
+    divider.innerHTML='<span aria-hidden="true"></span>';layout.insertBefore(divider,mapElement);
+    let preferred=null,current=400,drag=null,frame=0;
+    try{const saved=Number(localStorage.getItem(storageKey));if(Number.isFinite(saved)&&saved>=320)preferred=saved;}catch{}
+    function bounds(){return{min:320,max:Math.floor(Math.min(760,layout.clientWidth*.65,layout.clientWidth-372))};}
+    function defaultWidth(){return layout.clientWidth<=1150?360:400;}
+    function apply(value=preferred??defaultWidth()){
+      divider.hidden=!desktop.matches;
+      if(desktop.matches){
+        const {min,max}=bounds();current=Math.round(Math.max(min,Math.min(max,value)));
+        layout.style.setProperty('--guided-sidebar-width',current+'px');
+        divider.setAttribute('aria-valuemin',min);divider.setAttribute('aria-valuemax',max);divider.setAttribute('aria-valuenow',current);divider.setAttribute('aria-valuetext',current+' pixels wide');
+      }
+      cancelAnimationFrame(frame);frame=requestAnimationFrame(()=>c.map.invalidateSize({animate:false,debounceMoveend:true}));
+    }
+    function save(){preferred=current;try{localStorage.setItem(storageKey,String(current));}catch{}}
+    function finish(event){
+      if(!drag||event&&event.pointerId!==drag.id)return;
+      const id=drag.id;drag=null;document.body.classList.remove('guided-resizing');if(divider.hasPointerCapture(id))divider.releasePointerCapture(id);save();
+    }
+    divider.onpointerdown=event=>{
+      if(!desktop.matches||event.button!==0)return;
+      event.preventDefault();drag={id:event.pointerId,x:event.clientX,width:current};divider.setPointerCapture(event.pointerId);document.body.classList.add('guided-resizing');
+    };
+    divider.onpointermove=event=>{if(drag&&drag.id===event.pointerId){event.preventDefault();apply(drag.width+event.clientX-drag.x);}};
+    divider.onpointerup=finish;divider.onpointercancel=finish;divider.onlostpointercapture=finish;
+    function reset(){preferred=null;try{localStorage.removeItem(storageKey);}catch{}apply();}
+    divider.ondblclick=reset;
+    divider.onkeydown=event=>{
+      if(!desktop.matches)return;
+      if(event.key==='Enter'){event.preventDefault();reset();return;}
+      if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;
+      event.preventDefault();const {min,max}=bounds(),amount=event.shiftKey?64:24;
+      apply(event.key==='Home'?min:event.key==='End'?max:current+(event.key==='ArrowRight'?amount:-amount));save();
+    };
+    window.addEventListener('resize',()=>{finish();apply();});
+    apply();
+  }
   function setStep(next){
     if(next<1||next>3||next>1&&!window.empathSelection.categories.length)return;
     step=next;render();scroll.scrollTop=0;$('guided-title-'+step).focus({preventScroll:true});
@@ -110,8 +153,10 @@
   }
   function visibleRoutes(){return Object.values(window.empathRouteVisibility||{}).some(state=>state.route);}
   function updateLegend(){
+    if(document.body.classList.contains('navigation-active'))return;
     if(window.empathMode==='route'){
-      if(!window.empathWayfindingState){legend.hidden=false;legend.innerHTML='<b>Plan your walk</b><p>Choose a start and destination to compare walking routes.</p>';}
+      legend.hidden=false;
+      legend.innerHTML=window.empathWayfindingState?'<b>Walking route comparison</b><p>Teal solid: EmPath'+($('compare-quickest')?.checked?'<br>Purple dashed: shortest walk':'')+'</p>':'<b>Plan your walk</b><p>Choose a start and destination to compare walking routes.</p>';
       return;
     }
     if(visibleRoutes())return;
@@ -165,10 +210,13 @@
   });
   window.addEventListener('empath-walk-ready',()=>queueMicrotask(render));
   c.map.on('zoomend',quietMap);
-  document.addEventListener('change',event=>{if(event.target.matches('.show-destination-route,.show-destination-comparison'))queueMicrotask(updateLegend);});
+  document.addEventListener('change',event=>{if(event.target.matches('.show-destination-route,.show-destination-comparison,#compare-quickest'))queueMicrotask(updateLegend);});
   if(!entry.hasCategories&&window.empathMode!=='route')preset(['supermarket','pharmacy','park']);else window.empathRefresh();
   if(window.empathRouteState?.blockId){selectedArea=window.empathRouteState.blockId;step=3;restoreSelection=false;shortlist.open=false;}
-  render();c.map.options.zoomSnap=.25;c.map.invalidateSize();
+  mountPanelResize();render();c.map.options.zoomSnap=.25;c.map.invalidateSize();
   if(!selectedArea&&window.empathMode!=='route')c.map.fitBounds(c.layer.getBounds(),{padding:[28,28]});
-  window.empathGuided={setStep,get step(){return step;},showHelp:help};
+  window.empathGuided={setStep,get step(){return step;},showHelp:help,
+    captureView:()=>({step,scrollTop:scroll.scrollTop,optionsOpen:options.open,moreOpen:more.open,shortlistOpen:shortlist.open}),
+    restoreView:saved=>{step=saved.step;render();options.open=saved.optionsOpen;more.open=saved.moreOpen;shortlist.open=saved.shortlistOpen;scroll.scrollTop=saved.scrollTop;}
+  };
 })();

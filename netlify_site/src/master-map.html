@@ -1,1 +1,40 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>EmPath · Plano master map</title><link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><link rel="stylesheet" href="master.css"></head><body data-context-page="true"><div class="master-layout"><aside><nav><a class="brand" href="index.html">EmPath</a><a href="app.html">Explorer ↗</a></nav><h1>Plano master map</h1><label for="master-theme"><strong>Color the map by</strong></label><select id="master-theme"><option value="family_shade_min">Shade-priority access · all categories</option><option value="family_time_min">Walking time only · all categories</option><option value="family_rank_delta">Ranking change · friction vs time</option><option value="edge_tree_cover">GeoAI tree adjacency · walking paths</option><option value="ai_canopy_cover_pct">GeoAI canopy summary · census blocks</option><option value="landsat_summer_surface_temp_c">Summer surface temperature</option><option value="traffic_index_0_100">Traffic volume index</option><option value="population_density">Population density</option><option value="median_gross_rent">Area median rent</option><option value="median_home_value">Area median home value</option><option value="median_household_income">Household income</option><option value="no_vehicle_pct">Households without a vehicle</option><option value="age65_pct">Residents aged 65+</option><option value="disability_pct">Residents with a disability · tracts</option></select><div id="master-legend"></div><h2>Show on top</h2><label class="check"><input id="master-blocks" type="checkbox" checked>Census block boundaries</label><label class="check"><input id="master-pois" type="checkbox">Places of interest</label><label class="check"><input id="master-network" type="checkbox">Weighted walking paths</label><button id="master-fit">Whole municipality</button><p id="master-status" aria-live="polite">Loading citywide data…</p><details><summary>Scope and source dates</summary><p>Origins: 4,402 city-clipped 2020 Census blocks. Routes and environmental context extend 3 km beyond Plano. Trees: AI predictions from 2022 NAIP. Heat: summer 2025 Landsat surfaces. Population: 2020 Census. Housing/demographics: 2020–2024 ACS; disability at tract level.</p><p>Gray means unavailable or incomplete. Smooth colors do not create finer observations. Housing values describe areas, not individual homes.</p></details><details><summary>Earlier nine-layer pilot map</summary><p>Preserved for reference. It covers the original four ZIPs and is not the current municipal analysis.</p><a href="maps/environment.html" target="_blank">Open original nine-layer map ↗</a></details><p><a href="behind.html">Equations & source maps</a> · <a href="gallery.html">Relevant static maps</a></p></aside><main id="master-map" aria-label="Full Plano environmental housing population and walking map"></main></div><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script><script src="scales.js"></script><script src="context.js"></script><script src="master.js"></script></body></html>
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>EmPath · Explore Plano</title>
+<script>if(new URLSearchParams(location.search).get('embedded')==='1')document.documentElement.classList.add('master-embedded');</script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><link rel="stylesheet" href="master.css"><link rel="stylesheet" href="map-notes.css">
+</head><body data-context-page="true">
+<div class="master-layout">
+  <aside aria-label="Map topics and controls">
+    <nav class="master-nav"><a class="brand" href="index.html">EmPath</a><a href="gallery.html">Back to Maps</a></nav>
+    <h1>Explore Plano</h1>
+    <h2 class="master-topic-label" id="master-topic-label">Choose a topic</h2>
+    <div class="master-topics" role="group" aria-labelledby="master-topic-label">
+      <button type="button" data-topic="walking" aria-pressed="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 6-2 6 4 3v6m-4-9-4 4m5-7 4 3h4"/><circle cx="14" cy="3" r="2"/></svg>Walking</button>
+      <button type="button" data-topic="environment" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 3C8 1 2 7 5 14s15 4 15-11ZM4 21 16 8"/></svg>Trees &amp; heat</button>
+      <button type="button" data-topic="people" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="7" r="3"/><path d="M3 21v-4a6 6 0 0 1 12 0v4m1-17a3 3 0 0 1 0 6m2 4a5 5 0 0 1 3 5v2"/></svg>People</button>
+      <button type="button" data-topic="homes" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m2 11 10-8 10 8M5 9v12h14V9m-10 12v-7h6v7"/></svg>Homes</button>
+    </div>
+    <label class="master-select-label" for="master-theme">Show on the map</label>
+    <select id="master-theme" aria-describedby="master-description"></select>
+    <p id="master-description" class="master-description"></p>
+    <details class="master-about"><summary>About this map</summary><p id="master-explanation"></p><p>Gray means no estimate. Darker colors mean more of the chosen value; they do not mean better or worse. Walking comparisons have their own lower-to-higher scale.</p></details>
+    <details class="master-extras"><summary>Add map details</summary>
+      <label class="check"><input id="master-blocks" type="checkbox">Census block borders</label>
+      <label class="check"><input id="master-pois" type="checkbox">Places to visit</label>
+      <label class="check"><input id="master-network" type="checkbox">Walking effort along paths</label>
+    </details>
+    <button id="master-fit" class="master-fit" type="button">Show all of Plano <span aria-hidden="true">↗</span></button>
+    <p id="master-status" class="master-status" aria-live="polite">Loading the map…</p>
+  </aside>
+  <main id="master-map" aria-label="Interactive map of Plano" aria-busy="true"></main>
+</div>
+<section class="map-notes" aria-label="Map sources and earlier maps">
+  <article><h2>Scope and source dates</h2><p>Origins: 4,402 city-clipped 2020 Census blocks. Routes and environmental context extend 3 km beyond Plano. Trees: AI predictions from 2022 NAIP. Heat: summer 2025 Landsat surfaces. Population: 2020 Census. Housing/demographics: 2020–2024 ACS; disability at tract level.</p><p>Gray means unavailable or incomplete. Smooth colors do not create finer observations. Housing values describe areas, not individual homes.</p></article>
+  <article><h2>Earlier nine-layer pilot map</h2><p>Preserved for reference. It covers the original four ZIPs and is not the current municipal analysis.</p><a href="maps/environment.html" target="_blank" rel="noopener">Open original nine-layer map ↗</a></article>
+  <p class="map-reference-links"><a href="behind.html">Equations &amp; source maps</a> · <a href="gallery.html">Relevant static maps</a></p>
+</section>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="scales.js"></script><script src="context.js"></script><script src="master.js"></script>
+</body></html>
