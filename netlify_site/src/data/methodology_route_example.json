@@ -1,0 +1,16 @@
+{
+  "source": "output/plano_city/accessibility/route_benchmark_city.csv",
+  "origin_block": "481210216512029",
+  "destination": "Kroger",
+  "category": "supermarket",
+  "same_origin_and_destination": true,
+  "time_only": {
+    "walking_minutes": 41.2187569578372,
+    "effort_minutes": 71.11460085028357
+  },
+  "effort_objective": {
+    "walking_minutes": 42.07376846128907,
+    "effort_minutes": 69.0051881761694
+  },
+  "limits": "Computed costs, not observed walking experience. Entrances and connections are not independently verified. Both routes remain long."
+}
