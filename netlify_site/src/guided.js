@@ -19,7 +19,7 @@
   siteHeader.className='guided-site-header';
   siteHeader.append(appNav.querySelector('.brand'),appNav.querySelector('.journey-steps'));
   document.body.prepend(siteHeader);
-  const methodLink=siteHeader.querySelector('a[href="behind.html"]');methodLink.id='guided-methodology-link';methodLink.setAttribute('aria-label','Methodology');
+  const methodLink=siteHeader.querySelector('a[href="method.html"]');methodLink.id='guided-methodology-link';methodLink.setAttribute('aria-label','Methodology');
   appNav.innerHTML='<span class="guided-scope">Plano, Texas</span><button class="guided-help-button" type="button" id="guided-help" aria-haspopup="dialog"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 0 1 5 .3c0 1.7-2.5 1.8-2.5 3.7M12 16.5h0"/></svg><span>How to use this map</span></button>';
   const syncHeaderHeight=()=>document.body.style.setProperty('--guided-header-height',Math.ceil(siteHeader.getBoundingClientRect().height)+'px');
   new ResizeObserver(syncHeaderHeight).observe(siteHeader);syncHeaderHeight();
@@ -98,8 +98,8 @@
   $('guided-help').onclick=help;
   $('guided-methodology').onclick=async()=>{
     $('guided-dialog-title').textContent='Methodology';dialog.querySelector('.guided-dialog-body').textContent='Loading methodology…';dialog.showModal();
-    try{const response=await fetch('behind.html');if(!response.ok)throw Error();const doc=new DOMParser().parseFromString(await response.text(),'text/html'),main=doc.querySelector('main');if(!main)throw Error();if(dialog.open&&$('guided-dialog-title').textContent==='Methodology'){dialog.querySelector('.guided-dialog-body').innerHTML=main.innerHTML;dialog.querySelector('.guided-dialog-body>h1')?.remove();}}
-    catch{dialog.querySelector('.guided-dialog-body').innerHTML='<p>Methodology could not load. <a href="behind.html">Read the methodology page</a>.</p>';}
+    try{const response=await fetch('method.html');if(!response.ok)throw Error();const doc=new DOMParser().parseFromString(await response.text(),'text/html'),main=doc.querySelector('main');if(!main)throw Error();if(dialog.open&&$('guided-dialog-title').textContent==='Methodology'){dialog.querySelector('.guided-dialog-body').innerHTML=main.innerHTML;dialog.querySelector('.guided-dialog-body>h1')?.remove();}}
+    catch{dialog.querySelector('.guided-dialog-body').innerHTML='<p>Methodology could not load. <a href="method.html">Read the methodology page</a>.</p>';}
   };
   function preset(keys){for(const input of categories.querySelectorAll('input[type=checkbox]'))input.checked=keys.includes(input.value);window.empathRefresh();}
   function mountMobileLayout(){
