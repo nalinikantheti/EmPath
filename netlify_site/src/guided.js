@@ -36,7 +36,7 @@
   document.querySelector('.mode-switch').after(stepper);
   const scroll=document.createElement('div');scroll.className='guided-scroll';scroll.id='guided-scroll';
   const steps=[1,2].map(index=>{const section=document.createElement('section');section.className='guided-pane';section.id='guided-step-'+index;section.setAttribute('aria-labelledby','guided-title-'+index);return section;});
-  steps[0].innerHTML='<h2 id="guided-title-1" tabindex="-1">What does your family need nearby?</h2><p class="guided-step-copy">Choose a few everyday places. We’ll compare the walks to each.</p>';
+  steps[0].innerHTML='<h2 id="guided-title-1" tabindex="-1">What does your family need nearby?</h2>';
   const presets=document.createElement('div');presets.className='guided-preset-row';
   const everyday=document.createElement('button');everyday.type='button';everyday.id='guided-essentials';everyday.textContent='Everyday essentials';everyday.onclick=()=>preset(['supermarket','pharmacy','park']);
   all.textContent='Select all';all.classList.remove('primary');clear.textContent='Clear';clear.className='guided-clear';
@@ -119,7 +119,7 @@
       for(const item of handlers){const enabled=mobile.matches?interactive||navigating:item.enabled;item.handler[enabled?'enable':'disable']();}
       mapElement.classList.toggle('guided-map-interactive',mobile.matches&&interactive);
       $('guided-map-interact').setAttribute('aria-pressed',String(interactive));$('guided-map-interact').textContent=interactive?'Done':'Move map';
-      $('guided-map-gesture').textContent=interactive?'Drag to move or pinch to zoom. Tap Done when finished.':'Scroll freely; tap an area to select it.';
+      $('guided-map-gesture').textContent=interactive?'Drag to move or pinch to zoom. Tap Done when finished.':window.empathWandering?.active?'Scroll freely; use Pick on map to choose your start.':'Scroll freely; tap an area to select it.';
       tools.hidden=!mobile.matches||navigating;jump.hidden=!mobile.matches||navigating;updateJump();
     }
     function sync(){
@@ -191,16 +191,17 @@
     step=next;render();scroll.scrollTop=0;const title=$('guided-title-'+step);title.focus({preventScroll:true});if(mobile.matches)title.scrollIntoView({block:'start',behavior:'auto'});
   }
   function quietMap(){
-    if(window.empathMode==='route')return;
+    if(window.empathMode!=='area')return;
     const selected=window.empathSelection.categories.length>0;
     c.layer.eachLayer(layer=>{const style={color:'#85947f',weight:c.map.getZoom()<13?.2:.45,opacity:.43};if(!selected)style.fillColor='#eef1e9';else if(!(Number(layer.feature.properties.HU100)>0))style.fillColor='#e4e8e0';layer.setStyle(style);});
   }
   function visibleRoutes(){return Object.values(window.empathRouteVisibility||{}).some(state=>state.route);}
   function updateLegend(){
     if(document.body.classList.contains('navigation-active'))return;
+    if(window.empathWandering?.active){window.empathWandering.updateLegend();return;}
     if(window.empathMode==='route'){
-      legend.hidden=false;
-      legend.innerHTML=window.empathWayfindingState?'<b>Walking route comparison</b><p>Teal solid: EmPath'+($('compare-quickest')?.checked?'<br>Purple dashed: shortest walk':'')+'</p>':'<b>Plan your walk</b><p>Choose a start and destination to compare walking routes.</p>';
+      legend.hidden=Boolean(window.empathWayfindingState);
+      if(!legend.hidden)legend.innerHTML='<b>Plan your walk</b><p>Choose a start and destination to compare walking routes.</p>';
       return;
     }
     if(visibleRoutes())return;
@@ -215,10 +216,10 @@
   const originalOverlayChange=contextSelect.onchange;
   contextSelect.onchange=async function(...args){await originalOverlayChange?.apply(this,args);overlayLegend=this.value&&!legend.hidden&&window.empathActiveContext?.field===this.value?legend.innerHTML:'';updateLegend();};
   function render(){
-    const selection=window.empathSelection,keys=selection.categories,routeMode=window.empathMode==='route';
+    const selection=window.empathSelection,keys=selection.categories,routeMode=window.empathMode==='route',walkingMode=routeMode;
     heading.textContent=routeMode?'Plan an everyday walk.':'Find an area that fits.';
-    description.textContent=routeMode?'Choose your start and destination. Compare the actual paths.':'Compare walks to the places your family needs.';
-    stepper.hidden=routeMode;actions.hidden=routeMode;options.hidden=routeMode;
+    description.textContent=routeMode?'Choose your start and destination. Compare the actual paths.':'';description.hidden=!routeMode;
+    stepper.hidden=walkingMode;actions.hidden=walkingMode;options.hidden=walkingMode;
     if(!keys.length&&step>1)step=1;
     steps.forEach((pane,index)=>pane.hidden=index+1!==step);
     for(const button of stepper.children){const index=Number(button.dataset.step);button.disabled=index>1&&!keys.length;button.classList.toggle('is-complete',index<step);if(index===step)button.setAttribute('aria-current','step');else button.removeAttribute('aria-current');}
@@ -234,7 +235,7 @@
     const h=wayfinder.querySelector(':scope>h2');if(h)h.textContent='Where would you like to walk?';
     const find=wayfinder.querySelector('.find-walk');if(find)find.textContent='Find my walk →';
     const resultHeading=$('walk-result')?.querySelector('h2');if(resultHeading)resultHeading.textContent='Your suggested walk';
-    hint.hidden=routeMode;
+    hint.hidden=walkingMode;
     hint.replaceChildren();
     const label=document.createElement('small');label.textContent=keys.length?'Your comparison':'Start with step 1';
     const value=document.createElement('strong');value.textContent=keys.length?keys.slice(0,3).map(key=>names[key]||c.labels[key]||key).join(' · ')+(keys.length>3?' + '+(keys.length-3)+' more':''):'Choose the places that matter';
@@ -252,6 +253,7 @@
     render();
   });
   window.addEventListener('empath-walk-ready',()=>queueMicrotask(render));
+  window.addEventListener('empath-route-cleared',()=>queueMicrotask(updateLegend));
   c.map.on('zoomend',quietMap);
   document.addEventListener('change',event=>{if(event.target.matches('.show-destination-route,.show-destination-comparison,#compare-quickest'))queueMicrotask(updateLegend);});
   if(!entry.hasCategories&&window.empathMode!=='route')preset(['supermarket','pharmacy','park']);else window.empathRefresh();

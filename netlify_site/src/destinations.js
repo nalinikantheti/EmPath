@@ -53,7 +53,7 @@
         const categories=new Set(window.empathSelection.categories),activeRoutes=new Set();
         if(window.empathMode==='area')for(const route of window.empathRouteState?.routes||[])if(window.empathRouteVisibility?.[route.category]?.route)activeRoutes.add(route.poiId);
         const selected=data.features.filter(f=>categories.has(f.properties.category));
-        const visible=enabled&&window.empathMode!=='route'&&!document.getElementById('context-layer')?.value;
+        const visible=enabled&&window.empathMode==='area'&&!document.getElementById('context-layer')?.value;
         const zoom=c.map.getZoom(),groups=new Map(),cluster=zoom<15,cell=zoom<13?144:zoom<14?72:44;
         if(visible)for(const feature of selected){
           if(activeRoutes.has(feature.properties.poi_id))continue;

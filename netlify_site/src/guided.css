@@ -191,3 +191,17 @@ body.guided-view #wayfinder>h2{font:600 17px/1.4 system-ui;margin:0 0 13px}body.
 .route-input .pick-on-map:hover{background:var(--g-soft)}
 .route-input .pick-on-map.picking{background:var(--g-green);color:#fff;box-shadow:0 0 0 3px rgba(39,94,72,.25)}
 @media (max-width:420px){.route-input .pick-on-map{padding:8px}.route-input .pick-on-map span{font-size:12px}}
+.random-walk{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:46px;margin-top:10px;border:1.5px solid #c98a2e;border-radius:9px;background:#fbefd9;color:#7a4a0c;font-size:15px;font-weight:600;cursor:pointer;box-shadow:none}
+.random-walk:hover{background:#f6e2bd}
+.random-walk:active{transform:translateY(1px)}
+.random-walk:disabled{opacity:.6;cursor:default}
+/* Prominent secondary controls: More places, Map options, footer links. */
+body.guided-view .guided-more-places>summary,body.guided-view .guided-options>summary{display:flex;align-items:center;justify-content:space-between;list-style:none;min-height:46px;padding:11px 14px;border:1.5px solid var(--g-green);border-radius:9px;background:#fff;color:var(--g-green);font-size:14px;font-weight:600}
+body.guided-view .guided-more-places>summary::-webkit-details-marker,body.guided-view .guided-options>summary::-webkit-details-marker{display:none}
+body.guided-view .guided-more-places>summary::after,body.guided-view .guided-options>summary::after{content:"▾";font-size:14px;transition:transform .15s}
+body.guided-view .guided-more-places[open]>summary::after,body.guided-view .guided-options[open]>summary::after{transform:rotate(180deg)}
+body.guided-view .guided-more-places>summary:hover,body.guided-view .guided-options>summary:hover{background:var(--g-soft)}
+body.guided-view .guided-more-places,body.guided-view .guided-options{border-top:0}
+body.guided-view .app-footer{gap:8px;font-size:13px}
+body.guided-view .app-footer a,body.guided-view .app-footer button{display:inline-flex;align-items:center;min-height:40px;padding:8px 14px;border:1.5px solid var(--g-line);border-radius:999px;background:#fff;color:var(--g-green);font:600 13px system-ui;text-decoration:none;cursor:pointer}
+body.guided-view .app-footer a:hover,body.guided-view .app-footer button:hover{border-color:var(--g-green);background:var(--g-soft)}

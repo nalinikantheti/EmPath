@@ -1,0 +1,19 @@
+.route-summary-card{display:flex;flex-direction:column;width:310px;max-width:calc(100vw - 78px);max-height:min(660px,var(--route-summary-max-height,620px));padding:0;overflow:hidden;border:1px solid #c8d8c3;border-radius:14px;background:#fffdf8;color:#24483b;box-shadow:0 5px 24px #183c2920;font:13px/1.5 system-ui}
+.route-summary-header{flex-shrink:0;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;border-bottom:1px solid #dce5d5;background:#edf3e7}
+.route-summary-header p{margin:0 0 3px;font:600 10px/1.4 system-ui;letter-spacing:.08em;text-transform:uppercase;color:#60765a}
+body.guided-view .route-summary-header h3{margin:0;font:24px/1.15 Georgia,serif;color:#24483b}
+.route-summary-header button{display:flex;align-items:center;justify-content:center;flex:none;width:44px;height:44px;padding:0;border:1px solid #c3d3ba;border-radius:9px;background:#fffdf8;color:#355d41;font:24px/1 system-ui;cursor:pointer}
+.route-summary-body{overflow-y:auto;min-height:0;padding:14px 16px 17px;overscroll-behavior:contain;touch-action:pan-y;scrollbar-width:thin;scrollbar-color:#bfceb5 transparent}
+.route-summary-primary{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 0 15px;padding-bottom:15px;border-bottom:1px solid #dce5d5}
+.route-summary-primary dt{font:11px/1.4 system-ui;color:#62775a}.route-summary-primary dd{margin:4px 0 0;font:650 18px/1.4 system-ui;color:#24483b}
+.route-summary-metrics{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:9px;margin:0}
+.route-summary-metrics>div{padding:10px 9px;border:1px solid #e0e7da;border-radius:9px;background:#f5f7ef;min-width:0}
+.route-summary-metrics dt{display:flex;gap:5px;align-items:flex-start;font:11px/1.4 system-ui;color:#5f7358}
+.route-summary-metrics dt svg{width:16px;height:16px;flex:none;color:#61845b}
+.route-summary-metrics>div:nth-child(2) svg{color:#b2784d}.route-summary-metrics>div:nth-child(3) svg{color:#7c8f9a}
+.route-summary-metrics dd{margin:7px 0 0;font:600 16px/1.4 system-ui;color:#24483b;overflow-wrap:anywhere}
+body.guided-view .route-summary-note{margin:14px 0 0;color:#718069;font:10px/1.6 system-ui}
+.route-summary-comparison{padding:11px 12px;margin:0 0 14px;border-left:3px solid #8aa676;border-radius:0 7px 7px 0;background:#edf2e6}
+.route-summary-comparison strong{display:block;font:600 12px/1.5 system-ui;color:#315d3e}.route-summary-comparison span{display:block;font:11px/1.5 system-ui;color:#65775e;margin-top:3px}
+.route-summary-card button:focus-visible{outline:3px solid #d28443;outline-offset:3px}
+@media(max-width:480px){.route-summary-card{width:292px}.route-summary-header{padding:10px 12px}.route-summary-body{padding:12px}.route-summary-metrics{gap:7px}.route-summary-metrics>div{padding:9px 8px}.route-summary-metrics dd{font-size:15px}}
