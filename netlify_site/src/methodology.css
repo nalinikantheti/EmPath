@@ -146,3 +146,7 @@
 .method-equation-step>div,.method-hero-grid>*,.method-calculator>*,.method-algorithm-grid>*{min-width:0}.method-choice-controls fieldset{min-width:0}.method-comparison-table-wrap{max-width:100%;overflow-x:auto}.method-math{overflow-wrap:anywhere}.methodology svg{max-width:100%}
 
 .method-map-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:25px}.method-map-heading p{max-width:65ch}.method-map-heading>a{white-space:nowrap;margin-bottom:20px}.methodology .master-map-embed{height:800px;margin-bottom:0}@media(max-width:760px){.method-map-heading{display:block}.methodology .master-map-embed{height:760px}}
+
+.method-repo{display:flex;align-items:center;gap:18px;margin-top:22px}.method-repo-qr{display:block;flex:0 0 128px;line-height:0;background:white;border-radius:4px;overflow:hidden}.method-repo-qr img{display:block;width:128px;height:128px}.method-product .method-repo p{font-size:13px;margin-bottom:5px}.method-repo-link{font-size:14px;font-weight:600;text-underline-offset:4px}@media(max-width:380px){.method-repo{gap:12px}.method-repo-qr{flex-basis:112px}.method-repo-qr img{width:112px;height:112px}}
+
+.method-hero-grid{align-items:start}
