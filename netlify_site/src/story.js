@@ -8,7 +8,7 @@ paths.forEach((p,i)=>{p.style.strokeDasharray=String(lengths[i]);p.style.strokeD
 let active=-1,frame=0,scrollFrame=0,route=0,progress=0,locked=null,releaseTimer=0;
 const ease=t=>t*t*(3-2*t);
 function position(which,value){const p=paths[which].getPointAtLength(lengths[which]*value);walker.setAttribute('transform',`translate(${p.x} ${p.y})`);route=which;progress=value;if(which===1)paths[1].style.strokeDashoffset=String(lengths[1]*(1-value));}
-function show(i){if(i===active)return;const initial=active===-1;active=i;steps.forEach((step,j)=>step.dataset.active=String(j===i));cancelAnimationFrame(frame);scene.dataset.stage=String(i);document.getElementById('story-counter').textContent=String(i+1).padStart(2,'0')+' / 03';document.getElementById('scene-caption').textContent=captions[i];
+function show(i){if(i===active)return;const initial=active===-1;active=i;steps.forEach((step,j)=>step.dataset.active=String(j===i));cancelAnimationFrame(frame);scene.dataset.stage=String(i);document.getElementById('story-counter').textContent=String(i+1).padStart(2,'0')+' / 03';
 const nextRoute=i===2?1:0,target=i===0?0:i===1?.36:1,change=route!==nextRoute,from=change?0:progress,start=performance.now(),fade=change&&!motion.matches?150:0,duration=motion.matches||initial?0:i===2?2000:1100;
 if(nextRoute===0)paths[1].style.strokeDashoffset=String(lengths[1]);
 window.empathStoryState={step:i,reducedMotion:motion.matches,animating:duration>0};

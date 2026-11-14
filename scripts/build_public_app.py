@@ -33,7 +33,7 @@ def publish(raw):
  a=html.index('<p><a href="index.html">All project maps</a>');z=html.index('</aside>',a)
  html=html[:a]+'''</div><section id="wayfinder" hidden></section><section id="context-panel"></section><section id="area-context"></section><footer class="app-footer"><a href="behind.html">Behind the scores</a> · <a href="master-map.html">Master map</a> · <a href="gallery.html">Map gallery</a></footer>'''+html[z:]
  html=html.replace('<script src="routes.js">','<script src="destinations.js"></script><script src="public.js"></script><script src="route-benefits.js"></script><script src="routes.js">')
- html=html.replace('</body>','<script src="integrated.js"></script><script src="wayfinding.js"></script><script src="navigation-core.js"></script><script src="navigation.js"></script><script src="experience.js"></script><script src="app-polish.js"></script><script src="journey.js"></script><script src="guided.js"></script><script src="tool-tutorial.js"></script></body>')
+ html=html.replace('</body>','<script src="wayfinding.js"></script><script src="navigation-core.js"></script><script src="navigation.js"></script><script src="experience.js"></script><script src="app-polish.js"></script><script src="journey.js"></script><script src="guided.js"></script><script src="tool-tutorial.js"></script></body>')
  (DEST/'app.html').write_text(html,encoding='utf-8')
  return DEST/'app.html'
 if __name__=='__main__':print(publish((DEST/'research.html').read_text(encoding='utf-8')))

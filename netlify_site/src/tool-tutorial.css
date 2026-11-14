@@ -1,41 +1,71 @@
-.tool-tutorial-welcome{width:min(620px,calc(100vw - 28px));max-height:calc(100dvh - 32px);padding:0;border:1px solid #cbd8c3;border-radius:15px;background:#faf8f2;color:#24483b;box-shadow:0 18px 80px #152c3250;font:15px/1.6 system-ui;overflow:auto}
-.tool-tutorial-welcome::backdrop{background:#17382d85}
-.tool-tutorial-welcome-header{position:relative;background:#275e48;color:white;padding:23px 30px 25px}
-body.guided-view .tool-tutorial-welcome-header>p{margin:0 45px 8px 0;font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:#d7e6cd}
-body.guided-view .tool-tutorial-welcome-header h2{font:32px/1.15 Georgia,serif;margin:0 35px 0 0;letter-spacing:-.02em}
-.tool-tutorial-welcome-header h2:focus,.tool-tutorial-coach h2:focus{outline:none}
-.tool-tutorial-close{position:absolute;top:15px;right:16px;display:flex;align-items:center;justify-content:center;width:34px;height:34px;padding:0;border:1px solid #ffffff55;border-radius:8px;background:transparent;color:inherit;font:25px/1 system-ui;cursor:pointer}
-.tool-tutorial-welcome-body{padding:22px 30px 26px}
-.tool-tutorial-welcome-body>p{margin:0 0 15px}
-.tool-tutorial-welcome-body .tool-tutorial-intro{font-size:17px;font-weight:650;margin-bottom:7px}
-.tool-tutorial-address-pair{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0 22px}
-.tool-tutorial-address{padding:11px 12px;border:1px solid #d8e2cf;background:#eef3e8;border-radius:8px}
-.tool-tutorial-address strong,.tool-tutorial-address span{display:block}
-.tool-tutorial-address strong{font:600 12px/1.4 system-ui;color:#315641}
-.tool-tutorial-address span{font:11px/1.55 system-ui;color:#65765e;margin-top:4px;overflow-wrap:anywhere}
-.tool-tutorial-welcome-actions{display:flex;flex-direction:column;gap:9px;margin-top:17px}
-.tool-tutorial-welcome-actions button{display:block;width:100%;min-height:47px;padding:12px 16px;border:1px solid #c6d5bb;border-radius:9px;background:#eff4e9;color:#315d43;font:600 14px/1.45 system-ui;cursor:pointer}
-.tool-tutorial-welcome-actions button:last-child{background:transparent;font-weight:500}
-button.tool-tutorial-primary{background:#275e48!important;border-color:#275e48!important;color:#fff!important}
-.tool-tutorial-welcome-body .tool-tutorial-small{font-size:11px;line-height:1.6;color:#71806a;margin:17px 0 0}
-.tool-tutorial-welcome button:focus-visible,.tool-tutorial-coach button:focus-visible{outline:3px solid #d28443;outline-offset:3px}
-.tool-tutorial-reader{font-size:14px;line-height:1.65;padding-left:21px}
-.tool-tutorial-reader li{padding:6px 0}
-.tool-tutorial-coach{position:fixed;inset:auto 22px 22px auto;margin:0;width:min(382px,calc(100vw - 44px));max-height:calc(100dvh - 140px);overflow:auto;padding:20px 22px;border:1px solid #b9cdb0;border-radius:14px;background:#fffdf8;color:#24483b;box-shadow:0 5px 35px #1c3d2b35;font:13px/1.6 system-ui;z-index:1100}
-.tool-tutorial-coach>header{padding:0;margin:0}
-body.guided-view .tool-tutorial-coach>header>p{margin:0 35px 8px 0;font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:#71816b}
-.tool-tutorial-coach .tool-tutorial-close{top:12px;right:12px;width:28px;height:28px;font-size:21px;border-color:#dae3d2;color:#607557}
-body.guided-view .tool-tutorial-coach h2{font:25px/1.16 Georgia,serif;letter-spacing:-.025em;margin:0 24px 13px 0}
-#tool-tutorial-step-copy>p{margin:10px 0}
-.tool-tutorial-coach .tool-tutorial-address-pair{grid-template-columns:1fr;gap:7px;margin:12px 0}
-.tool-tutorial-controls{display:flex;align-items:center;justify-content:space-between;gap:9px;border-top:1px solid #dfe7d7;padding-top:15px;margin-top:15px}
-.tool-tutorial-controls button{font:600 12px/1.45 system-ui;min-height:43px;border:1px solid #cbd9c1;border-radius:8px;background:transparent;color:#46673d;padding:10px 12px;cursor:pointer}
-.tool-tutorial-controls .tool-tutorial-primary{margin-left:auto;max-width:260px}
-.tool-tutorial-coach button:disabled{opacity:.6;cursor:wait}
-.tool-tutorial-text{font:12px/1.5 system-ui;color:#527249;text-decoration:underline;text-underline-offset:3px;border:0;background:none;padding:9px 0 0;cursor:pointer}
-.tool-tutorial-status{font-size:11px;line-height:1.5;color:#806443;margin:9px 0 0}
-.tool-tutorial-status:empty{display:none}
-.tool-tutorial-highlight{outline:3px solid #648f4e!important;outline-offset:4px;border-radius:8px;box-shadow:0 0 0 7px #e2eccd70}
-body.tool-tutorial-active .map-route-benefit{visibility:hidden}
-.tool-tutorial-toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:1200;max-width:min(600px,calc(100vw - 32px));margin:0;padding:11px 17px;border:1px solid #d0dec5;border-radius:10px;background:#fffdf8;color:#3e6142;box-shadow:0 3px 20px #29452b20;font:12px/1.5 system-ui}
-@media(max-width:860px){.tool-tutorial-welcome{max-height:calc(100dvh - 24px)}.tool-tutorial-welcome-header{padding:21px}body.guided-view .tool-tutorial-welcome-header h2{font-size:29px}.tool-tutorial-welcome-body{padding:20px}.tool-tutorial-address-pair{grid-template-columns:1fr;gap:7px;margin:12px 0 17px}.tool-tutorial-welcome-body>p{font-size:14px}.tool-tutorial-welcome-body .tool-tutorial-small{font-size:11px}.tool-tutorial-welcome-actions button{font-size:13px;min-height:45px}.tool-tutorial-coach{inset:auto 12px 12px 12px;width:auto;max-height:55dvh;padding:16px 18px}body.guided-view .tool-tutorial-coach h2{font-size:22px;margin-bottom:3px}.tool-tutorial-coach>header>p{margin-bottom:7px}.tool-tutorial-controls{padding-top:10px;margin-top:10px}.tool-tutorial-controls button{min-height:40px;font-size:11px}.tool-tutorial-toast{bottom:10px;width:calc(100vw - 30px);max-width:none}.tool-tutorial-coach .tool-tutorial-address{padding:9px 10px}}
+.tool-help{width:min(680px,calc(100vw - 32px));max-width:none;max-height:calc(100dvh - 32px);padding:0;border:1px solid #cbd8c3;border-radius:16px;background:#faf8f2;color:#24483b;box-shadow:0 18px 80px #152c3250;font:15px/1.6 system-ui;overflow:hidden}
+.tool-help[open]{display:flex;flex-direction:column}
+.tool-help::backdrop{background:#17382d85}
+.tool-help-header{flex-shrink:0;background:#275e48;color:white;padding:16px 26px 20px}
+.tool-help-header>div{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px}
+body.guided-view .tool-help-header>div>p{margin:0;font:600 11px/1.4 system-ui;letter-spacing:.08em;text-transform:uppercase;color:#e2ecd9}
+body.guided-view .tool-help-header h2{font:31px/1.15 Georgia,serif;margin:0;letter-spacing:-.02em}
+.tool-help-header h2:focus,.tool-help-body h3:focus{outline:none}
+.tool-help-close{display:inline-flex;align-items:center;justify-content:center;gap:5px;min-height:44px;padding:8px 11px;border:1px solid #ffffff70;border-radius:8px;background:transparent;color:inherit;font:600 13px/1.4 system-ui;cursor:pointer}
+.tool-help-close svg{width:16px;height:16px}
+.tool-help-body{min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding:24px 26px 26px}
+body.guided-view .tool-help p{font:15px/1.6 system-ui;color:inherit;margin:0 0 16px}
+.tool-help-choices{display:grid;gap:12px;margin:20px 0}
+.tool-help-choice{display:flex;align-items:center;gap:14px;text-align:left;width:100%;min-height:116px;padding:17px 18px;border:1px solid #b8cbb0;border-radius:12px;background:#fffdf8;color:#24483b;font:14px/1.5 system-ui;cursor:pointer}
+.tool-help-choice:hover{background:#edf3e7;border-color:#275e48}
+.tool-help-choice-icon{flex-shrink:0;display:flex;align-items:center;justify-content:center;width:46px;height:46px;background:#eaf0e2;border-radius:11px;color:#275e48}
+.tool-help-choice-icon svg{width:29px;height:29px}
+.tool-help-choice>span:nth-child(2){flex:1;min-width:0}
+.tool-help-choice strong{display:block;font:650 18px/1.35 system-ui;margin-bottom:5px}
+.tool-help-choice span>span{display:block;color:#596f60}
+.tool-help-choice small{display:block;margin-top:7px;font:600 12px/1.4 system-ui;color:#275e48}
+.tool-help-choice-arrow{font-size:23px;color:#275e48}
+body.guided-view .tool-help .tool-help-example-note{font-size:13px;color:#596f60;margin:0 0 20px}
+.tool-help-step-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}
+body.guided-view .tool-help-step-top>p{margin:0;font:600 12px/1.4 system-ui;color:#597151}
+.tool-help-change{padding:8px 0;min-height:40px;border:0;background:none;color:#275e48;text-decoration:underline;text-underline-offset:3px;font:12px/1.4 system-ui;cursor:pointer}
+body.guided-view .tool-help-body h3{font:650 24px/1.25 system-ui;letter-spacing:-.02em;color:#24483b;margin:0 0 14px}
+body.guided-view .tool-help .tool-help-action{font-size:16px;line-height:1.65;margin-bottom:18px}
+.tool-help-address{padding:12px 15px;margin:0 0 18px;border-left:3px solid #93ad86;background:#edf2e7;border-radius:0 8px 8px 0}
+.tool-help-address strong,.tool-help-address>span{display:block;font:600 14px/1.5 system-ui;overflow-wrap:anywhere}
+.tool-help-address>span{font-weight:400;margin-top:3px}
+.tool-help-figure{margin:0 0 20px;padding:15px 12px;background:#f1f3ec;border:1px solid #dce3d6;border-radius:11px}
+.tool-help-figure figcaption{font:12px/1.5 system-ui;color:#596f60;margin-bottom:12px;text-align:center}
+.tool-help-figure img{display:block;width:100%;max-width:390px;height:auto;margin:0 auto}
+.tool-help-result{border-left:3px solid #275e48;background:#eaf1e3;border-radius:0 8px 8px 0;padding:12px 15px;margin:0 0 17px}
+body.guided-view .tool-help-result h4{margin:0 0 5px;font:650 13px/1.4 system-ui;color:#275e48}
+body.guided-view .tool-help-result p{margin:0;font-size:14px;line-height:1.6}
+body.guided-view .tool-help .tool-help-note{font-size:13px;color:#596f60;margin-bottom:20px}
+.tool-help-route-key{display:flex;flex-wrap:wrap;gap:9px 18px;margin:-5px 0 20px;font:13px/1.5 system-ui}
+.tool-help-route-key>span{display:flex;align-items:center;gap:7px}
+.tool-help-route-key i{display:inline-block;width:26px;border-top:4px solid #008577}
+.tool-help-route-key>span:last-child i{border-top:3px dashed #7761a7}
+.tool-help-tips{border-top:1px solid #d9e0d2;padding-top:9px;margin-top:20px}
+.tool-help-tips>summary{display:list-item;min-height:44px;padding:10px 0;cursor:pointer;font:600 13px/1.65 system-ui;color:#375d45}
+.tool-help-tips>div{padding:8px 0 0}
+body.guided-view .tool-help-tips h4{font:650 14px/1.4 system-ui;margin:16px 0 6px;color:#24483b}
+body.guided-view .tool-help-tips p{font-size:14px;color:#596f60;margin-bottom:12px}
+.tool-help-footer{flex-shrink:0;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:15px 26px;border-top:1px solid #d9e0d2;background:#faf8f2}
+.tool-help-footer button{min-width:94px;min-height:46px;padding:10px 20px;border:1px solid #275e48;border-radius:8px;background:#fffdf8;color:#275e48;font:600 14px/1.4 system-ui;cursor:pointer}
+.tool-help-footer .tool-help-next{margin-left:auto;background:#275e48;color:white}
+#tool-help-progress{font:600 13px/1.4 system-ui;color:#597151;text-align:center}
+.tool-help button:focus-visible,.tool-help summary:focus-visible{outline:3px solid #d28443;outline-offset:3px}
+@media(max-width:600px){
+  .tool-help{width:calc(100vw - 20px);max-height:calc(100dvh - 20px);border-radius:12px}
+  .tool-help-header{padding:12px 18px 18px}
+  body.guided-view .tool-help-header h2{font-size:27px}
+  .tool-help-body{padding:17px 18px 22px}
+  .tool-help-choice{gap:10px;padding:14px 12px}
+  .tool-help-choice-icon{width:35px;height:39px;border-radius:8px}
+  .tool-help-choice-icon svg{width:25px;height:25px}
+  .tool-help-choice strong{font-size:17px}
+  .tool-help-choice-arrow{font-size:20px}
+  body.guided-view .tool-help-body h3{font-size:22px}
+  .tool-help-step-top{gap:8px;margin-bottom:10px}
+  .tool-help-change{font-size:12px;max-width:135px;min-height:44px;text-align:right}
+  .tool-help-figure{padding:12px 6px}
+  .tool-help-figure figcaption{padding:0 4px;font-size:11px}
+  .tool-help-footer{padding:12px 18px;gap:10px}
+  .tool-help-footer button{min-width:77px;padding:10px 14px}
+  #tool-help-progress{font-size:12px}
+}

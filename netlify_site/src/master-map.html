@@ -20,11 +20,7 @@
     <select id="master-theme" aria-describedby="master-description"></select>
     <p id="master-description" class="master-description"></p>
     <details class="master-about"><summary>About this map</summary><p id="master-explanation"></p><p>Gray means no estimate. Darker colors mean more of the chosen value; they do not mean better or worse. Walking comparisons have their own lower-to-higher scale.</p></details>
-    <details class="master-extras"><summary>Add map details</summary>
-      <label class="check"><input id="master-blocks" type="checkbox">Census block borders</label>
-      <label class="check"><input id="master-pois" type="checkbox">Places to visit</label>
-      <label class="check"><input id="master-network" type="checkbox">Walking effort along paths</label>
-    </details>
+    <label class="check master-border-control"><input id="master-blocks" type="checkbox">Census block borders</label>
     <button id="master-fit" class="master-fit" type="button">Show all of Plano <span aria-hidden="true">↗</span></button>
     <p id="master-status" class="master-status" aria-live="polite">Loading the map…</p>
   </aside>

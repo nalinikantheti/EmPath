@@ -44,7 +44,7 @@
     disability_pct:'Residents with a disability · tracts'
   };
   const select=$('master-theme'),remembered={walking:'family_shade_min',environment:'edge_tree_cover',people:'population_density',homes:'median_gross_rent'};
-  let topic='walking',thematic=null,network=null,themeToken=0,networkToken=0,treePromise=null,activeRange=[0,1];
+  let topic='walking',thematic=null,themeToken=0,treePromise=null,activeRange=[0,1];
   const requested=new URLSearchParams(location.search).get('theme');if(requested&&Object.hasOwn(fields,requested)){topic=fields[requested].topic;remembered[topic]=requested;}
   function chooseTopic(next){
     topic=next;select.replaceChildren();for(const [key,info]of Object.entries(fields))if(info.topic===topic)select.add(new Option(menuLabels[key]||info.label,key));select.value=remembered[topic];
@@ -53,13 +53,12 @@
   chooseTopic(topic);
   const map=L.map('master-map',{preferCanvas:true,scrollWheelZoom:!document.documentElement.classList.contains('master-embedded'),zoomSnap:.25});
   L.tileLayer('/.netlify/functions/basemap?z={z}&x={x}&y={y}',{attribution:'© OpenStreetMap contributors · © CARTO',maxNativeZoom:19,maxZoom:20}).addTo(map);
-  map.createPane('borders').style.zIndex=430;map.createPane('paths').style.zIndex=420;
+  map.createPane('borders').style.zIndex=430;
   const legendControl=L.control({position:'bottomleft'});legendControl.onAdd=()=>{const element=L.DomUtil.create('div','master-legend');element.id='master-legend';L.DomEvent.disableClickPropagation(element);return element;};legendControl.addTo(map);
-  const [blocks,pop,bg,tr,pois,boundary,meta]=await Promise.all([T.dataset('master_blocks'),T.dataset('population_blocks'),T.dataset('social_block_groups'),T.dataset('social_tracts'),T.dataset('master_pois'),fetch('data/plano_boundary.geojson').then(r=>r.json()),T.method()]);
+  const [blocks,pop,bg,tr,boundary,meta]=await Promise.all([T.dataset('master_blocks'),T.dataset('population_blocks'),T.dataset('social_block_groups'),T.dataset('social_tracts'),fetch('data/plano_boundary.geojson').then(r=>r.json()),T.method()]);
   const byId=new Map(blocks.features.map(f=>[f.properties.GEOID20,f])),pBy=new Map(pop.features.map(f=>[f.properties.GEOID20,f.properties]));
   const outlines=L.geoJSON(boundary,{style:{color:'#172f28',weight:2.3,fill:false},interactive:false}).addTo(map);
   const borderLayer=L.geoJSON(blocks,{pane:'borders',style:{color:'#55675b',weight:.45,fill:false},interactive:false});
-  const poiLayer=L.geoJSON(pois,{pointToLayer:(f,ll)=>L.circleMarker(ll,{radius:4,color:'white',weight:1,fillColor:'#cb7655',fillOpacity:.9}),onEachFeature:(f,l)=>l.bindPopup('<strong>'+E(f.properties.name)+'</strong><p>'+E(f.properties.category.replaceAll('_',' '))+'</p><a class="master-route-link" href="app.html?mode=route" target="_top">Plan a walk</a>')});
   function centerOf(geometry){let west=Infinity,east=-Infinity,south=Infinity,north=-Infinity;function scan(coords){if(typeof coords[0]==='number'){west=Math.min(west,coords[0]);east=Math.max(east,coords[0]);south=Math.min(south,coords[1]);north=Math.max(north,coords[1]);}else coords.forEach(scan);}scan(geometry.coordinates);return L.latLng((south+north)/2,(west+east)/2);}
   const candidates=blocks.features.filter(f=>Number(f.properties.HU100)>0&&Number.isFinite(f.properties.access_network_node)&&f.properties.access_snap_gap_m<=100).map(f=>({id:f.properties.GEOID20,group:pBy.get(f.properties.GEOID20)?.GEOID_BG,center:centerOf(f.geometry)}));
   function routeReference(feature,point){
@@ -129,21 +128,7 @@
   }
   select.onchange=update;document.querySelectorAll('[data-topic]').forEach(button=>button.onclick=()=>{chooseTopic(button.dataset.topic);update();});
   $('master-blocks').onchange=event=>event.target.checked?borderLayer.addTo(map):map.removeLayer(borderLayer);
-  $('master-pois').onchange=event=>event.target.checked?poiLayer.addTo(map):map.removeLayer(poiLayer);
   const fit=()=>map.fitBounds(outlines.getBounds(),{padding:[24,24]});$('master-fit').onclick=fit;
-  $('master-network').onchange=async event=>{
-    const mine=++networkToken;if(!event.target.checked){if(network)map.removeLayer(network);return;}
-    $('master-status').textContent='Loading walking paths…';
-    try{
-      if(!network){
-        const graph=await empathLoadGeo('data/routing_network.json.gz'),layer=L.featureGroup();
-        const costs=graph.edges.filter(edge=>edge[4]>0).map(edge=>edge[3]/(edge[4]/1.2)-1).sort((a,b)=>a-b),lo=costs[Math.floor(costs.length*.02)],hi=costs[Math.floor(costs.length*.98)];let count=0;
-        for(const edge of graph.edges){if(edge[0]>edge[1])continue;const lines=edge[10].map(line=>line.map(([x,y])=>[y,x])),burden=edge[4]?edge[3]/(edge[4]/1.2)-1:0;
-          L.polyline(lines,{pane:'paths',weight:2.1,opacity:.9,color:EmPathColors.access(100*(burden-lo)/(hi-lo||1))}).bindPopup('<strong>'+E(edge[6]||'Mapped walking path')+'</strong><p>'+Math.round(edge[4])+' m · '+(edge[3]/60).toFixed(1)+' modeled effort minutes</p><a href="app.html?mode=route" target="_top">Plan a walk →</a>').addTo(layer);if(++count%5000===0)await new Promise(requestAnimationFrame);
-        }network=layer;
-      }if(mine===networkToken&&event.target.checked){network.addTo(map);$('master-status').textContent='Walking paths added.';}
-    }catch{if(mine===networkToken){event.target.checked=false;$('master-status').textContent='Walking paths could not load. Try again.';}}
-  };
   window.empathMasterMap=map;await update();fit();
   const id=new URLSearchParams(location.search).get('block'),match=id&&byId.get(id);
   if(match){const highlight=L.geoJSON(match,{style:{color:'#101f19',weight:3,fill:false}}).addTo(map);map.fitBounds(highlight.getBounds(),{maxZoom:13});}
