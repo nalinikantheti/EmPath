@@ -10,3 +10,6 @@ data/raw/
 data/processed/
 
 netlify_site/dist/
+
+# Installed website dependencies
+netlify_site/node_modules/

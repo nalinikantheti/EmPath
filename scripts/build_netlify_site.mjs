@@ -24,4 +24,6 @@ async function copy(folder,target){
  }
 }
 await copy(src,dest);
+// Keep existing methodology links on the same maintained page.
+await writeFile(path.join(dest,'behind.html'), await readFile(path.join(dest,'method.html')));
 console.log(`Built ${count} files. Basemap requests use a server function; no key is embedded in HTML.`);
